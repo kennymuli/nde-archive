@@ -218,6 +218,27 @@ strong{font-weight:600;color:#F5F1E8}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
 
+/* ---------- takeaways ---------- */
+.takeaways{list-style:none;counter-reset:tk;margin:2.4rem 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.takeaways li{counter-increment:tk;background:var(--stratum);padding:1.7rem 1.6rem;position:relative}
+.takeaways li::before{content:counter(tk,decimal-leading-zero);font-family:var(--mono);font-size:.64rem;
+  letter-spacing:.18em;color:var(--amber-lit);display:block;margin-bottom:.9rem}
+.takeaways h3{font-size:1.06rem;line-height:1.28;margin-bottom:.7rem;color:var(--bone);letter-spacing:-.008em}
+.takeaways p{margin:0;font-size:.93rem;line-height:1.6;color:var(--dim)}
+.takeaways b{font-family:var(--mono);font-size:.92em;color:var(--halo);font-weight:500;
+  font-variant-numeric:tabular-nums}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.tabs button{font-family:var(--mono);font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;
+  background:none;border:1px solid var(--rule);color:var(--faint);padding:.5rem .9rem;border-radius:99px;
+  transition:color .22s,border-color .22s,background .22s}
+.tabs button:hover,.tabs button:focus-visible{color:var(--bone);border-color:var(--dim)}
+.tabs button[aria-selected="true"]{color:var(--void);background:var(--amber-lit);border-color:var(--amber-lit);font-weight:600}
+.tabs .sep{width:1px;background:var(--rule);margin:.3rem .5rem}
+
 /* ---------- basis tiers ---------- */
 .basis{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1px;
   background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
@@ -257,10 +278,11 @@ strong{font-weight:600;color:#F5F1E8}
   transition:width 1.1s cubic-bezier(.16,.8,.3,1)}
 .dbar.a i{background:linear-gradient(90deg,var(--amber),var(--amber-lit))}
 .dbar.b i{background:linear-gradient(90deg,var(--instrument),var(--instrument-lit))}
-.dbar span{position:relative;font-family:var(--mono);font-size:.72rem;color:var(--bone);
-  font-variant-numeric:tabular-nums;padding-left:.7rem;opacity:0;transition:opacity .4s .75s}
+.dbar span{position:relative;font-family:var(--mono);font-size:.75rem;color:#080B12;
+  font-variant-numeric:tabular-nums;font-weight:600;padding-left:.7rem;opacity:0;
+  transition:opacity .4s .75s;text-shadow:0 1px 0 rgba(255,255,255,.16)}
 .in .dbar span{opacity:1}
-.dbar em{position:relative;font-family:var(--mono);font-size:.6rem;color:var(--faint);
+.dbar em{position:relative;font-family:var(--mono);font-size:.64rem;color:#1A2030;
   font-style:normal;padding-left:.6rem;opacity:0;transition:opacity .4s .75s}
 .in .dbar em{opacity:1}
 
@@ -307,6 +329,9 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
   --instrument:#1A6084; --instrument-lit:#175677; --ember:#8A3524;
   background:#EDE8DE;color:#12161F;position:relative;z-index:3;
 }
+.lightzone .lede{color:#343A4A}
+.lightzone .note{color:#5F6577}
+.lightzone .dim{color:#3F4557}
 .lightzone strong{color:#000308}
 .lightzone em.k{color:#7D5209}
 .lightzone ::selection{background:rgba(125,82,9,.2)}
@@ -318,8 +343,20 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 .turn .kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.34em;text-transform:uppercase;
   color:#8A8172;margin-bottom:1.6rem}
 .turn h2{font-size:clamp(2.6rem,9vw,5.6rem);letter-spacing:-.04em;line-height:.95;color:#12161F}
-.turn .sub{max-width:34rem;margin:1.8rem auto 0;color:#4E5464;font-size:clamp(1.05rem,1.4vw,1.26rem)}
+.turn .sub{max-width:34rem;margin:1.8rem auto 0;color:#3A4050;font-size:clamp(1.05rem,1.4vw,1.26rem)}
 
+.sources{margin-bottom:2.8rem;padding-bottom:2.4rem;border-bottom:1px solid var(--rule)}
+.src-head{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-lit);margin:0 0 1.2rem}
+.sources ul{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.5rem}
+.sources li a{display:block;padding:.9rem 1rem;border:1px solid var(--rule);border-radius:4px;
+  text-decoration:none;border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:.8rem;color:var(--halo);letter-spacing:.02em;
+  transition:background .25s,border-color .25s}
+.sources li a:hover,.sources li a:focus-visible{background:rgba(255,255,255,.035);border-color:var(--amber)}
+.sources li a span{display:block;margin-top:.45rem;font-size:.68rem;color:var(--faint);
+  letter-spacing:.03em;line-height:1.5}
 footer{border-top:1px solid var(--rule);padding-block:4rem 5rem}
 .foot-nav{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.6rem;align-items:baseline}
 .foot-nav a{font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
@@ -392,6 +429,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   .card p{font-size:clamp(1.18rem,5.4vw,1.6rem);max-width:22ch}
   .interlude{min-height:auto;padding-block:5.5rem}
   .bar-val{font-size:.66rem}
+  #demo .bar-val span{display:none}
+  .sources ul{grid-template-columns:1fr}
   /* Dumbbell values move into separate bands above and below the line, centred
      on their dots. Side placement would push a 9% value off the left edge once
      the row goes full-width. */
@@ -696,6 +735,37 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 </section>
 
+<!-- ═══════════════ WHO YOU ARE ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Eight — Does It Depend On Who You Are</p>
+    <h2 class="rise" data-d="1">The sensations are universal. The story around them is not.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Split the same twelve elements by gender, then by region, and a clean line appears — one nobody set out to look for.</p>
+    <p class="rise dim" data-d="2">What the body seems to do is reported at the same rate by everyone. What it is taken to <em class="k">mean</em> is where the groups separate.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">Element rates by group</div>
+      <div class="scope full"><b>Full corpus</b> — 4,500–5,400 per element</div></div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share answering yes</span></div>
+    </div>
+    <div class="tabs" role="tablist" id="demotabs"></div>
+    <div class="rows" id="demo"></div>
+    <p class="note" style="margin-top:1.6rem">Region groups Western Europe, North America, Australia, New Zealand and South Africa against everywhere else. The comparison group is small (roughly 700 accounts) and internally very mixed, so read it as a signal rather than a settled fact.</p>
+  </div>
+
+  <div class="narrow">
+    <h3 class="rise" style="margin-bottom:1rem">Where women and men differ</h3>
+    <p class="rise">On the structural elements they are indistinguishable. Leaving the body: <strong>65.6% against 64.8%</strong>. Life review: <strong>54.1% against 54.4%</strong>. Entering another world: identical to a tenth of a point.</p>
+    <p class="rise dim">The gaps open only on interpretation and aftermath. Women report abilities afterwards at <strong>56.6% against 43.9%</strong> — the largest demographic gap anywhere in the corpus. They report the experience as beyond words more often, and reaching a border more often. Same reported events; different account of what they meant and what followed.</p>
+
+    <h3 class="rise" style="margin:2.6rem 0 1rem">Where cultures differ</h3>
+    <p class="rise">The elements usually called culturally Western turn out not to be. The tunnel is reported <em class="k">slightly more often outside</em> the West. Light, time distortion, entering another realm and ineffability show no meaningful difference at all.</p>
+    <p class="rise dim">What does differ is relational and narrative: meeting the dead (<strong>49.6% vs 41.5%</strong>), the life review (<strong>56.6% vs 49.9%</strong>), and glimpsing the future (<strong>44.6% vs 38.1%</strong>) are all more common in Western accounts. The raw sensory core travels; the biography wrapped around it does not.</p>
+  </div>
+</section>
+
 <!-- ═══════════════ ACT VII ═══════════════ -->
 <section>
   <div class="narrow">
@@ -729,6 +799,51 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <p>Reports no light and no deceased relatives — yet remains certain she was outside her body.</p>
       <div class="attrib"><b>Doris A</b>Cerebral haemorrhage · United States · 1993<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 1 of 32 <i>?</i></button></div>
     </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TAKEAWAYS ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">If You Remember Only This</p>
+    <h2 class="rise" data-d="1">Eight things the archive says.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.6rem">Every one of these is a count, not an interpretation. None of them says anything about what caused these experiences.</p>
+  </div>
+  <div class="wrap">
+    <ol class="takeaways rise" data-d="2">
+      <li>
+        <h3>The question shapes the answer</h3>
+        <p>Ask directly about time distortion and <b>76.6%</b> agree. Let people simply tell their story and <b>17.6%</b> mention it. The familiar description of a near-death experience may be, in part, a description of the questionnaire that collected it.</p>
+      </li>
+      <li>
+        <h3>The frame is rigid, the middle is improvised</h3>
+        <p>Crisis first, return last — holding in <b>98–100%</b> of accounts containing both. But whether the light comes before or after arriving somewhere is <b>51%</b>. A coin flip.</p>
+      </li>
+      <li>
+        <h3>It happens in the bedroom</h3>
+        <p>Bedroom <b>25.8%</b>, hospital room <b>19.9%</b>, tunnel <b>10.4%</b>, garden <b>3.2%</b>. Most of this is reported as happening exactly where the person's body already was.</p>
+      </li>
+      <li>
+        <h3>Mostly it is family, rarely God</h3>
+        <p><b>81.1%</b> meet someone. An unidentified presence appears more often than Jesus, God and angels combined, and ordinary speech outnumbers wordless communication more than two to one.</p>
+      </li>
+      <li>
+        <h3>Speechlessness predicts a changed life; drama predicts nothing</h3>
+        <p>Saying it cannot be described forecasts changed values at <b>75.0%</b> against <b>57.9%</b>. Reaching a border — the most cinematic beat available — predicts it at <b>66.7% against 66.7%</b>. Identical.</p>
+      </li>
+      <li>
+        <h3>The sensations travel; the story does not</h3>
+        <p>Tunnel, light, time distortion and ineffability show no meaningful East–West difference. Meeting the dead, the life review and glimpsing the future are all markedly more Western.</p>
+      </li>
+      <li>
+        <h3>Men and women report the same events, a different aftermath</h3>
+        <p>Indistinguishable on leaving the body and the life review. Then a <b>12.7-point</b> gap on abilities reported afterwards — the largest demographic difference in the corpus.</p>
+      </li>
+      <li>
+        <h3>The life review is disappearing</h3>
+        <p>Roughly <b>70%</b> among experiences in the 1980s, roughly <b>27%</b> in the 2010s — and the fall shows up in both recall windows, so it is not memory fading.</p>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -774,6 +889,16 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <a href="https://github.com/kennymuli/nde-archive">Source &amp; data pipeline</a>
       <a href="#hero">Back to the top</a>
     </nav>
+    <div class="sources">
+      <p class="src-head">Explore the archives themselves</p>
+      <ul>
+        <li><a href="https://www.nderf.org/" target="_blank" rel="noopener noreferrer">nderf.org<span>Near-Death Experience Research Foundation — 5,750 accounts</span></a></li>
+        <li><a href="https://www.adcrf.org/" target="_blank" rel="noopener noreferrer">adcrf.org<span>After-Death Communication Research Foundation — 1,766 accounts</span></a></li>
+        <li><a href="https://www.oberf.org/" target="_blank" rel="noopener noreferrer">oberf.org<span>Out-of-Body Experience Research Foundation — 2,248 accounts</span></a></li>
+        <li><a href="https://search.nderf.org/" target="_blank" rel="noopener noreferrer">search.nderf.org<span>Search the accounts in 23 languages</span></a></li>
+      </ul>
+      <p class="note" style="margin-top:1.2rem">Every account quoted, counted or paraphrased on this site is published in full on these sites, under the name its author chose. If any of this interested you, read the accounts themselves — they are the actual thing, and this is only a description of them.</p>
+    </div>
     <p class="note">Sources: the public archives of nderf.org, adcrf.org and oberf.org — 9,764 accounts, 12,860,768 words, extracted August 2026. Accounts are published under the names their authors chose. Each remains the work of the person who wrote it.</p>
     <p class="note" style="margin-top:1.4rem;color:#454E60">The three individual accounts are <strong style="color:#5C6679;font-weight:400">paraphrased summaries written by the analyst, not quotations</strong>. Experiences on these archives are jointly copyrighted by the foundation and the people who wrote them, and many contributors did not grant permission to publish their words anywhere else — so none are reproduced here. Only the recorded circumstances are given verbatim. No professional identities appear because the archives do not record them.</p>
     <div class="copyright">
@@ -788,6 +913,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 <script>
 (() => {
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
 
   /* ---------- data ---------- */
   // [label, prompted %, spontaneous %, questionnaire wording, what the gap means]
@@ -840,6 +966,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   const DECADES = [
     ['1980s', 69.7, 45.5], ['1990s', 58.7, 21.5], ['2000s', 30.6, null], ['2010s', 27.3, null]
   ];
+  const DEMO = {"all": [["Left the body", 65.2, 4838], ["Tunnel", 35.6, 4530], ["Saw a light", 66.3, 4944], ["Time distorted", 76.6, 5406], ["Another world", 60.3, 5154], ["Beyond words", 54.2, 5095], ["Life review", 54.3, 5403], ["Met the dead", 48.2, 4731], ["Saw the future", 43.5, 5120], ["Reached a border", 65.4, 5320], ["Understood all", 67.9, 5395], ["Abilities after", 50.9, 4520]], "F": [["Left the body", 65.6, 2670], ["Tunnel", 36.6, 2518], ["Saw a light", 67.8, 2747], ["Time distorted", 78.6, 3009], ["Another world", 60.2, 2875], ["Beyond words", 57.3, 2829], ["Life review", 54.1, 3017], ["Met the dead", 49.8, 2641], ["Saw the future", 44.1, 2857], ["Reached a border", 68.0, 2965], ["Understood all", 69.5, 3007], ["Abilities after", 56.6, 2473]], "M": [["Left the body", 64.8, 2152], ["Tunnel", 34.1, 1997], ["Saw a light", 64.2, 2176], ["Time distorted", 74.1, 2378], ["Another world", 60.4, 2261], ["Beyond words", 50.3, 2250], ["Life review", 54.4, 2373], ["Met the dead", 46.1, 2072], ["Saw the future", 42.7, 2242], ["Reached a border", 62.2, 2341], ["Understood all", 65.9, 2368], ["Abilities after", 43.9, 2033]], "West": [["Left the body", 66.0, 3798], ["Tunnel", 35.7, 3558], ["Saw a light", 66.3, 3906], ["Time distorted", 76.8, 4280], ["Another world", 60.4, 4249], ["Beyond words", 54.2, 4050], ["Life review", 56.6, 4279], ["Met the dead", 49.6, 3895], ["Saw the future", 44.6, 4211], ["Reached a border", 67.2, 4208], ["Understood all", 69.7, 4265], ["Abilities after", 51.0, 3570]], "Other": [["Left the body", 60.1, 694], ["Tunnel", 39.2, 669], ["Saw a light", 69.0, 707], ["Time distorted", 77.2, 777], ["Another world", 60.7, 760], ["Beyond words", 52.7, 711], ["Life review", 49.9, 769], ["Met the dead", 41.5, 701], ["Saw the future", 38.1, 764], ["Reached a border", 63.8, 757], ["Understood all", 65.3, 777], ["Abilities after", 49.7, 658]]};
   const BEINGS = [
     ['Unspecified other', 20.8], ['Deceased parent', 14.2], ['Unidentified presence', 13.8],
     ['Deceased grandparent', 7.3], ['A child', 5.3], ['Strangers', 5.2], ['Sibling', 4.1],
@@ -926,9 +1053,22 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       tip.style.left = Math.max(12, x) + 'px'; tip.style.top = Math.max(12, y) + 'px';
     };
     const hide = () => tip.classList.remove('on');
-    row.addEventListener('mouseenter', show);
-    row.addEventListener('mousemove', move, { passive: true });
-    row.addEventListener('mouseleave', hide);
+    if (fine) {
+      row.addEventListener('mouseenter', show);
+      row.addEventListener('mousemove', move, { passive: true });
+      row.addEventListener('mouseleave', hide);
+    }
+    row.dataset.k = 'r' + name;
+    row.addEventListener('click', e => {
+      if (tip.classList.contains('on') && tip.dataset.owner === row.dataset.k) {
+        tip.classList.remove('on'); tip.dataset.owner = '';
+      } else {
+        tip.dataset.owner = row.dataset.k; show();
+        const r = row.getBoundingClientRect();
+        move({ clientX: Math.min(e.clientX || r.left + 40, innerWidth - 40), clientY: r.bottom - 8 });
+      }
+      e.stopPropagation();
+    });
     row.addEventListener('focus', () => {
       show();
       const r = row.getBoundingClientRect();
@@ -984,6 +1124,43 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     r.appendChild(tr); cc.appendChild(r);
   });
 
+  /* ---------- demographic tabs ---------- */
+  (() => {
+    const host = document.getElementById('demo'), tabs = document.getElementById('demotabs');
+    const SETS = [['all', 'Everyone'], ['F', 'Women'], ['M', 'Men'], ['|', ''], ['West', 'Western'], ['Other', 'Elsewhere']];
+    let active = 'all';
+
+    const paint = key => {
+      host.innerHTML = '';
+      DEMO[key].forEach(([label, v, count]) => {
+        const row = el('div', 'row');
+        row.appendChild(el('div', 'name', label));
+        const tr = el('div', 'track');
+        const b = el('i', 'bar amber');
+        b.style.width = (v / 80 * 74) + '%';
+        const lab = el('i', 'bar-val', v.toFixed(1) + '%  <span style="color:var(--faint)">n=' + count + '</span>');
+        lab.style.left = 'calc(' + (v / 80 * 74) + '% + .7rem)';
+        lab.style.opacity = 1;
+        tr.append(b, lab); row.appendChild(tr); host.appendChild(row);
+      });
+    };
+
+    SETS.forEach(([key, label]) => {
+      if (key === '|') { tabs.appendChild(el('div', 'sep')); return; }
+      const btn = el('button', null, label);
+      btn.type = 'button'; btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', String(key === active));
+      btn.addEventListener('click', () => {
+        active = key;
+        tabs.querySelectorAll('button').forEach(b2 =>
+          b2.setAttribute('aria-selected', String(b2 === btn)));
+        paint(key);
+      });
+      tabs.appendChild(btn);
+    });
+    paint('all');
+  })();
+
   /* ---------- what predicts change ---------- */
   (() => {
     const host = document.getElementById('predict');
@@ -1003,7 +1180,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   })();
 
   /* ---------- greyson explainer ---------- */
-  document.querySelectorAll('.gx').forEach(btn => {
+  document.querySelectorAll('.gx').forEach((btn, gi) => {
+    btn.dataset.k = 'g' + gi;
     const open = e => {
       tip.innerHTML = '<span class="t">The Greyson Scale</span>' +
         '<p>A 16-item questionnaire published by Bruce Greyson in 1983, still the standard instrument in this field. Each item scores 0, 1 or 2, giving a range of 0 to 32. A score of 7 or above is the conventional threshold for classifying an account as a near-death experience.</p>' +
@@ -1016,13 +1194,21 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       tip.style.left = x + 'px'; tip.style.top = y + 'px';
       e && e.stopPropagation();
     };
-    btn.addEventListener('click', open);
-    btn.addEventListener('mouseenter', open);
+    btn.addEventListener('click', e => {
+      // toggle: a second tap closes it, rather than requiring a tap elsewhere
+      if (tip.classList.contains('on') && tip.dataset.owner === btn.dataset.k) {
+        tip.classList.remove('on'); tip.dataset.owner = '';
+      } else { tip.dataset.owner = btn.dataset.k; open(e); }
+      e.stopPropagation();
+    });
+    if (fine) {
+      btn.addEventListener('mouseenter', open);
+      btn.addEventListener('mouseleave', () => tip.classList.remove('on'));
+    }
     btn.addEventListener('focus', open);
-    btn.addEventListener('mouseleave', () => tip.classList.remove('on'));
     btn.addEventListener('blur', () => tip.classList.remove('on'));
   });
-  addEventListener('click', () => tip.classList.remove('on'));
+  addEventListener('click', () => { tip.classList.remove('on'); tip.dataset.owner = ''; });
 
   /* ---------- daylight ---------- */
   (() => {
@@ -1120,7 +1306,6 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   })();
 
   /* ---------- custom cursor ---------- */
-  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   let mx = innerWidth / 2, my = innerHeight / 2, hasMouse = false;
   if (fine && !RM) {
     const dot = el('div'), ring = el('div');

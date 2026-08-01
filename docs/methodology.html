@@ -90,6 +90,18 @@ td .bad{color:var(--ember)}
 .warn{border-left:2px solid var(--ember);padding-left:1.4rem;margin-block:2rem}
 .warn h3{color:var(--ember)}
 
+.sources{margin-bottom:2.8rem;padding-bottom:2.4rem;border-bottom:1px solid var(--rule)}
+.src-head{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-lit);margin:0 0 1.2rem}
+.sources ul{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.5rem}
+.sources li a{display:block;padding:.9rem 1rem;border:1px solid var(--rule);border-radius:4px;
+  text-decoration:none;border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:.8rem;color:var(--halo);letter-spacing:.02em;
+  transition:background .25s,border-color .25s}
+.sources li a:hover,.sources li a:focus-visible{background:rgba(255,255,255,.035);border-color:var(--amber)}
+.sources li a span{display:block;margin-top:.45rem;font-size:.68rem;color:var(--faint);
+  letter-spacing:.03em;line-height:1.5}
 footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
 .copyright{border-top:1px solid var(--rule);margin-top:2rem;padding-top:1.6rem;
   display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;
@@ -333,6 +345,16 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
 
 <footer>
   <div class="narrow">
+    <div class="sources">
+      <p class="src-head">Explore the archives themselves</p>
+      <ul>
+        <li><a href="https://www.nderf.org/" target="_blank" rel="noopener noreferrer">nderf.org<span>Near-Death Experience Research Foundation — 5,750 accounts</span></a></li>
+        <li><a href="https://www.adcrf.org/" target="_blank" rel="noopener noreferrer">adcrf.org<span>After-Death Communication Research Foundation — 1,766 accounts</span></a></li>
+        <li><a href="https://www.oberf.org/" target="_blank" rel="noopener noreferrer">oberf.org<span>Out-of-Body Experience Research Foundation — 2,248 accounts</span></a></li>
+        <li><a href="https://search.nderf.org/" target="_blank" rel="noopener noreferrer">search.nderf.org<span>Search the accounts in 23 languages</span></a></li>
+      </ul>
+      <p class="note" style="margin-top:1.2rem">Every account quoted, counted or paraphrased on this site is published in full on these sites, under the name its author chose. If any of this interested you, read the accounts themselves — they are the actual thing, and this is only a description of them.</p>
+    </div>
     <p class="note">Sources: the public archives of nderf.org, adcrf.org and oberf.org — 9,764 accounts, 12,860,768 words, extracted August 2026. Experiences on these archives are jointly copyrighted by the foundation and the people who wrote them; many contributors did not grant permission to publish their words elsewhere, so no account text is reproduced anywhere on this site. Full pipeline and data available at <a href="https://github.com/kennymuli/nde-archive">github.com/kennymuli/nde-archive</a>.</p>
     <div class="copyright">
       <span>© 2026 Kenny Li. Analysis, writing and design.</span>
