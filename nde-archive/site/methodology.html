@@ -111,7 +111,8 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
 .rise.in{opacity:1;transform:none}
 
 @media (hover:hover) and (pointer:fine){
-  body,a{cursor:none}
+  /* only surrender the native pointer once the replacement exists */
+  body.cursor-custom,body.cursor-custom a{cursor:none}
   #cur,#cur-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;
     will-change:transform;mix-blend-mode:screen}
   #cur{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--halo);box-shadow:0 0 12px 3px rgba(255,217,160,.75)}
@@ -377,6 +378,10 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
   if (fine && !RM) {
     const dot = document.createElement('div'), ring = document.createElement('div');
     dot.id = 'cur'; ring.id = 'cur-ring'; document.body.append(dot, ring);
+    dot.style.transform = `translate(${mx}px,${my}px)`;
+    ring.style.transform = `translate(${mx}px,${my}px)`;
+    document.body.classList.add('cursor-custom');
+    addEventListener('error', () => document.body.classList.remove('cursor-custom'));
     let rx = mx, ry = my;
     addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY; hasMouse = true;

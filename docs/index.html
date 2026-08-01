@@ -428,7 +428,7 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 /* ---------- the turn: metaphysical → empirical ---------- */
 /* The descent: a planet's limb rising into frame, drawn on canvas so the
    curvature and the atmospheric rim can respond to scroll. */
-.dawn{height:88vh;position:relative;z-index:3;overflow:hidden;background:#04060D}
+.dawn{height:56vh;position:relative;z-index:3;overflow:hidden;background:#04060D;margin-bottom:-1px}
 .dawn canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 .lightzone{
@@ -448,11 +448,11 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 .lightzone .traps{background:var(--rule)}
 .lightzone .trap .idx{color:var(--ember)}
 
-.turn{padding-block:clamp(3rem,9vh,6rem) 0;text-align:center}
+.turn{padding-block:clamp(1.2rem,3vh,2.2rem) 0;text-align:center}
 .turn .kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.34em;text-transform:uppercase;
   color:#8A8172;margin-bottom:1.6rem}
 .turn h2{font-size:clamp(2.6rem,9vw,5.6rem);letter-spacing:-.04em;line-height:.95;color:#12161F}
-.turn .sub{max-width:34rem;margin:1.8rem auto 0;color:#3A4050;font-size:clamp(1.05rem,1.4vw,1.26rem)}
+.turn .sub{max-width:34rem;margin:1.4rem auto 0;color:#3A4050;font-size:clamp(1.05rem,1.4vw,1.26rem)}
 
 .sources{margin-bottom:2.8rem;padding-bottom:2.4rem;border-bottom:1px solid var(--rule)}
 .src-head{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
@@ -502,16 +502,24 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
 /* ---------- custom cursor ---------- */
 @media (hover:hover) and (pointer:fine){
-  body{cursor:none}
-  a,button{cursor:none}
+  /* The native cursor is surrendered ONLY after JS confirms the replacement is
+     on screen. If the script fails, the real pointer is never taken away. */
+  body.cursor-custom,body.cursor-custom a,body.cursor-custom button{cursor:none}
   #cur,#cur-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
-    border-radius:50%;will-change:transform;mix-blend-mode:screen}
-  #cur{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--halo);
-    box-shadow:0 0 12px 3px rgba(255,217,160,.75)}
-  #cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;
-    border:1px solid rgba(255,217,160,.42);transition:width .3s,height .3s,margin .3s,border-color .3s,opacity .3s}
-  body.hot #cur-ring{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:rgba(255,217,160,.85)}
+    border-radius:50%;will-change:transform}
+  #cur{width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--halo);
+    box-shadow:0 0 12px 3px rgba(255,217,160,.75);mix-blend-mode:screen}
+  #cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;mix-blend-mode:screen;
+    border:1px solid rgba(255,217,160,.5);transition:width .3s,height .3s,margin .3s,border-color .3s,opacity .3s}
+  body.hot #cur-ring{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:rgba(255,217,160,.9)}
   body.press #cur-ring{width:22px;height:22px;margin:-11px 0 0 -11px}
+
+  /* On the paper half a screen-blended warm dot is invisible against near-white.
+     Swap to dark ink with normal blending so the pointer never disappears. */
+  body.daylight #cur{background:#2A2114;mix-blend-mode:normal;
+    box-shadow:0 0 10px 2px rgba(42,33,20,.25)}
+  body.daylight #cur-ring{border-color:rgba(42,33,20,.55);mix-blend-mode:normal}
+  body.daylight.hot #cur-ring{border-color:rgba(42,33,20,.9)}
 }
 
 /* ---------- responsive ---------- */
@@ -1860,11 +1868,24 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       const { R, cy } = arc(apexY);
 
       // space
-      const sky = g.createLinearGradient(0, 0, 0, apexY);
+      // Fill the WHOLE canvas: the limb dips well below its own apex at the
+      // edges, and stopping the sky at apexY left that band bare.
+      const lowest = Math.min(H, apexY + W * 0.09);
+      const sky = g.createLinearGradient(0, 0, 0, Math.max(1, lowest));
       sky.addColorStop(0, '#04060D');
-      sky.addColorStop(.62, '#080D1B');
-      sky.addColorStop(1, '#131A2B');
-      g.fillStyle = sky; g.fillRect(0, 0, W, Math.max(0, apexY));
+      sky.addColorStop(.55, '#0A1120');
+      sky.addColorStop(.86, '#141C30');
+      sky.addColorStop(1, '#1A2338');
+      g.fillStyle = sky; g.fillRect(0, 0, W, H);
+
+      // horizon haze sitting just above the limb, so the edges fade rather than cut
+      const haze = g.createLinearGradient(0, apexY - W * 0.10, 0, Math.min(H, apexY + W * 0.10));
+      haze.addColorStop(0, 'rgba(26,35,56,0)');
+      haze.addColorStop(.45, `rgba(58,54,66,${.30 + prog * .22})`);
+      haze.addColorStop(.75, `rgba(126,104,84,${.26 + prog * .20})`);
+      haze.addColorStop(1, 'rgba(160,140,116,0)');
+      g.fillStyle = haze;
+      g.fillRect(0, Math.max(0, apexY - W * 0.10), W, W * 0.20);
 
       stars.forEach(st => {
         st.p += .01;
@@ -1891,22 +1912,30 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       }
 
       // the planet: rim glow above the edge, then the body beneath it
-      const rim = g.createRadialGradient(W / 2, cy, R - 26 * DPR, W / 2, cy, R + 34 * DPR);
-      rim.addColorStop(0, 'rgba(255,214,150,0)');
-      rim.addColorStop(.5, `rgba(255,206,138,${.30 + prog * .34})`);
-      rim.addColorStop(.72, `rgba(150,150,160,${.10 + prog * .12})`);
-      rim.addColorStop(1, 'rgba(4,6,13,0)');
-      g.fillStyle = rim;
-      g.beginPath(); g.arc(W / 2, cy, R + 34 * DPR, 0, 6.2832); g.fill();
-
+      // Body first, then the atmosphere OVER the boundary. Painting the glow
+      // underneath left the clipped edge fully opaque, which read as a hard
+      // line wherever the limb met the side of the frame.
       g.save();
       g.beginPath(); g.arc(W / 2, cy, R, 0, 6.2832); g.clip();
       const body = g.createLinearGradient(0, apexY, 0, H);
-      body.addColorStop(0, `rgba(255,222,175,${.85 + prog * .15})`);
-      body.addColorStop(.18, '#E7DCC8');
+      body.addColorStop(0, `rgba(250,226,186,${.55 + prog * .35})`);
+      body.addColorStop(.06, `rgba(240,225,198,${.88 + prog * .12})`);
+      body.addColorStop(.22, '#E9DFCD');
       body.addColorStop(1, '#EDE8DE');
       g.fillStyle = body; g.fillRect(0, apexY - 2 * DPR, W, H - apexY + 2 * DPR);
       g.restore();
+
+      const halo = 120 * DPR;
+      const rim = g.createRadialGradient(W / 2, cy, R - halo, W / 2, cy, R + halo);
+      rim.addColorStop(0, 'rgba(255,220,170,0)');
+      rim.addColorStop(.34, `rgba(255,214,160,${.16 + prog * .16})`);
+      rim.addColorStop(.47, `rgba(255,226,182,${.46 + prog * .30})`);
+      rim.addColorStop(.56, `rgba(246,206,158,${.34 + prog * .22})`);
+      rim.addColorStop(.70, `rgba(150,132,124,${.16 + prog * .10})`);
+      rim.addColorStop(.86, 'rgba(52,54,72,.07)');
+      rim.addColorStop(1, 'rgba(26,35,56,0)');
+      g.fillStyle = rim;
+      g.beginPath(); g.arc(W / 2, cy, R + halo, 0, 6.2832); g.fill();
 
       // paper floor, so the section meets the light zone seamlessly
       const floorY = cy - R + Math.sqrt(Math.max(0, R * R - (W / 2) * (W / 2)));
@@ -2039,6 +2068,12 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     const dot = el('div'), ring = el('div');
     dot.id = 'cur'; ring.id = 'cur-ring';
     document.body.append(dot, ring);
+    // park the replacement under the real pointer BEFORE hiding the native one
+    dot.style.transform = `translate(${mx}px,${my}px)`;
+    ring.style.transform = `translate(${mx}px,${my}px)`;
+    document.body.classList.add('cursor-custom');
+    // any hard failure hands the pointer straight back
+    addEventListener('error', () => document.body.classList.remove('cursor-custom'));
     let rx = mx, ry = my;
     addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY; hasMouse = true;
