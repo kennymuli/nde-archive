@@ -111,6 +111,8 @@ strong{font-weight:600;color:#F5F1E8}
 .row:hover{background:rgba(255,255,255,.032)}
 .row .name{font-family:var(--mono);font-size:.74rem;color:var(--dim);letter-spacing:.02em;line-height:1.35}
 .track{position:relative;height:2.1rem}
+#dumb-rows .track{height:2.9rem}
+#dumb-rows .gap{top:.1rem}
 
 /* dumbbell */
 .dumb{position:relative;height:100%}
@@ -125,9 +127,41 @@ strong{font-weight:600;color:#F5F1E8}
 .in .dot{transform:translate(-50%,-50%) scale(1)}
 .dot.a{background:var(--amber-lit);transition-delay:.5s}
 .dot.b{background:var(--instrument-lit);transition-delay:.62s}
-.val{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.7rem;
-  color:var(--faint);font-variant-numeric:tabular-nums;opacity:0;transition:opacity .5s .85s}
+/* One value per dot, sitting on the dot's own outer side and wearing the dot's
+   colour, so which number belongs to which measurement is never in question. */
+.val{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.72rem;
+  font-variant-numeric:tabular-nums;opacity:0;transition:opacity .5s .85s;white-space:nowrap}
 .in .val{opacity:1}
+.val.a{color:var(--amber-lit)}
+.val.b{color:var(--instrument-lit)}
+
+/* gap marker — the length of the line IS the finding, so it gets a number */
+.gap{position:absolute;top:0;transform:translateX(-50%);font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.08em;color:var(--faint);opacity:0;transition:opacity .4s 1s;white-space:nowrap}
+.in .gap{opacity:1}
+.row:hover .gap{color:var(--halo)}
+
+.howto{font-family:var(--mono);font-size:.72rem;line-height:1.7;color:var(--faint);
+  border-left:1px solid var(--rule);padding-left:1rem;margin-bottom:1.9rem;max-width:44rem}
+.howto b{color:var(--amber-lit);font-weight:500}
+.howto i{color:var(--instrument-lit);font-style:normal}
+
+/* hover annotation */
+#tip{position:fixed;z-index:9998;pointer-events:none;opacity:0;transform:translateY(6px);
+  transition:opacity .18s,transform .18s;max-width:22rem;
+  background:rgba(9,14,26,.97);border:1px solid var(--rule);border-radius:5px;
+  padding:.85rem 1rem;box-shadow:0 18px 46px rgba(0,0,0,.66)}
+#tip.on{opacity:1;transform:none}
+#tip .t{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--halo);margin-bottom:.6rem;display:block}
+#tip .r{display:flex;justify-content:space-between;gap:1.4rem;font-family:var(--mono);font-size:.72rem;
+  padding:.2rem 0;font-variant-numeric:tabular-nums}
+#tip .r span:first-child{color:var(--dim)}
+#tip .r.amber span:last-child{color:var(--amber-lit)}
+#tip .r.instr span:last-child{color:var(--instrument-lit)}
+#tip .r.gapr{border-top:1px solid var(--rule);margin-top:.45rem;padding-top:.5rem}
+#tip .r.gapr span:last-child{color:var(--halo)}
+#tip p{margin:.7rem 0 0;font-size:.86rem;line-height:1.55;color:var(--dim);font-family:var(--serif)}
 
 /* bars */
 .bar{position:absolute;top:50%;transform:translateY(-50%);height:.62rem;border-radius:0 3px 3px 0;
@@ -283,8 +317,18 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   .legend{font-size:.64rem;gap:.8rem}
   .card p{font-size:clamp(1.18rem,5.4vw,1.6rem);max-width:22ch}
   .interlude{min-height:auto;padding-block:5.5rem}
-  /* value labels sit under the bar on narrow screens instead of overflowing */
-  .bar-val,.val{font-size:.66rem}
+  .bar-val{font-size:.66rem}
+  /* Dumbbell values move into separate bands above and below the line, centred
+     on their dots. Side placement would push a 9% value off the left edge once
+     the row goes full-width. */
+  .rows#dumb-rows .track{height:3.6rem}
+  #dumb-rows .val{font-size:.66rem;left:var(--x)!important;right:auto!important;
+    transform:translateX(-50%);max-width:none}
+  #dumb-rows .val.a{top:.35rem}
+  #dumb-rows .val.b{top:auto;bottom:.35rem}
+  #dumb-rows .gap{top:50%;transform:translate(-50%,-50%);
+    background:var(--void);padding:0 .3rem;font-size:.56rem}
+  #dumb-rows .dumb .spine,#dumb-rows .dumb .link,#dumb-rows .dot{top:50%}
 }
 @media (max-width:400px){
   .ledger{grid-template-columns:1fr}
@@ -351,6 +395,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Volunteered freely</span>
       </div>
     </div>
+    <p class="howto">How to read this — each row is <em>one element measured twice</em>. The <b>amber dot</b> is the share who answer yes when the questionnaire asks about it directly. The <i>blue dot</i> is the share who describe it themselves, unprompted, in their own narrative. The line between them is not a range: it is simply the distance between the two measurements. <strong style="color:var(--bone);font-weight:400">The longer the line, the more the two methods disagree.</strong> Hover any row for detail.</p>
     <div class="rows" id="dumb-rows"></div>
     <p class="note" style="margin-top:1.6rem">Prompted rates from the full corpus (n ≈ 5,400 per item). Volunteered rates from 1,500 narratives read individually. Two independent readers agreed on 96% of these judgements.</p>
   </div>
@@ -583,11 +628,24 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- data ---------- */
+  // [label, prompted %, spontaneous %, questionnaire wording, what the gap means]
   const DUMB = [
-    ['Time distorted', 76.6, 17.6], ['Understood everything', 67.9, 9.2],
-    ['Reached a border', 65.4, 13.0], ['Life review', 54.3, 14.2],
-    ['Beyond words', 50.6, 18.8], ['Met the dead', 44.3, 16.8],
-    ['Saw a light', 60.0, 50.4], ['Left the body', 56.6, 54.4]
+    ['Time distorted', 76.6, 17.6, 'Did time seem to speed up or slow down?',
+     'Three quarters agree time behaved strangely when asked. Fewer than one in five raise it themselves.'],
+    ['Understood everything', 67.9, 9.2, 'Did you suddenly seem to understand everything?',
+     'The largest gap in the corpus. Sudden total knowledge is confirmed far more often than it is recounted.'],
+    ['Reached a border', 65.4, 13.0, 'Did you come to a border or point of no return?',
+     'Two thirds affirm a boundary; one in eight describes reaching one unprompted.'],
+    ['Life review', 54.3, 14.2, 'Did scenes from your past come back to you?',
+     'The most cinematically famous element, and four times more often confirmed than told.'],
+    ['Beyond words', 50.6, 18.8, 'Was the experience difficult to express in words?',
+     'Half say language failed them when asked. Fewer state it spontaneously.'],
+    ['Met the dead', 44.3, 16.8, 'Did you encounter or become aware of any deceased beings?',
+     'Encounters with the dead are affirmed well over twice as often as they are narrated.'],
+    ['Saw a light', 60.0, 50.4, 'Did you see an unearthly light?',
+     'Close agreement. Light is something people actually tell you about.'],
+    ['Left the body', 56.6, 54.4, 'Did you feel separated from your body?',
+     'The tightest agreement in the corpus. Leaving the body is central to how the story gets told.']
   ];
   const ARC = [
     ['Forced back → re-entry', 100, 70, 1], ['Crisis → forced back', 100, 57, 1],
@@ -610,25 +668,85 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   const el = (t, c, h) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; };
 
   /* ---------- dumbbell ---------- */
+  const tip = el('div'); tip.id = 'tip'; document.body.appendChild(tip);
+  const AMBER = 'var(--amber)', INSTR = 'var(--instrument)';
+
   const dr = document.getElementById('dumb-rows');
-  DUMB.forEach(([name, a, b]) => {
+  DUMB.forEach(([name, a, b, question, meaning]) => {
     const row = el('div', 'row');
     row.appendChild(el('div', 'name', name));
     const tr = el('div', 'track');
     const d = el('div', 'dumb');
     d.appendChild(el('i', 'spine'));
+
+    const aLeft = a < b;                       // is the amber dot the left-hand one?
     const lo = Math.min(a, b), hi = Math.max(a, b);
+
+    // Gradient runs from whichever dot is actually on the left, so the connector
+    // always reads correctly even if a future value flips the order.
     const link = el('i', 'link');
     link.style.left = lo + '%'; link.style.width = (hi - lo) + '%';
+    link.style.background = `linear-gradient(90deg,${aLeft ? AMBER : INSTR},${aLeft ? INSTR : AMBER})`;
     d.appendChild(link);
+
     const da = el('i', 'dot a'); da.style.left = a + '%';
     const db = el('i', 'dot b'); db.style.left = b + '%';
     d.append(da, db);
-    const v = el('i', 'val', a.toFixed(1) + '% / ' + b.toFixed(1) + '%');
-    v.style.left = 'calc(' + hi + '% + 1rem)';
-    if (hi > 72) { v.style.left = 'auto'; v.style.right = 'calc(' + (100 - lo) + '% + 1rem)'; }
-    d.appendChild(v);
+
+    // Each value sits on its own dot's outer side — never stacked together, so
+    // they cannot collide even when the two dots are two points apart.
+    const va = el('i', 'val a', a.toFixed(1) + '%');
+    const vb = el('i', 'val b', b.toFixed(1) + '%');
+    va.style.setProperty('--x', a + '%');
+    vb.style.setProperty('--x', b + '%');
+    if (aLeft) {
+      va.style.right = 'calc(' + (100 - a) + '% + .85rem)';
+      vb.style.left = 'calc(' + b + '% + .85rem)';
+    } else {
+      vb.style.right = 'calc(' + (100 - b) + '% + .85rem)';
+      va.style.left = 'calc(' + a + '% + .85rem)';
+    }
+    d.append(va, vb);
+
+    const gap = el('i', 'gap', (hi - lo).toFixed(0) + ' pts apart');
+    gap.style.left = (lo + (hi - lo) / 2) + '%';
+    d.appendChild(gap);
+
     tr.appendChild(d); row.appendChild(tr); dr.appendChild(row);
+
+    row.tabIndex = 0;
+    row.setAttribute('role', 'img');
+    row.setAttribute('aria-label',
+      `${name}: ${a.toFixed(1)}% when asked directly, ${b.toFixed(1)}% described unprompted, a gap of ${(hi - lo).toFixed(0)} points.`);
+
+    const show = () => {
+      tip.innerHTML =
+        `<span class="t">${name}</span>` +
+        `<div class="r amber"><span>Asked directly</span><span>${a.toFixed(1)}%</span></div>` +
+        `<div class="r instr"><span>Volunteered freely</span><span>${b.toFixed(1)}%</span></div>` +
+        `<div class="r gapr"><span>Difference</span><span>${(hi - lo).toFixed(1)} points</span></div>` +
+        `<p>${meaning}</p>` +
+        `<p style="font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:.6rem">Item asked: “${question}”</p>`;
+      tip.classList.add('on');
+    };
+    const move = e => {
+      const p = e.touches ? e.touches[0] : e;
+      const w2 = tip.offsetWidth, h2 = tip.offsetHeight;
+      let x = (p.clientX || 0) + 18, y = (p.clientY || 0) + 18;
+      if (x + w2 > innerWidth - 12) x = (p.clientX || 0) - w2 - 18;
+      if (y + h2 > innerHeight - 12) y = (p.clientY || 0) - h2 - 18;
+      tip.style.left = Math.max(12, x) + 'px'; tip.style.top = Math.max(12, y) + 'px';
+    };
+    const hide = () => tip.classList.remove('on');
+    row.addEventListener('mouseenter', show);
+    row.addEventListener('mousemove', move, { passive: true });
+    row.addEventListener('mouseleave', hide);
+    row.addEventListener('focus', () => {
+      show();
+      const r = row.getBoundingClientRect();
+      move({ clientX: r.left + 40, clientY: r.bottom });
+    });
+    row.addEventListener('blur', hide);
   });
 
   /* ---------- arc ---------- */
