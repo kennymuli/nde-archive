@@ -202,6 +202,7 @@ strong{font-weight:600;color:#F5F1E8}
   text-transform:uppercase;color:var(--amber-lit);line-height:2.1}
 .attrib b{display:block;font-weight:500;color:var(--halo);letter-spacing:.16em}
 .attrib span{color:var(--faint);letter-spacing:.09em;text-transform:none;font-size:.72rem}
+.attrib .gx{display:inline-flex;margin-top:.85rem}
 
 /* ---------- sequence arc ---------- */
 .arc{display:grid;gap:.42rem;margin-block:2.4rem}
@@ -352,7 +353,8 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
 
 /* ---------- greyson explainer ---------- */
 .gx{background:none;border:0;padding:0;font:inherit;color:var(--faint);letter-spacing:.09em;
-  font-size:.72rem;text-transform:none;display:inline-flex;align-items:center;gap:.45rem;
+  font-size:.72rem;text-transform:none;display:flex;align-items:center;gap:.45rem;
+  margin-inline:auto;width:fit-content;
   border-bottom:1px dashed rgba(152,161,180,.4);transition:color .25s,border-color .25s}
 .gx:hover,.gx:focus-visible{color:var(--halo);border-color:var(--halo)}
 .gx i{font-style:normal;width:1.05rem;height:1.05rem;border-radius:50%;border:1px solid currentColor;
@@ -415,7 +417,8 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 
 /* ---------- method ---------- */
 .traps{display:grid;gap:1px;background:var(--rule);border-block:1px solid var(--rule);margin-block:2.5rem}
-.trap{background:var(--void);padding:1.5rem 0;display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:start}
+.trap{background:var(--void);padding:1.5rem clamp(1rem,2.5vw,1.9rem);display:grid;
+  grid-template-columns:auto 1fr;gap:1.4rem;align-items:start}
 .trap .idx{font-family:var(--mono);font-size:.7rem;color:var(--ember);letter-spacing:.1em;padding-top:.3rem}
 .trap h4{margin:0 0 .5rem;font-size:1rem;font-weight:400;color:var(--bone)}
 .trap p{margin:0;font-size:.94rem;color:var(--dim);line-height:1.62}
@@ -595,7 +598,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ LEDGER ═══════════════ -->
-<section style="padding-block:0">
+<section style="padding-block:0 clamp(3.5rem,7vh,5rem)">
   <div class="wrap">
     <div class="ledger rise">
       <div><span class="n" data-count="9764">0</span><span class="l">First-person accounts</span></div>
@@ -736,6 +739,19 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 </section>
 
+<!-- ═══════════════ INTERLUDE ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <div class="card rise">
+      <span class="tag">Paraphrased summary — not a direct quotation</span>
+      <p>Reports being told it was not yet time to stay, and being returned to a twelve-year-old body.</p>
+      <div class="attrib"><b>Carol V</b>Hypothermia at age 12 · France · 1963
+        <button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 28 of 32 <i>?</i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════ ACT III ═══════════════ -->
 <section class="act">
   <div class="narrow">
@@ -771,6 +787,19 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <span class="tag">Paraphrased summary — not a direct quotation</span>
       <p>Reports that the person he encountered looked exactly as they had in life, showing no trace of having died.</p>
       <div class="attrib"><b>Francisco GV</b>Diving accident · Mexico · 2004<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 10 of 32 <i>?</i></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INTERLUDE ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <div class="card rise">
+      <span class="tag">Paraphrased summary — not a direct quotation</span>
+      <p>Reports wanting to remain in a place of light and peace, and being reminded of responsibilities still waiting on earth.</p>
+      <div class="attrib"><b>Mohammad Z</b>Automobile accident · Iran · 1977
+        <button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 21 of 32 <i>?</i></button>
+      </div>
     </div>
   </div>
 </section>
@@ -819,6 +848,19 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     </div>
     <p class="rise">People who insist language fails them report <strong>54% more</strong> structural content than people who never mention it. Ineffability is not an absence of material. It is a marker of having more to say.</p>
     <p class="rise dim">It predicts life change better than any dramatic content does — better than the light, better than the tunnel. Saying "I can't explain it" forecasts transformation at <strong>75.0%</strong> against <strong>57.9%</strong>. Reaching a border, the most cinematic moment available, predicts it at exactly <strong>zero</strong> difference.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ INTERLUDE ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <div class="card rise">
+      <span class="tag">Paraphrased summary — not a direct quotation</span>
+      <p>Reports being welcomed by a presence, and a quality of knowing and peace unlike anything felt before.</p>
+      <div class="attrib"><b>Winnie S</b>Cardiac arrest · Barbados · 2009
+        <button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 19 of 32 <i>?</i></button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -933,6 +975,19 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 </section>
 
+<!-- ═══════════════ INTERLUDE ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <div class="card rise">
+      <span class="tag">Paraphrased summary — not a direct quotation</span>
+      <p>Reports moving toward a light and feeling a happiness and fullness she had never known.</p>
+      <div class="attrib"><b>Estelle D</b>Struck by a car at age 16 · France · 1982
+        <button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 25 of 32 <i>?</i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════ ACT VII ═══════════════ -->
 <section class="act">
   <div class="narrow">
@@ -965,6 +1020,19 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <span class="tag">Paraphrased summary — not a direct quotation</span>
       <p>Reports no light and no deceased relatives — yet remains certain she was outside her body.</p>
       <div class="attrib"><b>Doris A</b>Cerebral haemorrhage · United States · 1993<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 1 of 32 <i>?</i></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INTERLUDE ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <div class="card rise">
+      <span class="tag">Paraphrased summary — not a direct quotation</span>
+      <p>Reports being certain she could have stayed that time, and being brought back to her body again.</p>
+      <div class="attrib"><b>Jeanne MK</b>Repeated cardiac arrests · United States · 1973
+        <button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 25 of 32 <i>?</i></button>
+      </div>
     </div>
   </div>
 </section>
@@ -1058,8 +1126,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="narrow">
     <p class="eyebrow rise">And What It Might Mean</p>
     <h2 class="rise" data-d="1">What follows from this, and what does not.</h2>
-    <p class="lede rise" data-d="2" style="margin-top:1.8rem">This archive records what people say happened to them. It cannot establish what caused any of it, and nothing below should be read as though it could.</p>
-    <p class="rise dim" data-d="2">What it <em class="k">can</em> support is narrower and still worth having: a description of what these experiences contain, what reliably follows them, and which parts of the popular picture the accounts themselves do not bear out.</p>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Nine thousand people sat down and wrote out the most significant thing that ever happened to them, for strangers, without being asked to and without anything in return. Whatever else this archive is, it is that first.</p>
+    <p class="rise dim" data-d="2">What follows is what emerges when all of it is read at once. Counting cannot settle what these experiences were — that was never in its power. What it can do is show where the accounts agree with each other, and where the familiar version of this story does not match what the people who lived it actually wrote.</p>
 
     <h3 class="rise" style="margin:2.8rem 0 1rem">If you are trying to make sense of your own life</h3>
     <div class="ruled rise">
@@ -1073,11 +1141,13 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="ruled rise">
       <div><b>The people who appear are overwhelmingly family.</b><span>Deceased parents and grandparents together outnumber every named religious figure combined. An unnamed presence — someone felt but never identified — is the single most common category of all.</span></div>
       <div><b>Encounters are described as ordinary in manner.</b><span>Where a mode of contact is described, plain speech outnumbers wordless communication two to one. In four cases in ten nothing is exchanged at all; the person is simply present.</span></div>
-      <div><b>One detail resists easy explanation.</b><span><strong>14.6%</strong> of encounters with the dead were with someone the experiencer says they did not know had died. That is a striking figure and it deserves stating carefully: it is what people report, written down years later, with nothing establishing what they knew at the time.</span></div>
+      <div><b>One detail stands out.</b><span><strong>14.6%</strong> of encounters with the dead were with someone the experiencer says they did not know had died at the time. It recurs across decades, countries and languages, in accounts written by people with no contact with one another. What to make of it is beyond anything counting can settle — but it is there, consistently, and it is not a small number.</span></div>
     </div>
 
-    <h3 class="rise" style="margin:2.8rem 0 1rem">What this cannot tell you</h3>
-    <p class="rise dim">Everyone here chose to write to a research archive about near-death experience. That is not a random sample of anything, and no rate on this page estimates how common any of it is in the general population. Nothing here separates an experience from a memory of an experience, or speaks to what produced either. Where the accounts contradict the familiar story — the mundane settings, the ordinary conversation, the coin-flip middle of the sequence — that is a finding about <em class="k">what people say</em>, which is the only thing twelve million words can be evidence of.</p>
+    <h3 class="rise" style="margin:2.8rem 0 1rem">Where the counting stops</h3>
+    <p class="rise dim">Every limit here is a limit of arithmetic, not of the accounts. Percentages describe a corpus, not a person: no figure on this page tells any individual what their own experience was, and a rare element is not a less real one. The people who wrote these did not submit data — they described something that changed their lives, and the parts that mattered most to them are frequently the parts that no coding scheme can hold.</p>
+    <p class="rise dim">Two things follow. Because everyone here chose to write to an archive about near-death experience, none of these rates estimate how common any of this is in the wider world; they describe who wrote in. And where the accounts contradict the popular picture — the ordinary rooms, the plain conversation, the middle of the sequence that turns out to have no fixed order — the thing being corrected is the <em class="k">popular picture</em>, not the people. On every point where the familiar story and the accounts disagree, this page sides with the accounts.</p>
+    <p class="rise">What no method reaches is the thing most of them were actually trying to say. The strongest statistical signal in the entire corpus is that the people who insist their experience cannot be put into words are the ones it changed most. That is as close as counting gets to admitting what it is missing.</p>
   </div>
 </section>
 
