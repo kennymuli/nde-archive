@@ -218,6 +218,25 @@ strong{font-weight:600;color:#F5F1E8}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
 
+/* ---------- transition matrix ---------- */
+.matrix{display:grid;gap:.35rem}
+.mrow{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;align-items:center}
+.mrow .from{font-family:var(--mono);font-size:.74rem;color:var(--bone);letter-spacing:.02em}
+.mrow .from span{display:block;color:var(--faint);font-size:.62rem;margin-top:.2rem}
+.cells{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem}
+.cell{position:relative;padding:.85rem .8rem;border-radius:3px;border:1px solid var(--rule);
+  font-family:var(--mono);font-variant-numeric:tabular-nums;overflow:hidden}
+.cell i{position:absolute;inset:0;background:var(--amber);transform-origin:left;
+  transform:scaleX(0);transition:transform 1.05s cubic-bezier(.16,.8,.3,1)}
+.in .cell i{transform:scaleX(var(--f))}
+.cell b{position:relative;font-size:.86rem;font-weight:500;color:var(--bone)}
+.cell em{position:relative;display:block;font-style:normal;font-size:.58rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin-top:.35rem}
+.cell.same{border-color:rgba(229,167,62,.5)}
+.mhead{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;margin-bottom:.5rem}
+.mhead .cells > span{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber-lit);padding-left:.8rem}
+
 /* ---------- takeaways ---------- */
 .takeaways{list-style:none;counter-reset:tk;margin:2.4rem 0 0;padding:0;
   display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1px;
@@ -436,6 +455,16 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   .interlude{min-height:auto;padding-block:5.5rem}
   .bar-val{font-size:.66rem}
   #demo .bar-val span{display:none}
+  /* the matrix loses its label gutter and stacks, so three cells get the full width */
+  .mrow{grid-template-columns:1fr;gap:.45rem}
+  .mhead{display:none}
+  .mrow .from{font-size:.72rem;display:flex;align-items:baseline;gap:.5rem}
+  .mrow .from::after{content:"started here";color:var(--faint);font-size:.58rem;
+    letter-spacing:.14em;text-transform:uppercase}
+  .mrow .from span{display:inline;margin:0}
+  .cell{padding:.7rem .55rem}
+  .cell b{font-size:.78rem}
+  .cell em{font-size:.52rem;letter-spacing:.1em}
   .sources ul{grid-template-columns:1fr}
   /* Dumbbell values move into separate bands above and below the line, centred
      on their dots. Side placement would push a 9% value off the left edge once
@@ -761,6 +790,17 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="note" style="margin-top:1.6rem">Region groups Western Europe, North America, Australia, New Zealand and South Africa against everywhere else. The comparison group is small (roughly 700 accounts) and internally very mixed, so read it as a signal rather than a settled fact.</p>
   </div>
 
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">And what people report afterwards</div>
+      <div class="scope full"><b>Full corpus</b> — 2,400–5,400 per item</div></div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share answering yes</span></div>
+    </div>
+    <div class="tabs" role="tablist" id="aftertabs"></div>
+    <div class="rows" id="after"></div>
+    <p class="note" style="margin-top:1.4rem">“Became more liberal” counts those who reported a non-liberal stance before and a liberal one after.</p>
+  </div>
+
   <div class="narrow">
     <h3 class="rise" style="margin-bottom:1rem">Where women and men differ</h3>
     <p class="rise">On the structural elements they are indistinguishable. Leaving the body: <strong>65.6% against 64.8%</strong>. Life review: <strong>54.1% against 54.4%</strong>. Entering another world: identical to a tenth of a point.</p>
@@ -808,6 +848,41 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 </section>
 
+<!-- ═══════════════ BELIEF ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Nine — What Happens To Belief</p>
+    <h2 class="rise" data-d="1">Most people keep their religion. Almost nobody keeps their certainty.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Experiencers state their religious position twice — as it was before, and as it is now. The two answers turn out to measure different things, and only one of them moves.</p>
+    <p class="rise dim" data-d="2">The item records two separate facts: a <em class="k">stance</em> — conservative, moderate or liberal — and an <em class="k">affiliation</em>, the tradition itself. Separated, they behave nothing alike.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">Religious stance, before and after</div>
+      <div class="scope full"><b>2,395 accounts</b> stating a stance both times</div></div>
+    </div>
+    <p class="howto">Each row is where people started. The three figures are where they ended up. <strong style="color:var(--bone);font-weight:400">Read across a row to see how a group dispersed.</strong> Movement is not symmetrical: liberal is the hardest position to leave and the easiest to arrive at.</p>
+    <div class="matrix" id="stance"></div>
+    <p class="note" style="margin-top:1.5rem">Net effect: liberal rises from <b style="color:var(--halo);font-family:var(--mono)">35.1%</b> to <b style="color:var(--halo);font-family:var(--mono)">42.1%</b> of the corpus; conservative falls slightly, from 20.5% to 19.0%. 73.4% report no change at all.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">Who keeps the tradition they arrived with</div>
+      <div class="scope full"><b>3,851 accounts</b> naming an affiliation both times</div></div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share reporting the same affiliation afterwards</span></div>
+    </div>
+    <div class="rows" id="retain"></div>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">Affiliation is stickier than stance: <strong>62.2%</strong> name the same tradition afterwards. But the retention rates are not evenly spread, and the lowest one is the one worth noticing.</p>
+    <p class="rise dim">Of experiencers who described themselves as <strong>atheist</strong> beforehand, <strong>36.9%</strong> still did afterwards — the lowest retention of any group, well below Catholics (57.8%) or Protestants (58.0%). The position least likely to survive the experience is the one that held there was nothing to survive it.</p>
+    <p class="rise note">A caution on this one: prior affiliation is self-reported afterwards, in the same sitting as the current answer. Someone recalling their earlier position through the lens of what happened may not recall it as they would have stated it at the time. That applies to every before-and-after item here.</p>
+  </div>
+</section>
+
 <!-- ═══════════════ TAKEAWAYS ═══════════════ -->
 <section>
   <div class="narrow">
@@ -844,6 +919,10 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <li>
         <h3>Men and women report the same events, a different aftermath</h3>
         <p>Indistinguishable on leaving the body and the life review. Then a <b>12.7-point</b> gap on abilities reported afterwards — the largest demographic difference in the corpus.</p>
+      </li>
+      <li>
+        <h3>Belief moves in one direction only</h3>
+        <p><b>73.4%</b> keep the religious stance they arrived with. But of those who move, the traffic runs one way — liberal is the hardest position to leave and the easiest to reach. The lowest retention of any group is <b>atheist</b>, at <b>36.9%</b>.</p>
       </li>
       <li>
         <h3>The life review is disappearing</h3>
@@ -977,6 +1056,12 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     ['2000s', 30.6, null, 'Only 2000\u201301 experiences are old enough. Too few to report.'],
     ['2010s', 27.3, null, 'Not yet possible \u2014 this decade is younger than 25 years.']
   ];
+  const AFTER = {"all": [["Values and beliefs changed", 67.1, 4949], ["Abilities afterwards", 50.9, 4520], ["Religious practice changed", 54.5, 3980], ["Shared it with others", 91.3, 5387], ["Anything reproduced it", 23.0, 5049], ["Became more liberal", 13.5, 2395]], "F": [["Values and beliefs changed", 68.3, 2747], ["Abilities afterwards", 56.6, 2473], ["Religious practice changed", 55.9, 2192], ["Shared it with others", 92.7, 3001], ["Anything reproduced it", 23.7, 2806], ["Became more liberal", 15.5, 1332]], "M": [["Values and beliefs changed", 65.4, 2189], ["Abilities afterwards", 43.9, 2033], ["Religious practice changed", 52.9, 1784], ["Shared it with others", 89.4, 2368], ["Anything reproduced it", 21.9, 2227], ["Became more liberal", 11.0, 1062]], "West": [["Values and beliefs changed", 67.1, 3906], ["Abilities afterwards", 51.0, 3570], ["Religious practice changed", 54.9, 3261], ["Shared it with others", 92.1, 4267], ["Anything reproduced it", 22.0, 4006], ["Became more liberal", 14.0, 2023]], "Other": [["Values and beliefs changed", 64.3, 718], ["Abilities afterwards", 49.7, 658], ["Religious practice changed", 51.3, 596], ["Shared it with others", 87.1, 769], ["Anything reproduced it", 25.8, 716], ["Became more liberal", 10.2, 325]]};
+  const STANCE = {
+    order: ['Conservative','Moderate','Liberal'],
+    rows: [['Conservative',491,[64.6,13.0,22.4]],['Moderate',1064,[8.9,71.1,20.0]],['Liberal',840,[5.0,13.3,81.7]]]
+  };
+  const RETAIN = [['Christian (other)',68.5,460],['Protestant',58.0,429],['Catholic',57.8,702],['Unaffiliated',52.8,407],['Agnostic',50.2,215],['Atheist',36.9,225]];
   const DEMO = {"all": [["Left the body", 65.2, 4838], ["Tunnel", 35.6, 4530], ["Saw a light", 66.3, 4944], ["Time distorted", 76.6, 5406], ["Another world", 60.3, 5154], ["Beyond words", 54.2, 5095], ["Life review", 54.3, 5403], ["Met the dead", 48.2, 4731], ["Saw the future", 43.5, 5120], ["Reached a border", 65.4, 5320], ["Understood all", 67.9, 5395], ["Abilities after", 50.9, 4520]], "F": [["Left the body", 65.6, 2670], ["Tunnel", 36.6, 2518], ["Saw a light", 67.8, 2747], ["Time distorted", 78.6, 3009], ["Another world", 60.2, 2875], ["Beyond words", 57.3, 2829], ["Life review", 54.1, 3017], ["Met the dead", 49.8, 2641], ["Saw the future", 44.1, 2857], ["Reached a border", 68.0, 2965], ["Understood all", 69.5, 3007], ["Abilities after", 56.6, 2473]], "M": [["Left the body", 64.8, 2152], ["Tunnel", 34.1, 1997], ["Saw a light", 64.2, 2176], ["Time distorted", 74.1, 2378], ["Another world", 60.4, 2261], ["Beyond words", 50.3, 2250], ["Life review", 54.4, 2373], ["Met the dead", 46.1, 2072], ["Saw the future", 42.7, 2242], ["Reached a border", 62.2, 2341], ["Understood all", 65.9, 2368], ["Abilities after", 43.9, 2033]], "West": [["Left the body", 66.0, 3798], ["Tunnel", 35.7, 3558], ["Saw a light", 66.3, 3906], ["Time distorted", 76.8, 4280], ["Another world", 60.4, 4249], ["Beyond words", 54.2, 4050], ["Life review", 56.6, 4279], ["Met the dead", 49.6, 3895], ["Saw the future", 44.6, 4211], ["Reached a border", 67.2, 4208], ["Understood all", 69.7, 4265], ["Abilities after", 51.0, 3570]], "Other": [["Left the body", 60.1, 694], ["Tunnel", 39.2, 669], ["Saw a light", 69.0, 707], ["Time distorted", 77.2, 777], ["Another world", 60.7, 760], ["Beyond words", 52.7, 711], ["Life review", 49.9, 769], ["Met the dead", 41.5, 701], ["Saw the future", 38.1, 764], ["Reached a border", 63.8, 757], ["Understood all", 65.3, 777], ["Abilities after", 49.7, 658]]};
   const BEINGS = [
     ['Unspecified other', 20.8], ['Deceased parent', 14.2], ['Unidentified presence', 13.8],
@@ -1135,22 +1220,50 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     r.appendChild(tr); cc.appendChild(r);
   });
 
-  /* ---------- demographic tabs ---------- */
+  /* ---------- stance matrix ---------- */
   (() => {
-    const host = document.getElementById('demo'), tabs = document.getElementById('demotabs');
+    const host = document.getElementById('stance');
+    const head = el('div', 'mhead');
+    head.appendChild(el('div'));
+    const hc = el('div', 'cells');
+    STANCE.order.forEach(o => hc.appendChild(el('span', null, '&rarr; ' + o)));
+    head.appendChild(hc); host.appendChild(head);
+
+    STANCE.rows.forEach(([from, count, vals]) => {
+      const row = el('div', 'mrow');
+      row.appendChild(el('div', 'from', from + '<span>n=' + count + '</span>'));
+      const cells = el('div', 'cells');
+      vals.forEach((v, i) => {
+        const c = el('div', 'cell' + (STANCE.order[i] === from ? ' same' : ''));
+        const fill = el('i'); fill.style.setProperty('--f', (v / 100).toFixed(3));
+        fill.style.opacity = STANCE.order[i] === from ? .22 : .13;
+        c.append(fill, el('b', null, v.toFixed(1) + '%'),
+                 el('em', null, STANCE.order[i] === from ? 'stayed' : 'moved'));
+        cells.appendChild(c);
+      });
+      row.appendChild(cells); host.appendChild(row);
+    });
+  })();
+
+  /* ---------- affiliation retention ---------- */
+  bars('retain', RETAIN.map(([a, b]) => [a, b]), 72, 'amber');
+
+  /* ---------- demographic tabs (shared) ---------- */
+  const demoTabs = (data, mountId, tabsId, scale) => {
+    const host = document.getElementById(mountId), tabs = document.getElementById(tabsId);
     const SETS = [['all', 'Everyone'], ['F', 'Women'], ['M', 'Men'], ['|', ''], ['West', 'Western'], ['Other', 'Elsewhere']];
     let active = 'all';
 
     const paint = key => {
       host.innerHTML = '';
-      DEMO[key].forEach(([label, v, count]) => {
+      data[key].forEach(([label, v, count]) => {
         const row = el('div', 'row');
         row.appendChild(el('div', 'name', label));
         const tr = el('div', 'track');
         const b = el('i', 'bar amber');
-        b.style.width = (v / 80 * 74) + '%';
+        b.style.width = (v / scale * 74) + '%';
         const lab = el('i', 'bar-val', v.toFixed(1) + '%  <span style="color:var(--faint)">n=' + count + '</span>');
-        lab.style.left = 'calc(' + (v / 80 * 74) + '% + .7rem)';
+        lab.style.left = 'calc(' + (v / scale * 74) + '% + .7rem)';
         lab.style.opacity = 1;
         tr.append(b, lab); row.appendChild(tr); host.appendChild(row);
       });
@@ -1170,7 +1283,9 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       tabs.appendChild(btn);
     });
     paint('all');
-  })();
+  };
+  demoTabs(DEMO, 'demo', 'demotabs', 80);
+  demoTabs(AFTER, 'after', 'aftertabs', 95);
 
   /* ---------- what predicts change ---------- */
   (() => {
