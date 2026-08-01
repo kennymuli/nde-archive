@@ -218,6 +218,73 @@ strong{font-weight:600;color:#F5F1E8}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
 
+/* ---------- card stacking ---------- */
+/* Each finding rides up over the one before it, so the seam between sections is
+   a visible event rather than an uninterrupted scroll. */
+.act{position:relative;z-index:2;background:var(--void);
+  border-top:1px solid var(--rule);border-radius:22px 22px 0 0;
+  box-shadow:0 -26px 60px rgba(0,0,0,.62);
+  margin-top:-2.4rem;padding-top:clamp(4.5rem,10vh,7rem)}
+.act::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:44px;height:3px;border-radius:99px;margin-top:14px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:.5}
+.lightzone .act{background:#EDE8DE;box-shadow:0 -26px 60px rgba(60,52,40,.16)}
+
+/* ---------- finding rail ---------- */
+#rail{position:fixed;right:clamp(.7rem,2vw,1.6rem);top:50%;transform:translateY(-50%);
+  z-index:60;display:flex;flex-direction:column;gap:.62rem;opacity:0;transition:opacity .5s}
+#rail.on{opacity:1}
+#rail a{width:26px;height:26px;display:grid;place-items:center;position:relative;
+  border:0;background:none;text-decoration:none}
+#rail a i{width:7px;height:7px;border-radius:50%;background:var(--faint);
+  transition:background .3s,transform .3s;display:block}
+#rail a:hover i,#rail a:focus-visible i{background:var(--halo);transform:scale(1.5)}
+#rail a[aria-current="true"] i{background:var(--amber-lit);transform:scale(1.4);
+  box-shadow:0 0 0 4px rgba(229,167,62,.16)}
+#rail a span{position:absolute;right:calc(100% + .6rem);top:50%;transform:translateY(-50%) translateX(6px);
+  white-space:nowrap;font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--halo);background:rgba(9,14,26,.94);border:1px solid var(--rule);border-radius:3px;
+  padding:.32rem .6rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+#rail a:hover span,#rail a:focus-visible span{opacity:1;transform:translateY(-50%) translateX(0)}
+body.daylight #rail a span{background:rgba(237,232,222,.96);color:#12161F;border-color:#D3CCBF}
+body.daylight #rail a i{background:#9A927F}
+body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
+@media (max-width:640px){#rail{gap:.45rem;right:.45rem}#rail a{width:20px;height:20px}#rail a span{display:none}}
+
+/* ---------- sequence flow ---------- */
+.flow{display:grid;gap:0;margin-block:2rem}
+.step2{display:grid;grid-template-columns:2.6rem 1fr;gap:1.1rem;align-items:start;position:relative;
+  padding-bottom:1.5rem}
+.step2:last-child{padding-bottom:0}
+.step2 .node{width:2.6rem;height:2.6rem;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--rule);background:var(--stratum);font-family:var(--mono);font-size:.72rem;
+  color:var(--amber-lit);position:relative;z-index:2;flex:none}
+.step2 .link2{position:absolute;left:1.3rem;top:2.6rem;bottom:0;width:1px;background:var(--rule)}
+.step2.loose .link2{background:repeating-linear-gradient(180deg,var(--rule) 0 4px,transparent 4px 9px)}
+.step2:last-child .link2{display:none}
+.step2 h4{margin:0 0 .3rem;font-size:1rem;font-weight:400;color:var(--bone);padding-top:.45rem}
+.step2 p{margin:0;font-size:.9rem;line-height:1.55;color:var(--dim)}
+.step2 .conf{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  margin-top:.5rem;display:inline-block;padding:.2rem .5rem;border-radius:99px;border:1px solid var(--rule)}
+.step2.firm .conf{color:var(--amber-lit)}
+.step2.loose .conf{color:var(--instrument-lit)}
+
+/* ---------- reading guide ---------- */
+.reading{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-block:1.8rem}
+.reading > div{background:var(--stratum);padding:1.35rem 1.3rem}
+.reading .cap{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber-lit);display:block;margin-bottom:.75rem;line-height:1.5}
+.reading p{margin:0;font-size:.9rem;line-height:1.6;color:var(--dim)}
+
+/* ---------- ruled list ---------- */
+.ruled{display:grid;gap:0;margin-block:1.8rem;border-top:1px solid var(--rule)}
+.ruled > div{border-bottom:1px solid var(--rule);padding:1.1rem 0;display:grid;
+  grid-template-columns:minmax(11rem,15rem) 1fr;gap:1.4rem;align-items:baseline}
+.ruled b{font-weight:400;color:var(--halo);font-size:.98rem}
+.ruled span{color:var(--dim);font-size:.94rem;line-height:1.6}
+@media (max-width:640px){.ruled > div{grid-template-columns:1fr;gap:.4rem}}
+
 /* ---------- recall diagnostic ---------- */
 .recall{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;
   overflow:hidden;margin-top:1.6rem}
@@ -512,6 +579,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
+<nav id="rail" aria-label="Jump to a finding"></nav>
 <div id="grain" aria-hidden="true"></div>
 
 <main>
@@ -540,7 +608,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ WHAT THE NUMBERS REST ON ═══════════════ -->
-<section style="padding-block:clamp(4rem,9vh,7rem)">
+<section class="act" style="padding-block:clamp(4rem,9vh,7rem)">
   <div class="narrow">
     <p class="eyebrow rise">Before Anything Else — What Each Number Rests On</p>
     <h2 class="rise" data-d="1" style="font-size:clamp(1.6rem,3.4vw,2.4rem)">Not every finding here counts the same accounts.</h2>
@@ -574,7 +642,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT I ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding One — The Question Shapes The Answer</p>
     <h2 class="rise" data-d="1">There are two archives here, and they disagree.</h2>
@@ -597,7 +665,29 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="narrow">
     <p class="rise">Read the top of that chart and the near-death experience is a journey: time dissolves, everything is understood, a border is reached. Read the bottom and it is something much simpler — <em class="k">you leave your body and you see a light.</em></p>
-    <p class="rise dim">Three quarters of people agree that time stopped when a form asks them. Fewer than one in five mention it when telling their own story. The questionnaire that produced the famous description of this experience may have been describing itself.</p>
+    <p class="rise dim">Three quarters of people agree that time stopped when a form asks them. Fewer than one in five mention it when telling their own story.</p>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">So which number is true?</h3>
+    <p class="rise">Both. They measure different things, and the honest answer is that the gap itself is the result.</p>
+    <div class="reading rise">
+      <div>
+        <span class="cap">A high prompted rate means</span>
+        <p>When the element is named, people recognise it in what happened to them. That is real information — recognition is not nothing. But a question supplies the word, the concept and the expectation all at once.</p>
+      </div>
+      <div>
+        <span class="cap">A high spontaneous rate means</span>
+        <p>The element was salient enough to reach for unprompted, in the person's own vocabulary. This is the stronger evidence that it was central to the experience rather than merely acknowledged afterwards.</p>
+      </div>
+      <div>
+        <span class="cap">A wide gap means</span>
+        <p>Either the element is genuinely present but peripheral — true, yet not what the experience was <em class="k">about</em> — or the question is prompting agreement that would not have arisen on its own. This data cannot separate those two.</p>
+      </div>
+      <div>
+        <span class="cap">A narrow gap means</span>
+        <p>The element survives both tests. People raise it themselves <em>and</em> confirm it when asked. Only two elements do this: leaving the body, and the light.</p>
+      </div>
+    </div>
+    <p class="rise dim">The practical consequence is that the familiar description of this experience — tunnel, life review, border, timelessness — is largely built from prompted answers. Read only what people volunteer, and a smaller, stranger core remains.</p>
   </div>
 </section>
 
@@ -613,7 +703,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT II ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Two — The Shape Of The Story</p>
     <h2 class="rise" data-d="1">The beginning and end are fixed. The middle is a coin flip.</h2>
@@ -637,13 +727,17 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 
   <div class="narrow">
-    <p class="rise">The frame is rigid. Crisis comes first, return comes last, and leaving the body always precedes looking down at it — <strong>119 times out of 119</strong>, never once reversed.</p>
+    <h3 class="rise" style="margin:2.6rem 0 .8rem">The most likely path, assembled from the transitions</h3>
+    <p class="rise dim">No single account contains all of this, and the middle steps are close to unordered. But following the highest-probability transition at each stage produces one canonical route. Solid connectors are near-deterministic; dashed ones are near coin flips.</p>
+    <div class="flow rise" id="flow"></div>
+    <p class="rise note">Assembled by chaining the most frequent next-event at each stage across 598 accounts. It is a modal path, not a template — treat the dashed segments as genuinely unordered rather than as a sequence we are unsure about.</p>
+    <p class="rise" style="margin-top:2.4rem">The frame is rigid. Crisis comes first, return comes last, and leaving the body always precedes looking down at it — <strong>119 times out of 119</strong>, never once reversed.</p>
     <p class="rise dim">But the famous middle sequence — tunnel, then light, then beings — barely holds together. Whether the light comes before arriving somewhere is a 51% call. That is a coin flip. The canonical ordering people recite is, in the middle, mostly something we added afterwards.</p>
   </div>
 </section>
 
 <!-- ═══════════════ ACT III ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Three — Who Is Waiting</p>
     <h2 class="rise" data-d="1">Mostly, it is family. Rarely, it is God.</h2>
@@ -661,7 +755,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="narrow">
     <p class="rise">An <strong>unidentified presence</strong> — someone felt but never named — appears more often than Jesus, God and angels combined. Add deceased parents and grandparents and the picture is domestic, not theological.</p>
-    <p class="rise dim">The way they communicate is stranger still. Wordless, mind-to-mind contact is the signature detail of this literature. In the accounts themselves, ordinary speech outnumbers it more than two to one: <strong>34.9%</strong> spoken against <strong>14.8%</strong> telepathic.</p>
+    <p class="rise dim"><strong>What the literature emphasises:</strong> wordless, mind-to-mind contact. It is the detail most often singled out as marking these encounters as unlike ordinary life.</p>
+    <p class="rise dim"><strong>What the accounts describe:</strong> mostly talking. Of encounters where a mode of communication is described at all, ordinary speech outnumbers telepathy by more than two to one — <strong>34.9%</strong> spoken against <strong>14.8%</strong> wordless. In a further <strong>39.2%</strong>, no exchange is described in either direction; the being is simply present.</p>
     <div class="callout rise">
       <span class="big">14.6%</span>
       of encounters with the dead were with someone the experiencer says they <em class="k">did not know had died</em> at the time.
@@ -681,7 +776,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT IV ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Four — The Setting</p>
     <h2 class="rise" data-d="1">It happens in the bedroom.</h2>
@@ -708,7 +803,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT V ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Five — The Paradox</p>
     <h2 class="rise" data-d="1">The people who say it cannot be described, describe the most.</h2>
@@ -728,7 +823,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT V-B — WHAT PREDICTS CHANGE ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Six — What Actually Changes A Life</p>
     <h2 class="rise" data-d="1">The drama predicts nothing. The speechlessness predicts everything.</h2>
@@ -757,7 +852,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT VI ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Six — Something Changed</p>
     <h2 class="rise" data-d="1">The life review did not fade. It fell off a cliff.</h2>
@@ -782,6 +877,17 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="recall rise" id="recall"></div>
     <p class="rise note" style="margin-top:1.2rem">An earlier version of this page showed only the middle two columns and reported a smooth decline from about 70% to about 27%. That comparison was invalid: the 1980s have no under-ten-year column, because the archive did not exist yet, while for the 2000s that missing column is the largest group and runs the other way at 70.0%. The apparent trend was an artefact of which columns happened to be populated.</p>
     <p class="rise">Comparing like with like — accounts written within ten years of the event, the only window available for both recent decades — the fall is real and sharp: <strong>70.0%</strong> for the 2000s against <strong>29.1%</strong> for the 2010s.</p>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">Why? Here is what it is not.</h3>
+    <p class="rise dim">Each obvious explanation was tested and each failed. What remains is genuinely open.</p>
+    <div class="ruled rise">
+      <div><b>Not the question.</b><span>The same item, with the same answer options, runs across all four decades. The 2010s simply answer “No” far more often.</span></div>
+      <div><b>Not shorter or lazier accounts.</b><span>2010s narratives are <em>longer</em> — 448 median words against 409 — and their questionnaire answers are longer still, 672 against 547.</span></div>
+      <div><b>Not shallower experiences.</b><span>By the Greyson scale, the field's own depth measure, 2010s accounts score <em>higher</em>: 14.1 mean against 12.0.</span></div>
+      <div><b>Not only the life review.</b><span>The same decade shows drops in seeing the future (−30), sudden total understanding (−20), leaving the body (−19) and meeting the dead (−14) — while light, altered time, ineffability and reported life change hold steady or rise.</span></div>
+    </div>
+    <p class="rise">That last point is the shape of it. What fell away is the <em class="k">elaborated narrative</em> — the review, the vision of the future, the encounter, the total knowledge. What held is the <em class="k">sensory and emotional core</em> — the light, the strangeness of time, the failure of language, the changed life.</p>
+    <p class="rise dim">One further change is visible and may or may not be the cause: the archive's own editors classified <strong>70%</strong> of 2000s accounts as definite near-death experiences, against <strong>55%</strong> for the 2010s, with “probable” and “possible” rising correspondingly. Whether that reflects a shift in who submits, in how the archive triages, or in something about the experiences themselves, this data cannot say. It is the single most interesting unresolved question in the corpus.</p>
   </div>
 </section>
 
@@ -828,7 +934,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ ACT VII ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Seven — What Travels</p>
     <h2 class="rise" data-d="1">The tunnel is less American than you would guess.</h2>
@@ -864,7 +970,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ BELIEF ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Nine — What Happens To Belief</p>
     <h2 class="rise" data-d="1">Most people keep their religion. Almost nobody keeps their certainty.</h2>
@@ -899,10 +1005,10 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 </section>
 
 <!-- ═══════════════ TAKEAWAYS ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">If You Remember Only This</p>
-    <h2 class="rise" data-d="1">Eight things the archive says.</h2>
+    <h2 class="rise" data-d="1">Nine things the archive says.</h2>
     <p class="lede rise" data-d="2" style="margin-top:1.6rem">Every one of these is a count, not an interpretation. None of them says anything about what caused these experiences.</p>
   </div>
   <div class="wrap">
@@ -944,6 +1050,34 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <p>Steady at <b>57–61%</b> from the 1980s through the 2000s, then <b>31.8%</b> for experiences in the 2010s. Comparing only accounts written within ten years, the drop is <b>70.0%</b> to <b>29.1%</b> in a single decade.</p>
       </li>
     </ol>
+  </div>
+</section>
+
+<!-- ═══════════════ SO WHAT ═══════════════ -->
+<section class="act">
+  <div class="narrow">
+    <p class="eyebrow rise">And What It Might Mean</p>
+    <h2 class="rise" data-d="1">What follows from this, and what does not.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">This archive records what people say happened to them. It cannot establish what caused any of it, and nothing below should be read as though it could.</p>
+    <p class="rise dim" data-d="2">What it <em class="k">can</em> support is narrower and still worth having: a description of what these experiences contain, what reliably follows them, and which parts of the popular picture the accounts themselves do not bear out.</p>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">If you are trying to make sense of your own life</h3>
+    <div class="ruled rise">
+      <div><b>The dramatic part is not the part that changes people.</b><span>Reaching a border predicts changed values at 66.7% against 66.7% — no effect whatsoever. Being unable to put the experience into words predicts it at 75.0% against 57.9%. Whatever transforms a life here is not the spectacle.</span></div>
+      <div><b>The setting is ordinary.</b><span>A quarter of these accounts are set in a bedroom, a fifth in a hospital room. Whatever people describe, most of it is reported as happening exactly where they already were.</span></div>
+      <div><b>Two thirds report changed values afterwards.</b><span>That is the most consistent aftereffect in the corpus — steadier than any single element of the experience itself, and stable across gender, region and decade.</span></div>
+      <div><b>Certainty moves; affiliation mostly does not.</b><span>73.4% keep their religious stance and 62.2% keep their tradition. Where movement happens it runs one way, toward the more liberal position, and the lowest retention of any group is atheist at 36.9%.</span></div>
+    </div>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">If you are thinking about someone you have lost</h3>
+    <div class="ruled rise">
+      <div><b>The people who appear are overwhelmingly family.</b><span>Deceased parents and grandparents together outnumber every named religious figure combined. An unnamed presence — someone felt but never identified — is the single most common category of all.</span></div>
+      <div><b>Encounters are described as ordinary in manner.</b><span>Where a mode of contact is described, plain speech outnumbers wordless communication two to one. In four cases in ten nothing is exchanged at all; the person is simply present.</span></div>
+      <div><b>One detail resists easy explanation.</b><span><strong>14.6%</strong> of encounters with the dead were with someone the experiencer says they did not know had died. That is a striking figure and it deserves stating carefully: it is what people report, written down years later, with nothing establishing what they knew at the time.</span></div>
+    </div>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">What this cannot tell you</h3>
+    <p class="rise dim">Everyone here chose to write to a research archive about near-death experience. That is not a random sample of anything, and no rate on this page estimates how common any of it is in the general population. Nothing here separates an experience from a memory of an experience, or speaks to what produced either. Where the accounts contradict the familiar story — the mundane settings, the ordinary conversation, the coin-flip middle of the sequence — that is a finding about <em class="k">what people say</em>, which is the only thing twelve million words can be evidence of.</p>
   </div>
 </section>
 
@@ -1377,6 +1511,39 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   });
   addEventListener('click', () => { tip.classList.remove('on'); tip.dataset.owner = ''; });
 
+  /* ---------- finding rail ---------- */
+  (() => {
+    const rail = document.getElementById('rail');
+    if (!rail) return;
+    const acts = [...document.querySelectorAll('section.act')].filter(sec => sec.querySelector('h2'));
+    acts.forEach((sec, i) => {
+      if (!sec.id) sec.id = 'act-' + i;
+      const eyebrow = sec.querySelector('.eyebrow');
+      const h2 = sec.querySelector('h2');
+      // prefer the eyebrow's short label; fall back to a trimmed heading
+      let label = eyebrow ? eyebrow.textContent.split('—').pop().trim() : h2.textContent.trim();
+      if (label.length > 30) label = label.slice(0, 28).trim() + '…';
+      const a = el('a');
+      a.href = '#' + sec.id;
+      a.innerHTML = '<i></i><span>' + label + '</span>';
+      a.setAttribute('aria-label', 'Jump to: ' + label);
+      rail.appendChild(a);
+    });
+    const links = [...rail.querySelectorAll('a')];
+    const spy = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const i = acts.indexOf(e.target);
+        links.forEach((a, j) => a.setAttribute('aria-current', j === i ? 'true' : 'false'));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    acts.forEach(sec => spy.observe(sec));
+    // the rail appears once the reader has left the hero
+    new IntersectionObserver(es => es.forEach(e => {
+      rail.classList.toggle('on', !e.isIntersecting);
+    }), { threshold: .25 }).observe(document.getElementById('hero'));
+  })();
+
   /* ---------- daylight ---------- */
   (() => {
     const zone = document.querySelector('.dawn');
@@ -1384,6 +1551,36 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     new IntersectionObserver(es => es.forEach(e => {
       document.body.classList.toggle('daylight', e.isIntersecting || e.boundingClientRect.top < 0);
     }), { rootMargin: '-45% 0px -45% 0px' }).observe(zone);
+  })();
+
+  /* ---------- modal sequence ---------- */
+  (() => {
+    const FLOW = [
+      ['Crisis', 'The medical or physical emergency. Opens 40% of all accounts and closes almost none.', 'firm', '40% of accounts begin here'],
+      ['Leaving the body', 'Separation from the physical body follows the crisis more often than anything else.', 'firm', '40% of crises lead here'],
+      ['Seeing your own body', 'Looking down at yourself. Never once precedes the separation.', 'firm', '119 of 119 in this order'],
+      ['Transit or darkness', 'A tunnel, a passage, a dark region. Which of these comes first is essentially arbitrary.', 'loose', '57% — barely ordered'],
+      ['The light', 'Encountering a light. Whether this precedes or follows arriving somewhere is a coin flip.', 'loose', '51% — a coin flip'],
+      ['Arriving somewhere', 'A place, a landscape, a realm.', 'loose', 'order varies'],
+      ['Meeting someone', 'A being, a presence, a person. Follows arrival in 69% of accounts that contain both.', 'firm', '69% follow arrival'],
+      ['Being told something', 'A message. The single most likely thing to follow an encounter.', 'firm', '52% follow an encounter'],
+      ['The border, or the choice', 'A limit that cannot be crossed, or a decision about returning.', 'loose', 'order varies'],
+      ['Return', 'Forced back, or choosing to go. Forced return leads to re-entry in every case recorded.', 'firm', '100% lead to re-entry'],
+      ['Aftermath', 'What followed. Closes 82% of all accounts.', 'firm', 'closes 82% of accounts']
+    ];
+    const host = document.getElementById('flow');
+    if (!host) return;
+    FLOW.forEach(([title, body, kind, conf], i) => {
+      const st = el('div', 'step2 ' + kind);
+      st.appendChild(el('i', 'link2'));
+      st.appendChild(el('div', 'node', String(i + 1)));
+      const box = el('div');
+      box.appendChild(el('h4', null, title));
+      box.appendChild(el('p', null, body));
+      box.appendChild(el('span', 'conf', conf));
+      st.appendChild(box);
+      host.appendChild(st);
+    });
   })();
 
   /* ---------- glossary ---------- */
