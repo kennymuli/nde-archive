@@ -218,6 +218,19 @@ strong{font-weight:600;color:#F5F1E8}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
 
+/* ---------- recall diagnostic ---------- */
+.recall{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;
+  overflow:hidden;margin-top:1.6rem}
+.rrow{display:grid;grid-template-columns:5.5rem repeat(3,1fr);gap:1px;background:var(--rule)}
+.rrow > span{background:var(--stratum);padding:.85rem .9rem;font-family:var(--mono);font-size:.76rem;
+  color:var(--bone);font-variant-numeric:tabular-nums}
+.rrow.rhead > span{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--amber-lit);
+  line-height:1.4}
+.rrow .rd{color:var(--dim)}
+.rrow .rn{color:var(--faint)}
+.rrow b{font-weight:500}
+.rrow i{display:block;font-style:normal;font-size:.6rem;color:var(--faint);margin-top:.25rem}
+
 /* ---------- transition matrix ---------- */
 .matrix{display:grid;gap:.35rem}
 .mrow{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;align-items:center}
@@ -747,26 +760,28 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 <section>
   <div class="narrow">
     <p class="eyebrow rise">Finding Six — Something Changed</p>
-    <h2 class="rise" data-d="1">The life review is disappearing.</h2>
-    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Your whole life flashing before you is the most cinematically famous element of all. Across three decades of accounts, people stopped reporting it.</p>
+    <h2 class="rise" data-d="1">The life review did not fade. It fell off a cliff.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Your whole life flashing before you is the most cinematically famous element of all. It held steady for thirty years — then, in experiences from the 2010s, it halved.</p>
   </div>
 
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Reported life review, by decade the experience occurred</div><div class="scope full"><b>3,600+ accounts</b> — everyone with a dated experience</div></div>
-      <div class="legend">
-        <span><i class="swatch" style="background:var(--amber-lit)"></i>Wrote 10–25 years afterwards</span>
-        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Wrote 25–50 years afterwards</span>
-      </div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share reporting a life review</span></div>
     </div>
-    <p class="howto">Reading this — the <em>horizontal axis is the decade the experience happened in</em>. The two colours are not time: they are two groups of people, separated by <em>how long they waited</em> before writing it down. Comparing them tests the obvious objection, that the decline is really about memory fading rather than anything changing. Both groups fall, so it is not that.</p>
+    <p class="howto">Every dated account, grouped by the decade the experience happened in. No filtering by how long anyone waited before writing — see the check below for why that matters.</p>
     <div class="linewrap" id="decades"></div>
-    <p class="note">The later decades carry only one bar because the second group cannot exist yet: an experience in the 2010s has not had twenty-five years to be remembered in. The comparison is still valid where both bars appear — and in both those decades, the fall is present in each group independently.</p>
+    <p class="note">n shown per decade. Accounts without a stated experience date are excluded.</p>
   </div>
 
   <div class="narrow">
-    <p class="rise">Roughly <strong>70%</strong> in the 1980s. Roughly <strong>27%</strong> in the 2010s. Holding constant how long people waited before writing, which is the obvious objection and the first thing we tested.</p>
-    <p class="rise dim">The same test dissolved a different finding. Reports of psychic ability after the event also seemed to fall across the decades — until we held the waiting time fixed, at which point the trend flattened completely. That one was never about the era. It was simply that people who had longer to notice something, noticed it. Two identical-looking curves, two opposite explanations.</p>
+    <p class="rise">Flat at <strong>57–61%</strong> from the 1980s through the 2000s, then <strong>31.8%</strong> for experiences in the 2010s. Not a slow erosion — a step change in a single decade.</p>
+
+    <h3 class="rise" style="margin:2.6rem 0 1rem">The check that nearly produced the opposite story</h3>
+    <p class="rise dim">People write in at wildly different distances from the event. Splitting by that distance is the standard way to test whether a trend is really about memory rather than about the era — but the windows are not available in every decade, and choosing among them can manufacture a trend that is not there.</p>
+    <div class="recall rise" id="recall"></div>
+    <p class="rise note" style="margin-top:1.2rem">An earlier version of this page showed only the middle two columns and reported a smooth decline from about 70% to about 27%. That comparison was invalid: the 1980s have no under-ten-year column, because the archive did not exist yet, while for the 2000s that missing column is the largest group and runs the other way at 70.0%. The apparent trend was an artefact of which columns happened to be populated.</p>
+    <p class="rise">Comparing like with like — accounts written within ten years of the event, the only window available for both recent decades — the fall is real and sharp: <strong>70.0%</strong> for the 2000s against <strong>29.1%</strong> for the 2010s.</p>
   </div>
 </section>
 
@@ -925,8 +940,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <p><b>73.4%</b> keep the religious stance they arrived with. But of those who move, the traffic runs one way — liberal is the hardest position to leave and the easiest to reach. The lowest retention of any group is <b>atheist</b>, at <b>36.9%</b>.</p>
       </li>
       <li>
-        <h3>The life review is disappearing</h3>
-        <p>Roughly <b>70%</b> among experiences in the 1980s, roughly <b>27%</b> in the 2010s — and the fall shows up in both recall windows, so it is not memory fading.</p>
+        <h3>The life review fell off a cliff</h3>
+        <p>Steady at <b>57–61%</b> from the 1980s through the 2000s, then <b>31.8%</b> for experiences in the 2010s. Comparing only accounts written within ten years, the drop is <b>70.0%</b> to <b>29.1%</b> in a single decade.</p>
       </li>
     </ol>
   </div>
@@ -1048,13 +1063,18 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     ['Never says it', 5.48, 423], ['Says it once', 7.49, 115], ['Says it repeatedly', 8.43, 60]
   ];
   // life review %, by decade of experience, split by how long people waited
+  // Pooled rate per decade - every dated account, no recall-window selection.
   const DECADES = [
-    ['1980s', 69.7, 45.5, null],
-    ['1990s', 58.7, 21.5, null],
-    // A 25-year wait is only just arithmetically reachable for 2000-01, and not
-    // at all for the 2010s - the decade is younger than the window.
-    ['2000s', 30.6, null, 'Only 2000\u201301 experiences are old enough. Too few to report.'],
-    ['2010s', 27.3, null, 'Not yet possible \u2014 this decade is younger than 25 years.']
+    ['1980s', 57.4, 687], ['1990s', 58.1, 814], ['2000s', 60.7, 1122], ['2010s', 31.8, 694]
+  ];
+  // The same data cut by how long people waited. Blank cells are structurally
+  // impossible, not merely sparse: the archive did not exist within ten years of
+  // a 1980s experience, and the 2010s are younger than a 25-year wait.
+  const RECALL = [
+    ['1980s', null, [69.7, 132], [45.5, 389]],
+    ['1990s', null, [58.7, 463], [21.5, 121]],
+    ['2000s', [70.0, 651], [30.6, 265], null],
+    ['2010s', [29.1, 571], [27.3, 44], null]
   ];
   const AFTER = {"all": [["Values and beliefs changed", 67.1, 4949], ["Abilities afterwards", 50.9, 4520], ["Religious practice changed", 54.5, 3980], ["Shared it with others", 91.3, 5387], ["Anything reproduced it", 23.0, 5049], ["Became more liberal", 13.5, 2395]], "F": [["Values and beliefs changed", 68.3, 2747], ["Abilities afterwards", 56.6, 2473], ["Religious practice changed", 55.9, 2192], ["Shared it with others", 92.7, 3001], ["Anything reproduced it", 23.7, 2806], ["Became more liberal", 15.5, 1332]], "M": [["Values and beliefs changed", 65.4, 2189], ["Abilities afterwards", 43.9, 2033], ["Religious practice changed", 52.9, 1784], ["Shared it with others", 89.4, 2368], ["Anything reproduced it", 21.9, 2227], ["Became more liberal", 11.0, 1062]], "West": [["Values and beliefs changed", 67.1, 3906], ["Abilities afterwards", 51.0, 3570], ["Religious practice changed", 54.9, 3261], ["Shared it with others", 92.1, 4267], ["Anything reproduced it", 22.0, 4006], ["Became more liberal", 14.0, 2023]], "Other": [["Values and beliefs changed", 64.3, 718], ["Abilities afterwards", 49.7, 658], ["Religious practice changed", 51.3, 596], ["Shared it with others", 87.1, 769], ["Anything reproduced it", 25.8, 716], ["Became more liberal", 10.2, 325]]};
   const STANCE = {
@@ -1287,6 +1307,27 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   demoTabs(DEMO, 'demo', 'demotabs', 80);
   demoTabs(AFTER, 'after', 'aftertabs', 95);
 
+  /* ---------- recall-window diagnostic ---------- */
+  (() => {
+    const host = document.getElementById('recall');
+    if (!host) return;
+    const head = el('div', 'rrow rhead');
+    ['Decade', 'Wrote within 10 yrs', 'Wrote 10\u201325 yrs later', 'Wrote 25\u201350 yrs later']
+      .forEach(h => head.appendChild(el('span', null, h)));
+    host.appendChild(head);
+    RECALL.forEach(([decade, a, b2, c]) => {
+      const row = el('div', 'rrow');
+      row.appendChild(el('span', 'rd', decade));
+      [a, b2, c].forEach(cell => {
+        if (!cell) { row.appendChild(el('span', 'rn', '\u2014')); return; }
+        const sp = el('span');
+        sp.innerHTML = '<b>' + cell[0].toFixed(1) + '%</b><i>n=' + cell[1] + '</i>';
+        row.appendChild(sp);
+      });
+      host.appendChild(row);
+    });
+  })();
+
   /* ---------- what predicts change ---------- */
   (() => {
     const host = document.getElementById('predict');
@@ -1375,24 +1416,14 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   (() => {
     const host = document.getElementById('decades');
     const grid = el('div', 'decade');
-    DECADES.forEach(([decade, early, late, why]) => {
+    DECADES.forEach(([decade, v, count]) => {
       const g = el('div', 'dgroup');
       g.appendChild(el('div', 'dlabel', decade));
       const bars = el('div', 'dbars');
-      [[early, 'a', 'waited 10\u201325 yrs'], [late, 'b', 'waited 25\u201350 yrs']].forEach(([v, c, note]) => {
-        if (v == null) {
-          // An empty track, drawn as an absence rather than a zero-length bar,
-          // so it cannot be misread as "nobody reported it".
-          const b = el('div', 'dbar empty');
-          b.appendChild(el('span', 'na', note + ' \u2014 ' + why));
-          bars.appendChild(b);
-          return;
-        }
-        const b = el('div', 'dbar ' + c);
-        const fill = el('i'); fill.dataset.w = (v / 80 * 100) + '%';
-        b.append(fill, el('span', null, v.toFixed(1) + '%'), el('em', null, note));
-        bars.appendChild(b);
-      });
+      const b = el('div', 'dbar a');
+      const fill = el('i'); fill.dataset.w = (v / 80 * 100) + '%';
+      b.append(fill, el('span', null, v.toFixed(1) + '%'), el('em', null, 'n=' + count));
+      bars.appendChild(b);
       g.appendChild(bars); grid.appendChild(g);
     });
     host.appendChild(grid);
