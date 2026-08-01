@@ -41,7 +41,9 @@ body{
 ::selection{background:rgba(255,217,160,.24)}
 
 /* ---------- ambient light field ---------- */
-#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity 1.1s ease}
+body.daylight #field{opacity:0}
+body.daylight #grain{opacity:0;transition:opacity 1.1s ease}
 #grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.045'/></svg>");
   mix-blend-mode:overlay}
@@ -210,6 +212,40 @@ strong{font-weight:600;color:#F5F1E8}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
 
+/* ---------- greyson explainer ---------- */
+.gx{background:none;border:0;padding:0;font:inherit;color:var(--faint);letter-spacing:.09em;
+  font-size:.72rem;text-transform:none;display:inline-flex;align-items:center;gap:.45rem;
+  border-bottom:1px dashed rgba(152,161,180,.4);transition:color .25s,border-color .25s}
+.gx:hover,.gx:focus-visible{color:var(--halo);border-color:var(--halo)}
+.gx i{font-style:normal;width:1.05rem;height:1.05rem;border-radius:50%;border:1px solid currentColor;
+  display:inline-grid;place-items:center;font-size:.62rem;line-height:1;flex:none}
+
+/* ---------- glossary ---------- */
+.glossary{margin-top:2.2rem;border-top:1px solid var(--rule);padding-top:1.5rem}
+.gloss-head{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-lit);margin:0 0 1.1rem}
+#gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.55rem 2rem;margin:0}
+#gloss div{display:grid;grid-template-columns:8.2rem 1fr;gap:.8rem;align-items:baseline}
+#gloss dt{font-family:var(--mono);font-size:.7rem;color:var(--bone);letter-spacing:.02em}
+#gloss dd{margin:0;font-size:.88rem;line-height:1.5;color:var(--dim)}
+
+/* ---------- grouped bars ---------- */
+.decade{display:grid;gap:1.4rem}
+.dgroup{display:grid;grid-template-columns:4.5rem 1fr;gap:1.1rem;align-items:center}
+.dlabel{font-family:var(--mono);font-size:.78rem;color:var(--bone);letter-spacing:.04em}
+.dbars{display:grid;gap:.42rem}
+.dbar{position:relative;height:1.35rem;display:flex;align-items:center}
+.dbar i{position:absolute;left:0;height:100%;border-radius:0 3px 3px 0;width:0;
+  transition:width 1.1s cubic-bezier(.16,.8,.3,1)}
+.dbar.a i{background:linear-gradient(90deg,var(--amber),var(--amber-lit))}
+.dbar.b i{background:linear-gradient(90deg,var(--instrument),var(--instrument-lit))}
+.dbar span{position:relative;font-family:var(--mono);font-size:.72rem;color:var(--bone);
+  font-variant-numeric:tabular-nums;padding-left:.7rem;opacity:0;transition:opacity .4s .75s}
+.in .dbar span{opacity:1}
+.dbar em{position:relative;font-family:var(--mono);font-size:.6rem;color:var(--faint);
+  font-style:normal;padding-left:.6rem;opacity:0;transition:opacity .4s .75s}
+.in .dbar em{opacity:1}
+
 /* ---------- callout ---------- */
 .callout{border-left:2px solid var(--amber);padding:.2rem 0 .2rem 1.5rem;margin-block:2.2rem;color:#DCD7CC}
 .callout .big{font-family:var(--mono);font-size:clamp(2rem,5vw,3.2rem);color:var(--halo);
@@ -227,12 +263,6 @@ strong{font-weight:600;color:#F5F1E8}
   transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.16,.8,.3,1)}
 .in .step .meter i{transform:scaleX(var(--f,1))}
 
-/* ---------- line chart ---------- */
-.linewrap{overflow-x:auto;padding-bottom:.5rem}
-svg.line{display:block;width:100%;min-width:30rem;height:auto}
-svg.line .grid{stroke:var(--rule);stroke-width:1}
-svg.line .axis{fill:var(--faint);font-family:var(--mono);font-size:10px;letter-spacing:.06em}
-svg.line path.series{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.7s cubic-bezier(.3,.7,.4,1)}
 .in svg.line path.series{stroke-dashoffset:0}
 svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
@@ -245,6 +275,32 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 .trap h4{margin:0 0 .5rem;font-size:1rem;font-weight:400;color:var(--bone)}
 .trap p{margin:0;font-size:.94rem;color:var(--dim);line-height:1.62}
 .trap .swing{font-family:var(--mono);font-size:.76rem;color:var(--halo);margin-top:.6rem;display:block}
+
+/* ---------- the turn: metaphysical → empirical ---------- */
+.dawn{height:52vh;position:relative;z-index:3;
+  background:linear-gradient(180deg,#04060D 0%,#0B1020 26%,#3A3A42 62%,#A9A29A 84%,#EDE8DE 100%)}
+.dawn .rule{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:1px;height:38%;
+  background:linear-gradient(180deg,transparent,rgba(18,22,31,.4))}
+
+.lightzone{
+  --void:#EDE8DE; --stratum:#E5DFD3; --stratum-2:#DCD5C7;
+  --bone:#12161F; --dim:#4E5464; --faint:#71778A; --rule:#D3CCBF;
+  --halo:#7D5209; --amber:#8A5A0E; --amber-lit:#7D5209;
+  --instrument:#1A6084; --instrument-lit:#175677; --ember:#8A3524;
+  background:#EDE8DE;color:#12161F;position:relative;z-index:3;
+}
+.lightzone strong{color:#000308}
+.lightzone em.k{color:#7D5209}
+.lightzone ::selection{background:rgba(125,82,9,.2)}
+.lightzone .trap{background:#E5DFD3}
+.lightzone .traps{background:var(--rule)}
+.lightzone .trap .idx{color:var(--ember)}
+
+.turn{padding-block:clamp(3rem,9vh,6rem) 0;text-align:center}
+.turn .kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.34em;text-transform:uppercase;
+  color:#8A8172;margin-bottom:1.6rem}
+.turn h2{font-size:clamp(2.6rem,9vw,5.6rem);letter-spacing:-.04em;line-height:.95;color:#12161F}
+.turn .sub{max-width:34rem;margin:1.8rem auto 0;color:#4E5464;font-size:clamp(1.05rem,1.4vw,1.26rem)}
 
 footer{border-top:1px solid var(--rule);padding-block:4rem 5rem}
 .foot-nav{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.6rem;align-items:baseline}
@@ -412,7 +468,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="card rise">
       <span class="tag">Paraphrased summary — not a direct quotation</span>
       <p>Reports being enveloped by a light she describes as beyond anything ordinary language can reach.</p>
-      <div class="attrib"><b>Crystal M</b>Cardiac arrest · United States · 2009<span>Greyson depth score: 17 of 32</span></div>
+      <div class="attrib"><b>Crystal M</b>Cardiac arrest · United States · 2009<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 17 of 32 <i>?</i></button></div>
     </div>
   </div>
 </section>
@@ -435,6 +491,10 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     </div>
     <div class="arc" id="arc"></div>
     <p class="note">Percentage of accounts containing both events in which the stated order holds. n shown per pair.</p>
+    <div class="glossary">
+      <p class="gloss-head">What the events mean</p>
+      <dl id="gloss"></dl>
+    </div>
   </div>
 
   <div class="narrow">
@@ -448,23 +508,24 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="narrow">
     <p class="eyebrow rise">Finding Three — Who Is Waiting</p>
     <h2 class="rise" data-d="1">Mostly, it is family. Rarely, it is God.</h2>
-    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Every being mentioned across 600 accounts, sorted by how often they appear.</p>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">First, how often anyone is there at all.</p>
+    <div class="callout rise" data-d="2"><span class="big">81.1%</span>of experiencers described encountering at least one being — 485 of 598 accounts read in full, mentioning 951 beings between them. The chart below breaks down who those 951 were.</div>
   </div>
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">Who appears, as a share of all beings described</div>
-      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of 610 encounters</span></div>
+      <div class="fig-title">Who appears, as a share of all 951 beings described</div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of 951 encounters</span></div>
     </div>
     <div class="rows" id="beings"></div>
   </div>
 
   <div class="narrow">
-    <p class="rise">An <strong>unidentified presence</strong> — someone felt but never named — is more common than Jesus, God and angels combined. Add deceased parents and grandparents and the picture is domestic, not theological.</p>
+    <p class="rise">An <strong>unidentified presence</strong> — someone felt but never named — appears more often than Jesus, God and angels combined. Add deceased parents and grandparents and the picture is domestic, not theological.</p>
     <p class="rise dim">The way they communicate is stranger still. Wordless, mind-to-mind contact is the signature detail of this literature. In the accounts themselves, ordinary speech outnumbers it more than two to one: <strong>34.9%</strong> spoken against <strong>14.8%</strong> telepathic.</p>
     <div class="callout rise">
       <span class="big">14.6%</span>
-      of encounters with the dead were with someone the writer says they <em class="k">did not know had died</em> at the time.
+      of encounters with the dead were with someone the experiencer says they <em class="k">did not know had died</em> at the time.
     </div>
   </div>
 </section>
@@ -475,7 +536,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="card rise">
       <span class="tag">Paraphrased summary — not a direct quotation</span>
       <p>Reports that the person he encountered looked exactly as they had in life, showing no trace of having died.</p>
-      <div class="attrib"><b>Francisco GV</b>Diving accident · Mexico · 2004<span>Greyson depth score: 10 of 32</span></div>
+      <div class="attrib"><b>Francisco GV</b>Diving accident · Mexico · 2004<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 10 of 32 <i>?</i></button></div>
     </div>
   </div>
 </section>
@@ -485,7 +546,9 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="narrow">
     <p class="eyebrow rise">Finding Four — The Setting</p>
     <h2 class="rise" data-d="1">It happens in the bedroom.</h2>
-    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Ask anyone to picture this and they will describe a tunnel, a garden, a city of light. Here is where these accounts are actually set.</p>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem"><strong>What most people picture:</strong> a tunnel, a garden, a city of light.</p>
+    <p class="lede rise" data-d="2"><strong>What the accounts actually describe:</strong> a bedroom.</p>
+    <p class="rise dim" data-d="2">Below is every setting mentioned across 598 accounts, ranked. Ordinary rooms come first by a wide margin — the places the person's body already was. The famous imagery is real, but it sits far down the list.</p>
   </div>
 
   <div class="wrap figure rise">
@@ -500,7 +563,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 
   <div class="narrow">
-    <p class="rise">Bedrooms and hospital rooms lead everything. The tunnel — the single most recognisable image attached to this subject — appears in <strong>one account in ten</strong>. The garden appears in one in thirty.</p>
+    <p class="rise">The tunnel — the single most recognisable image attached to this subject — appears in <strong>one account in ten</strong>. The garden appears in one in thirty. A bedroom appears in <strong>one in four</strong>.</p>
     <p class="rise dim">Whatever else is happening, most of it is reported as happening exactly where the person's body already was.</p>
   </div>
 </section>
@@ -511,13 +574,46 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="eyebrow rise">Finding Five — The Paradox</p>
     <h2 class="rise" data-d="1">The people who say it cannot be described, describe the most.</h2>
     <p class="lede rise" data-d="2" style="margin-top:1.8rem">"There are no words for it" reads like an apology for a thin account. It is the opposite.</p>
-    <div class="steps rise" data-d="2">
-      <div class="step"><span class="cap">Never says it</span><span class="fig">5.5</span><span class="unit">events described</span><div class="meter"><i style="--f:.65"></i></div></div>
-      <div class="step"><span class="cap">Says it once</span><span class="fig">7.5</span><span class="unit">events described</span><div class="meter"><i style="--f:.89"></i></div></div>
-      <div class="step"><span class="cap">Says it repeatedly</span><span class="fig">8.4</span><span class="unit">events described</span><div class="meter"><i style="--f:1"></i></div></div>
+    <div class="figure rise" data-d="2">
+      <div class="fig-head">
+        <div class="fig-title">Average number of distinct events an account describes</div>
+        <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Mean events per account</span></div>
+      </div>
+      <p class="howto">Accounts were sorted into three groups by how often the experiencer states that the experience cannot be put into words. Each bar is the <em>average count of distinct events</em> those accounts go on to describe — separation, light, an encounter, a message, and so on. If “beyond words” meant having little to say, the bars would fall. They rise.</p>
+      <div class="rows" id="inef"></div>
+      <p class="note" style="margin-top:1.4rem">598 accounts read in full. Events counted from a fixed 16-item vocabulary, so the scale is comparable across groups.</p>
     </div>
     <p class="rise">People who insist language fails them report <strong>54% more</strong> structural content than people who never mention it. Ineffability is not an absence of material. It is a marker of having more to say.</p>
     <p class="rise dim">It predicts life change better than any dramatic content does — better than the light, better than the tunnel. Saying "I can't explain it" forecasts transformation at <strong>75.0%</strong> against <strong>57.9%</strong>. Reaching a border, the most cinematic moment available, predicts it at exactly <strong>zero</strong> difference.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT V-B — WHAT PREDICTS CHANGE ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Six — What Actually Changes A Life</p>
+    <h2 class="rise" data-d="1">The drama predicts nothing. The speechlessness predicts everything.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Every experiencer is asked, plainly: <em class="k">did your values and beliefs change because of this?</em> Two thirds say yes. The question is what separates them from the third who say no.</p>
+    <p class="rise dim" data-d="2">It is not the spectacular content. Compare the most cinematic moment in the whole corpus with the least cinematic thing a person can say.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">Share reporting changed values and beliefs afterwards</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Reported the element</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Did not report it</span>
+      </div>
+    </div>
+    <p class="howto">Two elements, each splitting the corpus in two. For each, the amber bar is the share of people who <em>did</em> report that element and later said their values changed; the blue bar is the same share among people who did not. <strong style="color:var(--bone);font-weight:400">A difference between the pair means the element predicts life change. Identical bars mean it predicts nothing at all.</strong></p>
+    <div class="decade" id="predict"></div>
+    <p class="note" style="margin-top:1.6rem">n = 4,593 for ineffability, 4,803 for the border, among those answering both items.</p>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">Reaching a border — the threshold, the point of no return, the single most dramatic beat available — predicts life change at <strong>66.7% against 66.7%</strong>. Identical to the decimal. It makes no difference whatsoever.</p>
+    <p class="rise">Saying <em class="k">“I cannot put it into words”</em> predicts it at <strong>75.0% against 57.9%</strong> — a seventeen-point gap.</p>
+    <p class="rise dim">Which inverts the intuition. The part that would make a film — the tunnel, the barrier, the turning back — leaves no measurable mark on how people afterwards describe their own values. The thing that does is the admission that the experience exceeded language. Whatever changes a life here is not the spectacle. It is the encounter with something the person could not fit into words.</p>
   </div>
 </section>
 
@@ -533,12 +629,13 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="fig-head">
       <div class="fig-title">Reported life review, by decade the experience occurred</div>
       <div class="legend">
-        <span><i class="swatch" style="background:var(--amber-lit)"></i>Written 10–25 years later</span>
-        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Written 25–50 years later</span>
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Wrote 10–25 years afterwards</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Wrote 25–50 years afterwards</span>
       </div>
     </div>
-    <div class="linewrap" id="linewrap"></div>
-    <p class="note">Two recall windows shown separately. The decline appears in both, so it is not an artefact of how long people waited before writing.</p>
+    <p class="howto">Reading this — the <em>horizontal axis is the decade the experience happened in</em>. The two colours are not time: they are two groups of people, separated by <em>how long they waited</em> before writing it down. Comparing them tests the obvious objection, that the decline is really about memory fading rather than anything changing. Both groups fall, so it is not that.</p>
+    <div class="linewrap" id="decades"></div>
+    <p class="note">Bars absent where a recall window has too few accounts in that decade to report.</p>
   </div>
 
   <div class="narrow">
@@ -578,15 +675,27 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="card rise">
       <span class="tag">Paraphrased summary — not a direct quotation</span>
       <p>Reports no light and no deceased relatives — yet remains certain she was outside her body.</p>
-      <div class="attrib"><b>Doris A</b>Cerebral haemorrhage · United States · 1993<span>Greyson depth score: 1 of 32</span></div>
+      <div class="attrib"><b>Doris A</b>Cerebral haemorrhage · United States · 1993<button class="gx" type="button" aria-label="What is the Greyson score?">Greyson depth score: 1 of 32 <i>?</i></button></div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════ THE TURN ═══════════════ -->
+<div class="dawn" aria-hidden="true"><i class="rule"></i></div>
+
 <!-- ═══════════════ METHOD ═══════════════ -->
+<div class="lightzone">
+<section class="turn">
+  <div class="narrow">
+    <p class="kicker rise">Part Two</p>
+    <h2 class="rise" data-d="1">Methodology</h2>
+    <p class="sub rise" data-d="2">Everything above is a claim about tens of thousands of pages. Here is how those pages were counted, what was checked, and the five occasions the numbers were confidently wrong before they were right.</p>
+  </div>
+</section>
+
 <section>
   <div class="narrow">
-    <p class="eyebrow rise">How This Was Built — And What Nearly Went Wrong</p>
+    <p class="eyebrow rise">What Nearly Went Wrong</p>
     <h2 class="rise" data-d="1">Five times the data lied convincingly.</h2>
     <p class="lede rise" data-d="2" style="margin-top:1.8rem">Every number above survived a specific attempt to break it. These are the attempts that succeeded, and what they would have produced if nobody had checked.</p>
   </div>
@@ -621,6 +730,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     </div>
   </div>
 </footer>
+</div>
 </main>
 
 <script>
@@ -653,10 +763,36 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     ['Transit ↔ darkness', 57, 51, 0], ['Knowledge ↔ message', 53, 78, 0],
     ['Light ↔ arriving somewhere', 51, 71, 0]
   ];
+  const GLOSS = [
+    ['crisis', 'the medical or physical emergency the account opens with'],
+    ['separation', 'leaving, or feeling apart from, the physical body'],
+    ['viewing_body', 'seeing one\u2019s own body from somewhere outside it'],
+    ['transit', 'moving through a tunnel, passage or intervening space'],
+    ['darkness', 'a dark region or void passed through'],
+    ['light', 'encountering a light'],
+    ['realm_arrival', 'arriving somewhere \u2014 a place, landscape or realm'],
+    ['being_encounter', 'meeting a person, presence or figure'],
+    ['life_review', 'reviewing or reliving scenes from one\u2019s own past'],
+    ['knowledge', 'suddenly understanding, or being given, something'],
+    ['message', 'being told something specific'],
+    ['border', 'reaching a limit that cannot or must not be crossed'],
+    ['decision', 'choosing whether to go back'],
+    ['forced_return', 'being sent back against one\u2019s wish'],
+    ['reentry', 'returning to the body'],
+    ['aftermath', 'what followed, after the experience ended']
+  ];
+  const INEF = [
+    ['Never says it', 5.48, 423], ['Says it once', 7.49, 115], ['Says it repeatedly', 8.43, 60]
+  ];
+  // life review %, by decade of experience, split by how long people waited
+  const DECADES = [
+    ['1980s', 69.7, 45.5], ['1990s', 58.7, 21.5], ['2000s', 30.6, null], ['2010s', 27.3, null]
+  ];
   const BEINGS = [
-    ['Unidentified presence', 15.9], ['Deceased parent', 13.9], ['Deceased grandparent', 8.4],
-    ['A child', 5.2], ['Strangers', 5.1], ['God', 4.3], ['Living person', 3.9],
-    ['Spouse or partner', 3.9], ['Sibling', 3.8], ['Jesus', 3.6], ['An angel', 3.1], ['A friend', 3.0]
+    ['Unspecified other', 20.8], ['Deceased parent', 14.2], ['Unidentified presence', 13.8],
+    ['Deceased grandparent', 7.3], ['A child', 5.3], ['Strangers', 5.2], ['Sibling', 4.1],
+    ['God', 3.9], ['Spouse or partner', 3.9], ['A friend', 3.9], ['Jesus', 3.5],
+    ['An angel', 3.4], ['Living person', 3.3], ['Extended family', 2.7]
   ];
   const SETTINGS = [
     ['Bedroom', 25.8, 0], ['Hospital room', 19.9, 0], ['A road', 12.5, 0], ['The sky', 12.5, 1],
@@ -774,7 +910,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       tr.append(b, lab); row.appendChild(tr); host.appendChild(row);
     });
   };
-  bars('beings', BEINGS, 16, 'amber');
+  bars('beings', BEINGS, 21, 'amber');
   bars('settings', SETTINGS, 26, a => a ? 'instr' : 'amber');
 
   /* cross-cultural: paired bars */
@@ -796,41 +932,113 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     r.appendChild(tr); cc.appendChild(r);
   });
 
-  /* ---------- line chart ---------- */
+  /* ---------- what predicts change ---------- */
   (() => {
-    const W = 760, H = 300, P = { t: 24, r: 88, b: 42, l: 46 };
-    const decades = [1980, 1990, 2000, 2010];
-    const s1 = [[1980, 69.7], [1990, 58.7], [2000, 30.6], [2010, 27.3]];
-    const s2 = [[1980, 45.5], [1990, 21.5]];
-    const x = d => P.l + (d - 1980) / 30 * (W - P.l - P.r);
-    const y = v => P.t + (1 - v / 80) * (H - P.t - P.b);
-    const line = pts => pts.map((p, i) => (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + y(p[1]).toFixed(1)).join(' ');
-    let g = '';
-    [0, 20, 40, 60, 80].forEach(v => {
-      g += `<line class="grid" x1="${P.l}" y1="${y(v)}" x2="${W - P.r}" y2="${y(v)}"/>`;
-      g += `<text class="axis" x="${P.l - 10}" y="${y(v) + 3.5}" text-anchor="end">${v}%</text>`;
+    const host = document.getElementById('predict');
+    [['Says it cannot be described', 75.0, 57.9, '+17.1 points'],
+     ['Reached a border', 66.7, 66.7, 'no difference']].forEach(([label, yes, no, delta]) => {
+      const g = el('div', 'dgroup'); g.style.gridTemplateColumns = '11rem 1fr';
+      g.appendChild(el('div', 'dlabel', label + '<br><span style="color:var(--faint);font-size:.62rem">' + delta + '</span>'));
+      const bars = el('div', 'dbars');
+      [[yes, 'a', 'reported it'], [no, 'b', 'did not']].forEach(([v, c, note]) => {
+        const b = el('div', 'dbar ' + c);
+        const fill = el('i'); fill.dataset.w = (v / 80 * 100) + '%';
+        b.append(fill, el('span', null, v.toFixed(1) + '%'), el('em', null, note));
+        bars.appendChild(b);
+      });
+      g.appendChild(bars); host.appendChild(g);
     });
-    decades.forEach(d => g += `<text class="axis" x="${x(d)}" y="${H - P.b + 20}" text-anchor="middle">${d}s</text>`);
-    const mk = (pts, col, lab) => {
-      const p = line(pts);
-      let s = `<path class="series" d="${p}" stroke="${col}" style="--len:900"/>`;
-      pts.forEach(pt => s += `<circle class="pt" cx="${x(pt[0])}" cy="${y(pt[1])}" r="4" fill="${col}" stroke="var(--void)" stroke-width="2"/>`);
-      const last = pts[pts.length - 1];
-      s += `<text class="axis" x="${x(last[0]) + 12}" y="${y(last[1]) + 3.5}" fill="${col}">${lab}</text>`;
-      return s;
-    };
-    document.getElementById('linewrap').innerHTML =
-      `<svg class="line" viewBox="0 0 ${W} ${H}" role="img" aria-label="Life review reports fall from about 70 percent in the 1980s to about 27 percent in the 2010s, in both recall windows.">
-        ${g}${mk(s1, 'var(--amber-lit)', '27.3%')}${mk(s2, 'var(--instrument-lit)', '21.5%')}
-      </svg>`;
   })();
+
+  /* ---------- greyson explainer ---------- */
+  document.querySelectorAll('.gx').forEach(btn => {
+    const open = e => {
+      tip.innerHTML = '<span class="t">The Greyson Scale</span>' +
+        '<p>A 16-item questionnaire published by Bruce Greyson in 1983, still the standard instrument in this field. Each item scores 0, 1 or 2, giving a range of 0 to 32. A score of 7 or above is the conventional threshold for classifying an account as a near-death experience.</p>' +
+        '<p style="font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:.6rem">It measures how many features an account contains \u2014 not how intense, meaningful or credible it is.</p>';
+      tip.classList.add('on');
+      const r = btn.getBoundingClientRect();
+      const w2 = tip.offsetWidth, h2 = tip.offsetHeight;
+      let x = Math.min(Math.max(12, r.left + r.width / 2 - w2 / 2), innerWidth - w2 - 12);
+      let y = r.top - h2 - 14; if (y < 12) y = r.bottom + 14;
+      tip.style.left = x + 'px'; tip.style.top = y + 'px';
+      e && e.stopPropagation();
+    };
+    btn.addEventListener('click', open);
+    btn.addEventListener('mouseenter', open);
+    btn.addEventListener('focus', open);
+    btn.addEventListener('mouseleave', () => tip.classList.remove('on'));
+    btn.addEventListener('blur', () => tip.classList.remove('on'));
+  });
+  addEventListener('click', () => tip.classList.remove('on'));
+
+  /* ---------- daylight ---------- */
+  (() => {
+    const zone = document.querySelector('.dawn');
+    if (!zone) return;
+    new IntersectionObserver(es => es.forEach(e => {
+      document.body.classList.toggle('daylight', e.isIntersecting || e.boundingClientRect.top < 0);
+    }), { rootMargin: '-45% 0px -45% 0px' }).observe(zone);
+  })();
+
+  /* ---------- glossary ---------- */
+  (() => {
+    const host = document.getElementById('gloss');
+    GLOSS.forEach(([term, def]) => {
+      const row = el('div');
+      row.appendChild(el('dt', null, term));
+      row.appendChild(el('dd', null, def));
+      host.appendChild(row);
+    });
+  })();
+
+  /* ---------- ineffability comparison ---------- */
+  (() => {
+    const host = document.getElementById('inef');
+    INEF.forEach(([label, mean, count]) => {
+      const row = el('div', 'row');
+      row.appendChild(el('div', 'name', label + '<br><span style="color:var(--faint)">n=' + count + '</span>'));
+      const tr = el('div', 'track');
+      const b = el('i', 'bar amber');
+      b.dataset.w = (mean / 10 * 82) + '%'; b.style.width = '0';
+      const lab = el('i', 'bar-val', mean.toFixed(1) + ' events');
+      lab.style.left = 'calc(' + (mean / 10 * 82) + '% + .7rem)';
+      tr.append(b, lab); row.appendChild(tr); host.appendChild(row);
+    });
+  })();
+
+  /* ---------- life review by decade ---------- */
+  (() => {
+    const host = document.getElementById('decades');
+    const grid = el('div', 'decade');
+    DECADES.forEach(([decade, early, late]) => {
+      const g = el('div', 'dgroup');
+      g.appendChild(el('div', 'dlabel', decade));
+      const bars = el('div', 'dbars');
+      [[early, 'a', 'waited 10\u201325 yrs'], [late, 'b', 'waited 25\u201350 yrs']].forEach(([v, c, note]) => {
+        const b = el('div', 'dbar ' + c);
+        if (v == null) {
+          b.appendChild(el('em', null, note + ' \u2014 too few accounts'));
+        } else {
+          const fill = el('i'); fill.dataset.w = (v / 80 * 100) + '%';
+          b.appendChild(fill);
+          b.appendChild(el('span', null, v.toFixed(1) + '%'));
+          b.appendChild(el('em', null, note));
+        }
+        bars.appendChild(b);
+      });
+      g.appendChild(bars); grid.appendChild(g);
+    });
+    host.appendChild(grid);
+  })();
+
 
   /* ---------- reveal + counters ---------- */
   const io = new IntersectionObserver(es => {
     es.forEach(e => {
       if (!e.isIntersecting) return;
       e.target.classList.add('in');
-      e.target.querySelectorAll('.bar[data-w]').forEach(b => { b.style.width = b.dataset.w; });
+      e.target.querySelectorAll('.bar[data-w],.dbar i[data-w]').forEach(b => { b.style.width = b.dataset.w; });
       e.target.querySelectorAll('[data-count]').forEach(c => {
         if (c.dataset.done) return; c.dataset.done = 1;
         const to = parseFloat(c.dataset.count), dec = +(c.dataset.dec || 0), t0 = performance.now();
