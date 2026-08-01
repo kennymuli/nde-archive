@@ -103,6 +103,12 @@ strong{font-weight:600;color:#F5F1E8}
 .figure{margin-block:clamp(2.6rem,6vh,4.5rem)}
 .fig-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.7rem;padding-bottom:.9rem;border-bottom:1px solid var(--rule)}
 .fig-title{font-size:1.02rem;color:var(--bone);letter-spacing:-.005em}
+.scope{display:inline-flex;align-items:center;gap:.5rem;margin-top:.55rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--faint);border:1px solid var(--rule);border-radius:99px;padding:.28rem .7rem}
+.scope::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:var(--amber);flex:none}
+.scope.full::before{background:var(--instrument-lit)}
+.scope b{color:var(--dim);font-weight:500}
 .legend{display:flex;gap:1.15rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--dim);flex-wrap:wrap}
 .legend span{display:flex;align-items:center;gap:.44rem;white-space:nowrap}
 .swatch{width:.72rem;height:.72rem;border-radius:2px;flex:none}
@@ -211,6 +217,18 @@ strong{font-weight:600;color:#F5F1E8}
 .arc-pct{font-family:var(--mono);font-size:.94rem;font-variant-numeric:tabular-nums;text-align:right;position:relative}
 .fixed .arc-pct{color:var(--amber-lit)}
 .loose .arc-pct{color:var(--instrument-lit)}
+
+/* ---------- basis tiers ---------- */
+.basis{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.tier{background:var(--stratum);padding:1.5rem 1.35rem}
+.tier .cap{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-lit);display:block;margin-bottom:.9rem}
+.tier .fig{font-family:var(--mono);font-size:clamp(1.6rem,3.4vw,2.2rem);color:var(--halo);
+  line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:block}
+.tier .unit{font-family:var(--mono);font-size:.62rem;color:var(--faint);display:block;margin-top:.6rem;
+  letter-spacing:.08em}
+.tier p{margin:1rem 0 0;font-size:.86rem;line-height:1.55;color:var(--dim)}
 
 /* ---------- greyson explainer ---------- */
 .gx{background:none;border:0;padding:0;font:inherit;color:var(--faint);letter-spacing:.09em;
@@ -429,8 +447,42 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <div><span class="n" data-count="12.9" data-dec="1">0</span><span class="l">Million words</span></div>
       <div><span class="n" data-count="28">0</span><span class="l">Years of submissions</span></div>
       <div><span class="n" data-count="116">0</span><span class="l">Countries represented</span></div>
-      <div><span class="n" data-count="1500">0</span><span class="l">Read line by line</span></div>
+      <div><span class="n" data-count="1500">0</span><span class="l">Read individually</span></div>
     </div>
+  </div>
+</section>
+
+<!-- ═══════════════ WHAT THE NUMBERS REST ON ═══════════════ -->
+<section style="padding-block:clamp(4rem,9vh,7rem)">
+  <div class="narrow">
+    <p class="eyebrow rise">Before Anything Else — What Each Number Rests On</p>
+    <h2 class="rise" data-d="1" style="font-size:clamp(1.6rem,3.4vw,2.4rem)">Not every finding here counts the same accounts.</h2>
+    <p class="rise dim" data-d="2" style="margin-top:1.5rem">Some questions can be answered by machine across all 9,764 accounts. Others require someone to read a narrative from beginning to end and record what happened in what order. That second kind is slow, so it runs on a random sample. Every chart below says which it is.</p>
+  </div>
+  <div class="wrap">
+    <div class="basis rise" data-d="2">
+      <div class="tier">
+        <span class="cap">Tier one</span><span class="fig">9,764</span>
+        <span class="unit">every account</span>
+        <p>Counts, word totals, dates, countries. Anything a machine can total without interpreting a sentence.</p>
+      </div>
+      <div class="tier">
+        <span class="cap">Tier two</span><span class="fig">~5,400</span>
+        <span class="unit">everyone who answered</span>
+        <p>The questionnaire each experiencer fills in. Not a sample — it is everybody who answered that particular item. Precision about ±1 point.</p>
+      </div>
+      <div class="tier">
+        <span class="cap">Tier three</span><span class="fig">1,497</span>
+        <span class="unit">read individually</span>
+        <p>Whether a narrative describes an element unprompted. A person read each one. Random sample, 500 per archive. Precision about ±2.5 points.</p>
+      </div>
+      <div class="tier">
+        <span class="cap">Tier four</span><span class="fig">598</span>
+        <span class="unit">coded event by event</span>
+        <p>Order of events, who appeared, where it happened, what was claimed. The slowest work, on the smallest sample. Precision about ±4 points.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:1.6rem;max-width:46rem">A smaller sample widens the error bar; it does not bias the result. The 598 accounts were drawn at random from the 1,497, which were drawn at random from all 9,764. Reading 598 narratives carefully beats pattern-matching 9,764 badly — a lesson this project learned the hard way, and which Part Two describes.</p>
   </div>
 </section>
 
@@ -445,7 +497,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">What people confirm when asked, versus what they say unprompted</div>
+      <div><div class="fig-title">What people confirm when asked, versus what they say unprompted</div><div class="scope full"><b>Asked:</b> all 5,400 who answered &nbsp;·&nbsp; <b>Unprompted:</b> 1,497 read in full</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Asked directly</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Volunteered freely</span>
@@ -483,7 +535,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">How reliably one event precedes another, among accounts containing both</div>
+      <div><div class="fig-title">How reliably one event precedes another, among accounts containing both</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Near-deterministic</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Essentially unordered</span>
@@ -514,7 +566,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">Who appears, as a share of all 951 beings described</div>
+      <div><div class="fig-title">Who appears, as a share of all 951 beings described</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of 951 encounters</span></div>
     </div>
     <div class="rows" id="beings"></div>
@@ -553,7 +605,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">Settings described, as a share of accounts</div>
+      <div><div class="fig-title">Settings described, as a share of accounts</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Ordinary place</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Otherworldly place</span>
@@ -576,7 +628,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="lede rise" data-d="2" style="margin-top:1.8rem">"There are no words for it" reads like an apology for a thin account. It is the opposite.</p>
     <div class="figure rise" data-d="2">
       <div class="fig-head">
-        <div class="fig-title">Average number of distinct events an account describes</div>
+        <div><div class="fig-title">Average number of distinct events an account describes</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
         <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Mean events per account</span></div>
       </div>
       <p class="howto">Accounts were sorted into three groups by how often the experiencer states that the experience cannot be put into words. Each bar is the <em>average count of distinct events</em> those accounts go on to describe — separation, light, an encounter, a message, and so on. If “beyond words” meant having little to say, the bars would fall. They rise.</p>
@@ -599,7 +651,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">Share reporting changed values and beliefs afterwards</div>
+      <div><div class="fig-title">Share reporting changed values and beliefs afterwards</div><div class="scope full"><b>4,593–4,803 accounts</b> — everyone who answered both items</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Reported the element</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Did not report it</span>
@@ -627,7 +679,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">Reported life review, by decade the experience occurred</div>
+      <div><div class="fig-title">Reported life review, by decade the experience occurred</div><div class="scope full"><b>3,600+ accounts</b> — everyone with a dated experience</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Wrote 10–25 years afterwards</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Wrote 25–50 years afterwards</span>
@@ -653,7 +705,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div class="fig-title">United States compared with everywhere else</div>
+      <div><div class="fig-title">United States compared with everywhere else</div><div class="scope full"><b>4,200–5,000 accounts</b> — everyone with a recorded country</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>United States</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Rest of world</span>
