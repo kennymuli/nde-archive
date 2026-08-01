@@ -1,0 +1,206 @@
+
+================================================================================
+TIER 3 - 598 narratives (adcrf=199, nderf=200, oberf=199)
+================================================================================
+
+================================================================================
+C19-C21. EVENT SEQUENCE
+================================================================================
+events per narrative: median=5 p25=3 p75=8 max=29; 4 have none
+
+event                   opens %   closes %
+crisis                    43.9%       0.0%
+separation                13.8%       0.7%
+viewing_body               0.0%       0.7%
+transit                    2.0%       0.0%
+darkness                   1.9%       0.3%
+light                      4.4%       0.3%
+being_encounter           22.2%       2.7%
+realm_arrival              3.7%       0.3%
+life_review                0.2%       0.0%
+knowledge                  2.5%       2.0%
+message                    3.2%       3.2%
+decision                   0.0%       0.2%
+forced_return              0.0%       0.2%
+reentry                    0.2%       9.9%
+aftermath                  2.0%      79.5%
+
+most likely NEXT event, given the current one
+from                 most likely next            P        n
+crisis               separation                34%      308
+separation           viewing_body              41%      273
+viewing_body         reentry                   28%      138
+transit              light                     25%      163
+darkness             light                     24%      114
+light                being_encounter           35%      199
+being_encounter      message                   47%      551
+realm_arrival        being_encounter           60%      162
+life_review          knowledge                 20%       49
+knowledge            reentry                   19%      154
+message              aftermath                 31%      360
+border               being_encounter           35%       46
+decision             reentry                   56%      105
+forced_return        reentry                   80%       76
+reentry              aftermath                 79%      330
+aftermath            being_encounter           35%       62
+
+ordering consistency: of narratives containing BOTH events,
+the share where the first listed precedes the second
+event A              event B              consistency      n
+transit -> forced_return                        100%     38
+separation -> forced_return                     100%     39
+forced_return -> reentry                        100%     70
+crisis -> forced_return                         100%     57
+being_encounter -> forced_return                 98%     65
+crisis -> aftermath                              98%    244
+separation -> viewing_body                       98%    119
+viewing_body -> aftermath                        98%    108
+separation -> aftermath                          98%    185
+crisis -> viewing_body                           98%     90
+
+least consistent (order varies most)
+transit              darkness                    57%     51
+knowledge            message                     53%     78
+message              border                      52%     27
+light                realm_arrival               51%     71
+
+================================================================================
+D25-D34. BEINGS ENCOUNTERED
+================================================================================
+narratives reporting at least one being: 485 (81.1%)
+total beings mentioned: 951
+
+being type                      count % of beings
+other/unspecified                 198    20.8%
+deceased parent                   135    14.2%
+unidentified presence             131    13.8%
+deceased grandparent               69     7.3%
+child                              50     5.3%
+strangers/others                   49     5.2%
+sibling                            39     4.1%
+God                                37     3.9%
+spouse/partner                     37     3.9%
+friend                             37     3.9%
+Jesus/Christ                       33     3.5%
+angel                              32     3.4%
+living person                      31     3.3%
+extended family                    26     2.7%
+
+D26. encountered someone NOT known to be dead at the time:
+     43 of 295 deceased-person encounters (14.6%)
+
+communication mode
+   none                383   40.3%
+   spoken              327   34.4%
+   telepathic          131   13.8%
+   unclear             110   11.6%
+
+================================================================================
+E35-E40. SETTINGS
+================================================================================
+narratives describing a setting: 576 (96.3%)
+
+setting                    % of narratives
+bedroom                          25.8%
+hospital_room                    19.9%
+road                             12.5%
+sky                              12.5%
+building                         11.4%
+house                            10.7%
+tunnel                           10.4%
+void                              9.5%
+water                             6.4%
+field                             6.4%
+light                             5.7%
+room                              5.4%
+darkness                          4.8%
+hallway                           3.2%
+garden                            3.2%
+car                               3.0%
+kitchen                           2.8%
+space                             2.7%
+
+================================================================================
+P125-P130. CORROBORATION CLAIMS (descriptive only)
+================================================================================
+What is asserted and in what detail. Nothing here is adjudicated.
+
+narratives making at least one checkable-in-principle claim: 423 (70.7%)
+total claims: 880
+   by corpus: adcrf 80.4%, nderf 69.0%, oberf 62.8%
+
+claim kind                          count
+other                                 314
+saw_object                            201
+saw_event_elsewhere                   149
+medical_detail                        109
+overheard_conversation                 72
+met_person_not_known_dead              28
+saw_event                               6
+saw_person_not_physically_present        1
+
+specificity          none   narrator third party
+vague                  57         12          5
+moderate              195        113        110
+specific              112        151        125
+
+specific AND with corroboration asserted: 276 (31.4% of all claims)
+
+================================================================================
+O116-O119. LANGUAGE AND STYLE
+================================================================================
+
+ineffability
+   none                              423   70.7%
+   once                              115   19.2%
+   repeated                           60   10.0%
+
+tense_shift
+   none                              525   87.8%
+   shifts_to_present                  73   12.2%
+
+self_reference
+   first_person_throughout           399   66.7%
+   refers_to_body_as_object           93   15.6%
+   mixed                             106   17.7%
+
+mean events reported, by ineffability level
+   none         n=423   mean=5.48
+   once         n=115   mean=7.49
+   repeated     n=60    mean=8.43
+
+================================================================================
+G54. RECURRING MESSAGE THEMES
+================================================================================
+narratives reporting a message: 400 (66.9%); total messages: 1051
+
+theme (keyword-matched paraphrases)    % of msgs
+love is what matters                       4.7%
+it is not your time / must return          2.9%
+purpose / unfinished task                  2.1%
+family / children need you                11.9%
+do not fear death                          1.5%
+everything is connected / oneness          0.8%
+forgiveness                                0.6%
+knowledge / understanding given            2.0%
+you are not alone / watched over           0.5%
+choice offered                             2.1%
+
+Themes are keyword matches over paraphrases, so they are indicative,
+not a validated coding - unlike the element labels, these were not
+checked against blind annotation.
+
+================================================================================
+Q131-Q132. NARRATIVES THAT FIT NO COMMON PATTERN
+================================================================================
+no sequence, no beings, no setting: 1 (0.2%)
+
+most unusual event orderings (lowest mean transition frequency)
+   adcrf::dee_e_adc_1946.htm                      3 events, score 4.5
+   nderf::1mht_probable_nde.html                  5 events, score 4.5
+   adcrf::holly_d_adc.htm                         3 events, score 5.0
+   oberf::keith_m_obe.htm                         7 events, score 5.0
+   oberf::veronica_g_sobe.htm                     3 events, score 5.0
+   adcrf::celso_l_adc.htm                         3 events, score 6.5
+   adcrf::gay_s_adc.htm                           3 events, score 6.5
+   oberf::randi_sobe.htm                          4 events, score 7.0

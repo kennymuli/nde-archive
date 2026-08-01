@@ -1,0 +1,691 @@
+<title>The Threshold Archive — 9,764 accounts of what people report at the edge of death</title>
+
+<style>
+:root{
+  --void:#04060D;
+  --stratum:#0B1222;
+  --stratum-2:#111A2E;
+  --bone:#E9E4DA;
+  --dim:#98A1B4;
+  --faint:#5C6679;
+  --rule:#1B2439;
+
+  --halo:#FFD9A0;
+  --amber:#B87F26;
+  --amber-lit:#E5A73E;
+  --instrument:#3689B6;
+  --instrument-lit:#57AEDC;
+  --ember:#B65C48;
+
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+
+  --measure:34rem;
+  --gut:clamp(1.25rem,5vw,4rem);
+}
+
+/* Deliberate single-theme commitment: the entire premise is light emerging from
+   darkness, so the palette holds in both OS themes rather than inverting. */
+:root[data-theme="light"],:root[data-theme="dark"]{color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--void);color:var(--bone);
+  font-family:var(--serif);font-size:clamp(1.02rem,.55vw + .92rem,1.19rem);
+  line-height:1.72;letter-spacing:.004em;
+  overflow-x:hidden;
+}
+::selection{background:rgba(255,217,160,.24)}
+
+/* ---------- ambient light field ---------- */
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.045'/></svg>");
+  mix-blend-mode:overlay}
+main{position:relative;z-index:2}
+
+/* ---------- shared ---------- */
+.wrap{width:min(100% - var(--gut)*2,72rem);margin-inline:auto}
+.narrow{width:min(100% - var(--gut)*2,var(--measure));margin-inline:auto}
+section{padding-block:clamp(6rem,14vh,11rem);position:relative}
+
+.eyebrow{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--amber-lit);margin:0 0 1.4rem;display:flex;align-items:center;gap:.85rem;font-weight:500;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--rule),transparent)}
+
+h1,h2,h3{text-wrap:balance;font-weight:400;margin:0}
+h2{font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.08;letter-spacing:-.022em}
+h3{font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.25;letter-spacing:-.012em}
+p{margin:0 0 1.35em}
+.lede{font-size:clamp(1.2rem,1.5vw,1.44rem);line-height:1.62;color:#D6D1C7}
+.dim{color:var(--dim)}
+.note{font-family:var(--mono);font-size:.76rem;line-height:1.65;color:var(--faint);letter-spacing:.012em}
+
+em.k{font-style:normal;color:var(--halo)}
+strong{font-weight:600;color:#F5F1E8}
+
+/* reveal */
+.rise{opacity:0;transform:translateY(26px);transition:opacity 1.05s cubic-bezier(.16,.8,.3,1),transform 1.05s cubic-bezier(.16,.8,.3,1)}
+.rise.in{opacity:1;transform:none}
+.rise[data-d="1"]{transition-delay:.1s}
+.rise[data-d="2"]{transition-delay:.2s}
+.rise[data-d="3"]{transition-delay:.3s}
+.rise[data-d="4"]{transition-delay:.42s}
+
+/* ---------- hero ---------- */
+#hero{min-height:100svh;display:grid;align-content:center;padding-block:8rem 5rem;position:relative}
+.hero-mark{font-family:var(--mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);margin-bottom:clamp(2.5rem,8vh,5rem)}
+#hero h1{
+  font-size:clamp(2.7rem,7.4vw,6.1rem);line-height:.99;letter-spacing:-.035em;
+  margin-bottom:1.6rem;
+}
+#hero h1 .l2{display:block;color:var(--halo);font-style:italic}
+.hero-sub{max-width:33rem;color:#CFC9BE;font-size:clamp(1.06rem,1.3vw,1.3rem);line-height:1.6}
+.scroll-cue{margin-top:clamp(3rem,9vh,6rem);display:flex;align-items:center;gap:.8rem;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.scroll-cue i{display:block;width:1px;height:2.6rem;background:linear-gradient(180deg,var(--amber-lit),transparent);animation:drop 2.6s ease-in-out infinite}
+@keyframes drop{0%,100%{transform:scaleY(.35);transform-origin:top;opacity:.5}50%{transform:scaleY(1);transform-origin:top;opacity:1}}
+
+/* ---------- ledger ---------- */
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:1px;background:var(--rule);border-block:1px solid var(--rule)}
+.ledger div{background:var(--void);padding:1.7rem 1.3rem}
+.ledger .n{font-family:var(--mono);font-size:clamp(1.5rem,3vw,2.3rem);color:var(--halo);letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:block;line-height:1}
+.ledger .l{font-family:var(--mono);font-size:.63rem;letter-spacing:.19em;text-transform:uppercase;color:var(--faint);margin-top:.7rem;display:block;line-height:1.5}
+
+/* ---------- charts ---------- */
+.figure{margin-block:clamp(2.6rem,6vh,4.5rem)}
+.fig-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.7rem;padding-bottom:.9rem;border-bottom:1px solid var(--rule)}
+.fig-title{font-size:1.02rem;color:var(--bone);letter-spacing:-.005em}
+.legend{display:flex;gap:1.15rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--dim);flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:.44rem;white-space:nowrap}
+.swatch{width:.72rem;height:.72rem;border-radius:2px;flex:none}
+
+.rows{display:flex;flex-direction:column;gap:.2rem}
+.row{display:grid;grid-template-columns:minmax(7.5rem,10.5rem) 1fr;gap:1rem;align-items:center;
+  padding:.5rem .55rem;border-radius:3px;transition:background .22s}
+.row:hover{background:rgba(255,255,255,.032)}
+.row .name{font-family:var(--mono);font-size:.74rem;color:var(--dim);letter-spacing:.02em;line-height:1.35}
+.track{position:relative;height:2.1rem}
+
+/* dumbbell */
+.dumb{position:relative;height:100%}
+.dumb .spine{position:absolute;top:50%;height:1px;background:var(--rule);left:0;right:0}
+.dumb .link{position:absolute;top:50%;height:2px;transform:translateY(-50%);
+  background:linear-gradient(90deg,var(--instrument),var(--amber));
+  transform-origin:left;transform:translateY(-50%) scaleX(0);transition:transform 1.15s cubic-bezier(.16,.8,.3,1)}
+.in .dumb .link{transform:translateY(-50%) scaleX(1)}
+.dot{position:absolute;top:50%;width:.72rem;height:.72rem;border-radius:50%;
+  transform:translate(-50%,-50%) scale(0);box-shadow:0 0 0 2px var(--void);
+  transition:transform .7s cubic-bezier(.34,1.4,.5,1)}
+.in .dot{transform:translate(-50%,-50%) scale(1)}
+.dot.a{background:var(--amber-lit);transition-delay:.5s}
+.dot.b{background:var(--instrument-lit);transition-delay:.62s}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.7rem;
+  color:var(--faint);font-variant-numeric:tabular-nums;opacity:0;transition:opacity .5s .85s}
+.in .val{opacity:1}
+
+/* bars */
+.bar{position:absolute;top:50%;transform:translateY(-50%);height:.62rem;border-radius:0 3px 3px 0;
+  transform-origin:left;transition:width 1.15s cubic-bezier(.16,.8,.3,1)}
+.bar.amber{background:linear-gradient(90deg,var(--amber),var(--amber-lit))}
+.bar.instr{background:linear-gradient(90deg,var(--instrument),var(--instrument-lit))}
+.bar.ember{background:linear-gradient(90deg,#8E4436,var(--ember))}
+.bar-val{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.72rem;
+  color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap;opacity:0;transition:opacity .45s .8s}
+.in .bar-val{opacity:1}
+
+/* ---------- quote ---------- */
+.interlude{min-height:88svh;display:grid;align-content:center;text-align:center;position:relative}
+.interlude::before{content:"";position:absolute;left:50%;top:50%;width:min(90vw,46rem);aspect-ratio:1;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,217,160,.10),rgba(255,217,160,.035) 42%,transparent 68%);
+  filter:blur(10px)}
+blockquote{margin:0;position:relative}
+blockquote p{font-size:clamp(1.42rem,3.5vw,2.5rem);line-height:1.32;letter-spacing:-.018em;
+  color:#F3EFE6;font-style:italic;max-width:26ch;margin-inline:auto;text-wrap:balance}
+.attrib{margin-top:2.3rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--amber-lit);line-height:2.1}
+.attrib b{display:block;font-weight:500;color:var(--halo);letter-spacing:.16em}
+.attrib span{color:var(--faint);letter-spacing:.09em;text-transform:none;font-size:.72rem}
+
+/* ---------- sequence arc ---------- */
+.arc{display:grid;gap:.42rem;margin-block:2.4rem}
+.arc-item{display:grid;grid-template-columns:minmax(0,1fr) 4.5rem;gap:1.1rem;align-items:center;
+  padding:.72rem .95rem;border-radius:4px;border:1px solid var(--rule);background:rgba(11,18,34,.6);
+  position:relative;overflow:hidden}
+.arc-item::before{content:"";position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
+  transition:transform 1.1s cubic-bezier(.16,.8,.3,1);opacity:.13}
+.in .arc-item::before{transform:scaleX(1)}
+.arc-item.fixed::before{background:linear-gradient(90deg,var(--amber),transparent)}
+.arc-item.loose::before{background:linear-gradient(90deg,var(--instrument),transparent)}
+.arc-step{font-family:var(--mono);font-size:.76rem;color:var(--bone);letter-spacing:.02em;position:relative}
+.arc-pct{font-family:var(--mono);font-size:.94rem;font-variant-numeric:tabular-nums;text-align:right;position:relative}
+.fixed .arc-pct{color:var(--amber-lit)}
+.loose .arc-pct{color:var(--instrument-lit)}
+
+/* ---------- callout ---------- */
+.callout{border-left:2px solid var(--amber);padding:.2rem 0 .2rem 1.5rem;margin-block:2.2rem;color:#DCD7CC}
+.callout .big{font-family:var(--mono);font-size:clamp(2rem,5vw,3.2rem);color:var(--halo);
+  letter-spacing:-.03em;line-height:1;display:block;margin-bottom:.6rem;font-variant-numeric:tabular-nums}
+
+/* ---------- steps (ineffability) ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-block:2.6rem}
+.step{background:var(--stratum);padding:1.8rem 1.4rem;position:relative}
+.step .cap{font-family:var(--mono);font-size:.63rem;letter-spacing:.17em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1rem;line-height:1.5}
+.step .fig{font-family:var(--mono);font-size:clamp(1.9rem,4vw,2.7rem);color:var(--halo);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.step .unit{font-family:var(--mono);font-size:.68rem;color:var(--faint);margin-top:.7rem;display:block}
+.step .meter{height:2px;background:var(--rule);margin-top:1.3rem;position:relative;overflow:hidden}
+.step .meter i{position:absolute;inset:0;background:linear-gradient(90deg,var(--amber),var(--halo));
+  transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.16,.8,.3,1)}
+.in .step .meter i{transform:scaleX(var(--f,1))}
+
+/* ---------- line chart ---------- */
+.linewrap{overflow-x:auto;padding-bottom:.5rem}
+svg.line{display:block;width:100%;min-width:30rem;height:auto}
+svg.line .grid{stroke:var(--rule);stroke-width:1}
+svg.line .axis{fill:var(--faint);font-family:var(--mono);font-size:10px;letter-spacing:.06em}
+svg.line path.series{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.7s cubic-bezier(.3,.7,.4,1)}
+.in svg.line path.series{stroke-dashoffset:0}
+svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
+.in svg.line circle.pt{opacity:1}
+
+/* ---------- method ---------- */
+.traps{display:grid;gap:1px;background:var(--rule);border-block:1px solid var(--rule);margin-block:2.5rem}
+.trap{background:var(--void);padding:1.5rem 0;display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:start}
+.trap .idx{font-family:var(--mono);font-size:.7rem;color:var(--ember);letter-spacing:.1em;padding-top:.3rem}
+.trap h4{margin:0 0 .5rem;font-size:1rem;font-weight:400;color:var(--bone)}
+.trap p{margin:0;font-size:.94rem;color:var(--dim);line-height:1.62}
+.trap .swing{font-family:var(--mono);font-size:.76rem;color:var(--halo);margin-top:.6rem;display:block}
+
+footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
+
+@media (max-width:640px){
+  .row{grid-template-columns:1fr;gap:.3rem}
+  .track{height:1.8rem}
+  .trap{grid-template-columns:1fr;gap:.5rem}
+  .arc-item{grid-template-columns:1fr auto}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important}
+  .rise{opacity:1;transform:none}
+  .dot{transform:translate(-50%,-50%) scale(1)}
+  svg.line path.series{stroke-dashoffset:0}
+}
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div id="grain" aria-hidden="true"></div>
+
+<main>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-mark rise in">The Threshold Archive</div>
+    <h1 class="rise in" data-d="1">Nine thousand people<span class="l2">described the same door.</span></h1>
+    <p class="hero-sub rise in" data-d="2">Between 1998 and 2026, strangers with nothing in common wrote down what happened to them at the edge of death. This is what the whole archive says when you read all of it at once — and where the standard account of it turns out to be wrong.</p>
+    <div class="scroll-cue rise in" data-d="4"><i></i>Begin</div>
+  </div>
+</section>
+
+<!-- ═══════════════ LEDGER ═══════════════ -->
+<section style="padding-block:0">
+  <div class="wrap">
+    <div class="ledger rise">
+      <div><span class="n" data-count="9764">0</span><span class="l">First-person accounts</span></div>
+      <div><span class="n" data-count="12.9" data-dec="1">0</span><span class="l">Million words</span></div>
+      <div><span class="n" data-count="28">0</span><span class="l">Years of submissions</span></div>
+      <div><span class="n" data-count="116">0</span><span class="l">Countries represented</span></div>
+      <div><span class="n" data-count="1500">0</span><span class="l">Read line by line</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT I ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding One — The Question Shapes The Answer</p>
+    <h2 class="rise" data-d="1">There are two archives here, and they disagree.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Everyone who submits an account does two things. They write their story in their own words. Then they answer about fifty questions.</p>
+    <p class="rise dim" data-d="2">Nobody had compared the two. When you do, the picture of what a near-death experience contains depends entirely on which half you read — and the gap is not small.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">What people confirm when asked, versus what they say unprompted</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Asked directly</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Volunteered freely</span>
+      </div>
+    </div>
+    <div class="rows" id="dumb-rows"></div>
+    <p class="note" style="margin-top:1.6rem">Prompted rates from the full corpus (n ≈ 5,400 per item). Volunteered rates from 1,500 narratives read individually. Two independent readers agreed on 96% of these judgements.</p>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">Read the top of that chart and the near-death experience is a journey: time dissolves, everything is understood, a border is reached. Read the bottom and it is something much simpler — <em class="k">you leave your body and you see a light.</em></p>
+    <p class="rise dim">Three quarters of people agree that time stopped when a form asks them. Fewer than one in five mention it when telling their own story. The questionnaire that produced the famous description of this experience may have been describing itself.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ QUOTE 1 ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <blockquote class="rise">
+      <p>The next thing I remember was being surrounded by the most beautiful light that human words can never explain.</p>
+      <div class="attrib"><b>Crystal M</b>Cardiac arrest · United States · 2009<span>Greyson depth score: 17 of 32</span></div>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT II ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Two — The Shape Of The Story</p>
+    <h2 class="rise" data-d="1">The beginning and end are fixed. The middle is a coin flip.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Six hundred accounts were coded event by event, in the order each person told it. Some pairs of events never once appeared in the wrong order.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">How reliably one event precedes another, among accounts containing both</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Near-deterministic</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Essentially unordered</span>
+      </div>
+    </div>
+    <div class="arc" id="arc"></div>
+    <p class="note">Percentage of accounts containing both events in which the stated order holds. n shown per pair.</p>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">The frame is rigid. Crisis comes first, return comes last, and leaving the body always precedes looking down at it — <strong>119 times out of 119</strong>, never once reversed.</p>
+    <p class="rise dim">But the famous middle sequence — tunnel, then light, then beings — barely holds together. Whether the light comes before arriving somewhere is a 51% call. That is a coin flip. The canonical ordering people recite is, in the middle, mostly something we added afterwards.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT III ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Three — Who Is Waiting</p>
+    <h2 class="rise" data-d="1">Mostly, it is family. Rarely, it is God.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Every being mentioned across 600 accounts, sorted by how often they appear.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">Who appears, as a share of all beings described</div>
+      <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of 610 encounters</span></div>
+    </div>
+    <div class="rows" id="beings"></div>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">An <strong>unidentified presence</strong> — someone felt but never named — is more common than Jesus, God and angels combined. Add deceased parents and grandparents and the picture is domestic, not theological.</p>
+    <p class="rise dim">The way they communicate is stranger still. Wordless, mind-to-mind contact is the signature detail of this literature. In the accounts themselves, ordinary speech outnumbers it more than two to one: <strong>34.9%</strong> spoken against <strong>14.8%</strong> telepathic.</p>
+    <div class="callout rise">
+      <span class="big">14.6%</span>
+      of encounters with the dead were with someone the writer says they <em class="k">did not know had died</em> at the time.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ QUOTE 2 ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <blockquote class="rise">
+      <p>It seemed as if he'd never died; his body and face were the same as the last time I saw him alive.</p>
+      <div class="attrib"><b>Francisco GV</b>Diving accident · Mexico · 2004<span>Greyson depth score: 10 of 32</span></div>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT IV ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Four — The Setting</p>
+    <h2 class="rise" data-d="1">It happens in the bedroom.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Ask anyone to picture this and they will describe a tunnel, a garden, a city of light. Here is where these accounts are actually set.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">Settings described, as a share of accounts</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Ordinary place</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Otherworldly place</span>
+      </div>
+    </div>
+    <div class="rows" id="settings"></div>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">Bedrooms and hospital rooms lead everything. The tunnel — the single most recognisable image attached to this subject — appears in <strong>one account in ten</strong>. The garden appears in one in thirty.</p>
+    <p class="rise dim">Whatever else is happening, most of it is reported as happening exactly where the person's body already was.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT V ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Five — The Paradox</p>
+    <h2 class="rise" data-d="1">The people who say it cannot be described, describe the most.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">"There are no words for it" reads like an apology for a thin account. It is the opposite.</p>
+    <div class="steps rise" data-d="2">
+      <div class="step"><span class="cap">Never says it</span><span class="fig">5.5</span><span class="unit">events described</span><div class="meter"><i style="--f:.65"></i></div></div>
+      <div class="step"><span class="cap">Says it once</span><span class="fig">7.5</span><span class="unit">events described</span><div class="meter"><i style="--f:.89"></i></div></div>
+      <div class="step"><span class="cap">Says it repeatedly</span><span class="fig">8.4</span><span class="unit">events described</span><div class="meter"><i style="--f:1"></i></div></div>
+    </div>
+    <p class="rise">People who insist language fails them report <strong>54% more</strong> structural content than people who never mention it. Ineffability is not an absence of material. It is a marker of having more to say.</p>
+    <p class="rise dim">It predicts life change better than any dramatic content does — better than the light, better than the tunnel. Saying "I can't explain it" forecasts transformation at <strong>75.0%</strong> against <strong>57.9%</strong>. Reaching a border, the most cinematic moment available, predicts it at exactly <strong>zero</strong> difference.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT VI ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Six — Something Changed</p>
+    <h2 class="rise" data-d="1">The life review is disappearing.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Your whole life flashing before you is the most cinematically famous element of all. Across three decades of accounts, people stopped reporting it.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">Reported life review, by decade the experience occurred</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>Written 10–25 years later</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Written 25–50 years later</span>
+      </div>
+    </div>
+    <div class="linewrap" id="linewrap"></div>
+    <p class="note">Two recall windows shown separately. The decline appears in both, so it is not an artefact of how long people waited before writing.</p>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">Roughly <strong>70%</strong> in the 1980s. Roughly <strong>27%</strong> in the 2010s. Holding constant how long people waited before writing, which is the obvious objection and the first thing we tested.</p>
+    <p class="rise dim">The same test dissolved a different finding. Reports of psychic ability after the event also seemed to fall across the decades — until we held the waiting time fixed, at which point the trend flattened completely. That one was never about the era. It was simply that people who had longer to notice something, noticed it. Two identical-looking curves, two opposite explanations.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ACT VII ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">Finding Seven — What Travels</p>
+    <h2 class="rise" data-d="1">The tunnel is less American than you would guess.</h2>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div class="fig-title">United States compared with everywhere else</div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>United States</span>
+        <span><i class="swatch" style="background:var(--instrument-lit)"></i>Rest of world</span>
+      </div>
+    </div>
+    <div class="rows" id="crosscult"></div>
+    <p class="note">Prompted rates. n ≈ 2,600–3,100 United States, 1,600–1,900 elsewhere. All three differences are statistically robust.</p>
+  </div>
+
+  <div class="narrow">
+    <p class="rise">The tunnel, the most Western-cliché image in the whole subject, is reported <strong>more</strong> often outside the United States. Meeting the dead and reviewing your life run the other way.</p>
+    <p class="rise dim">And people who already knew what a near-death experience was supposed to look like report <em class="k">fewer</em> tunnels than people who had never heard of one — 29.2% against 37.6%, holding within every decade. Whatever expectation is doing here, it is not simply painting the picture people expect.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ QUOTE 3 ═══════════════ -->
+<section class="interlude">
+  <div class="narrow">
+    <blockquote class="rise">
+      <p>I never saw a light or relatives who had passed; nevertheless, it was an experience that I know I was out of the body.</p>
+      <div class="attrib"><b>Doris A</b>Cerebral haemorrhage · United States · 1993<span>Greyson depth score: 1 of 32</span></div>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════ METHOD ═══════════════ -->
+<section>
+  <div class="narrow">
+    <p class="eyebrow rise">How This Was Built — And What Nearly Went Wrong</p>
+    <h2 class="rise" data-d="1">Five times the data lied convincingly.</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">Every number above survived a specific attempt to break it. These are the attempts that succeeded, and what they would have produced if nobody had checked.</p>
+  </div>
+  <div class="wrap">
+    <div class="traps rise">
+      <div class="trap"><div class="idx">01</div><div><h4>Answers with elaboration were being dropped</h4><p>Many people write "Yes" and then keep going. Counting only the bare word discarded every one of them.</p><span class="swing">Saw a light: read as 9.7% → actually 62.6%</span></div></div>
+      <div class="trap"><div class="idx">02</div><div><h4>Six questions were never yes/no at all</h4><p>They offer descriptive alternatives instead, so the word "yes" appears in no valid answer.</p><span class="swing">Time distortion: read as 0.0% → actually 76.6%</span></div></div>
+      <div class="trap"><div class="idx">03</div><div><h4>Pattern-matching missed most of what it looked for</h4><p>Automated text matching found only 40% of what human readers found, and its accuracy varied wildly by element — so the ranking between elements was arbitrary.</p><span class="swing">Retired and replaced by 1,500 read-through judgements</span></div></div>
+      <div class="trap"><div class="idx">04</div><div><h4>An age pattern was really a waiting-time pattern</h4><p>Reports of psychic ability appeared to fall with age at the time of the experience. They actually rose with how long the person had to notice.</p><span class="swing">Apparent 34-point age gradient → mostly recall interval</span></div></div>
+      <div class="trap"><div class="idx">05</div><div><h4>Pooling three archives invented a pattern</h4><p>Combining collections with different base rates made encounters with the dead appear to repel every other element. Within a single collection, they are among the strongest pairings.</p><span class="swing">Simpson's paradox, caught by splitting the corpora</span></div></div>
+    </div>
+    <div class="narrow" style="margin-top:3rem">
+      <p class="rise dim">None of these threw an error. Each produced a confident, plausible, publishable number. All five were caught the same way — by a figure being <em class="k">implausible</em> rather than by anything failing.</p>
+      <p class="rise note" style="margin-top:2.4rem">Still provisional: the claim-type taxonomy, where a third of cases fall into an "other" bucket; the message themes, which are keyword matches never validated against blind reading; and the life-review measure, whose two affirmative options behave so differently that merging them was probably a mistake. These are flagged rather than fixed.</p>
+      <p class="rise note">Everything here is descriptive. It reports what tens of thousands of pages say and how often they say it. It makes no claim about what produced the experiences.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="narrow">
+    <p class="note">Sources: the public archives of nderf.org, adcrf.org and oberf.org — 9,764 accounts, 12,860,768 words, extracted August 2026. Accounts are published under the names their authors chose. Each remains the work of the person who wrote it.</p>
+    <p class="note" style="margin-top:1.4rem;color:#454E60">Quotations are reproduced as written, with the circumstances recorded in the archive. No professional identities are given because the archive does not record them.</p>
+  </div>
+</footer>
+</main>
+
+<script>
+(() => {
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- data ---------- */
+  const DUMB = [
+    ['Time distorted', 76.6, 17.6], ['Understood everything', 67.9, 9.2],
+    ['Reached a border', 65.4, 13.0], ['Life review', 54.3, 14.2],
+    ['Beyond words', 50.6, 18.8], ['Met the dead', 44.3, 16.8],
+    ['Saw a light', 60.0, 50.4], ['Left the body', 56.6, 54.4]
+  ];
+  const ARC = [
+    ['Forced back → re-entry', 100, 70, 1], ['Crisis → forced back', 100, 57, 1],
+    ['Left body → saw own body', 98, 119, 1], ['Crisis → aftermath', 98, 244, 1],
+    ['Transit ↔ darkness', 57, 51, 0], ['Knowledge ↔ message', 53, 78, 0],
+    ['Light ↔ arriving somewhere', 51, 71, 0]
+  ];
+  const BEINGS = [
+    ['Unidentified presence', 15.9], ['Deceased parent', 13.9], ['Deceased grandparent', 8.4],
+    ['A child', 5.2], ['Strangers', 5.1], ['God', 4.3], ['Living person', 3.9],
+    ['Spouse or partner', 3.9], ['Sibling', 3.8], ['Jesus', 3.6], ['An angel', 3.1], ['A friend', 3.0]
+  ];
+  const SETTINGS = [
+    ['Bedroom', 25.8, 0], ['Hospital room', 19.9, 0], ['A road', 12.5, 0], ['The sky', 12.5, 1],
+    ['A building', 11.4, 0], ['A house', 10.7, 0], ['Tunnel', 10.4, 1], ['The void', 9.5, 1],
+    ['Water', 6.4, 0], ['A field', 6.4, 0], ['Pure light', 5.7, 1], ['Darkness', 4.8, 1], ['A garden', 3.2, 1]
+  ];
+  const CROSS = [['Tunnel', 33.8, 40.0], ['Met the dead', 51.3, 43.6], ['Life review', 58.2, 51.3]];
+
+  const el = (t, c, h) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; };
+
+  /* ---------- dumbbell ---------- */
+  const dr = document.getElementById('dumb-rows');
+  DUMB.forEach(([name, a, b]) => {
+    const row = el('div', 'row');
+    row.appendChild(el('div', 'name', name));
+    const tr = el('div', 'track');
+    const d = el('div', 'dumb');
+    d.appendChild(el('i', 'spine'));
+    const lo = Math.min(a, b), hi = Math.max(a, b);
+    const link = el('i', 'link');
+    link.style.left = lo + '%'; link.style.width = (hi - lo) + '%';
+    d.appendChild(link);
+    const da = el('i', 'dot a'); da.style.left = a + '%';
+    const db = el('i', 'dot b'); db.style.left = b + '%';
+    d.append(da, db);
+    const v = el('i', 'val', a.toFixed(1) + '% / ' + b.toFixed(1) + '%');
+    v.style.left = 'calc(' + hi + '% + 1rem)';
+    if (hi > 72) { v.style.left = 'auto'; v.style.right = 'calc(' + (100 - lo) + '% + 1rem)'; }
+    d.appendChild(v);
+    tr.appendChild(d); row.appendChild(tr); dr.appendChild(row);
+  });
+
+  /* ---------- arc ---------- */
+  const arc = document.getElementById('arc');
+  ARC.forEach(([step, pct, n, fixed]) => {
+    const it = el('div', 'arc-item ' + (fixed ? 'fixed' : 'loose'));
+    it.appendChild(el('div', 'arc-step', step + ' <span style="color:var(--faint)">· n=' + n + '</span>'));
+    it.appendChild(el('div', 'arc-pct', pct + '%'));
+    arc.appendChild(it);
+  });
+
+  /* ---------- horizontal bars ---------- */
+  const bars = (mount, rows, maxv, cls) => {
+    const host = document.getElementById(mount);
+    rows.forEach(r => {
+      const [name, v, alt] = r;
+      const row = el('div', 'row');
+      row.appendChild(el('div', 'name', name));
+      const tr = el('div', 'track');
+      const b = el('i', 'bar ' + (typeof cls === 'function' ? cls(alt) : cls));
+      b.dataset.w = (v / maxv * 88) + '%';
+      b.style.width = '0';
+      const lab = el('i', 'bar-val', v.toFixed(1) + '%');
+      lab.style.left = 'calc(' + (v / maxv * 88) + '% + .7rem)';
+      tr.append(b, lab); row.appendChild(tr); host.appendChild(row);
+    });
+  };
+  bars('beings', BEINGS, 16, 'amber');
+  bars('settings', SETTINGS, 26, a => a ? 'instr' : 'amber');
+
+  /* cross-cultural: paired bars */
+  const cc = document.getElementById('crosscult');
+  CROSS.forEach(([name, us, row]) => {
+    const r = el('div', 'row');
+    r.appendChild(el('div', 'name', name));
+    const tr = el('div', 'track'); tr.style.height = '2.6rem';
+    [[us, 'amber', 0], [row, 'instr', 1]].forEach(([v, c, i]) => {
+      const b = el('i', 'bar ' + c);
+      b.dataset.w = (v / 60 * 86) + '%';
+      b.style.width = '0'; b.style.height = '.5rem';
+      b.style.top = i ? '68%' : '32%';
+      const lab = el('i', 'bar-val', v.toFixed(1) + '%');
+      lab.style.left = 'calc(' + (v / 60 * 86) + '% + .7rem)';
+      lab.style.top = i ? '68%' : '32%';
+      tr.append(b, lab);
+    });
+    r.appendChild(tr); cc.appendChild(r);
+  });
+
+  /* ---------- line chart ---------- */
+  (() => {
+    const W = 760, H = 300, P = { t: 24, r: 88, b: 42, l: 46 };
+    const decades = [1980, 1990, 2000, 2010];
+    const s1 = [[1980, 69.7], [1990, 58.7], [2000, 30.6], [2010, 27.3]];
+    const s2 = [[1980, 45.5], [1990, 21.5]];
+    const x = d => P.l + (d - 1980) / 30 * (W - P.l - P.r);
+    const y = v => P.t + (1 - v / 80) * (H - P.t - P.b);
+    const line = pts => pts.map((p, i) => (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + y(p[1]).toFixed(1)).join(' ');
+    let g = '';
+    [0, 20, 40, 60, 80].forEach(v => {
+      g += `<line class="grid" x1="${P.l}" y1="${y(v)}" x2="${W - P.r}" y2="${y(v)}"/>`;
+      g += `<text class="axis" x="${P.l - 10}" y="${y(v) + 3.5}" text-anchor="end">${v}%</text>`;
+    });
+    decades.forEach(d => g += `<text class="axis" x="${x(d)}" y="${H - P.b + 20}" text-anchor="middle">${d}s</text>`);
+    const mk = (pts, col, lab) => {
+      const p = line(pts);
+      let s = `<path class="series" d="${p}" stroke="${col}" style="--len:900"/>`;
+      pts.forEach(pt => s += `<circle class="pt" cx="${x(pt[0])}" cy="${y(pt[1])}" r="4" fill="${col}" stroke="var(--void)" stroke-width="2"/>`);
+      const last = pts[pts.length - 1];
+      s += `<text class="axis" x="${x(last[0]) + 12}" y="${y(last[1]) + 3.5}" fill="${col}">${lab}</text>`;
+      return s;
+    };
+    document.getElementById('linewrap').innerHTML =
+      `<svg class="line" viewBox="0 0 ${W} ${H}" role="img" aria-label="Life review reports fall from about 70 percent in the 1980s to about 27 percent in the 2010s, in both recall windows.">
+        ${g}${mk(s1, 'var(--amber-lit)', '27.3%')}${mk(s2, 'var(--instrument-lit)', '21.5%')}
+      </svg>`;
+  })();
+
+  /* ---------- reveal + counters ---------- */
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.bar[data-w]').forEach(b => { b.style.width = b.dataset.w; });
+      e.target.querySelectorAll('[data-count]').forEach(c => {
+        if (c.dataset.done) return; c.dataset.done = 1;
+        const to = parseFloat(c.dataset.count), dec = +(c.dataset.dec || 0), t0 = performance.now();
+        const tick = t => {
+          const k = Math.min(1, (t - t0) / 1400), e2 = 1 - Math.pow(1 - k, 3);
+          c.textContent = (to * e2).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+          if (k < 1) requestAnimationFrame(tick);
+        };
+        RM ? c.textContent = to.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) : requestAnimationFrame(tick);
+      });
+      io.unobserve(e.target);
+    });
+  }, { threshold: .18, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.rise, .figure, .ledger, .steps, .traps').forEach(n => io.observe(n));
+
+  /* ---------- ambient light field ---------- */
+  const cv = document.getElementById('field'), cx = cv.getContext('2d');
+  let w, h, dpr, motes = [];
+  const size = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = cv.width = innerWidth * dpr; h = cv.height = innerHeight * dpr;
+    cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+    motes = Array.from({ length: Math.round(innerWidth / 26) }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: (Math.random() * 1.5 + .35) * dpr,
+      s: (Math.random() * .16 + .04) * dpr,
+      a: Math.random() * .5 + .12, p: Math.random() * 6.28
+    }));
+  };
+  size(); addEventListener('resize', size);
+
+  let prog = 0;
+  const draw = t => {
+    const max = document.body.scrollHeight - innerHeight;
+    prog += ((max > 0 ? scrollY / max : 0) - prog) * .07;
+    cx.clearRect(0, 0, w, h);
+
+    // the light rises through the page, then recedes
+    const bell = Math.sin(Math.min(1, prog * 1.12) * Math.PI);
+    const cxp = w * (.5 + Math.sin(prog * 3.1) * .16);
+    const cyp = h * (.86 - prog * .5);
+    const rad = Math.max(w, h) * (.30 + bell * .40);
+    const gr = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, rad);
+    gr.addColorStop(0, `rgba(255,217,160,${.11 + bell * .10})`);
+    gr.addColorStop(.34, `rgba(203,145,70,${.05 + bell * .05})`);
+    gr.addColorStop(.68, 'rgba(54,137,182,.030)');
+    gr.addColorStop(1, 'rgba(4,6,13,0)');
+    cx.fillStyle = gr; cx.fillRect(0, 0, w, h);
+
+    // a faint horizon that lifts as you descend — the threshold
+    const hy = h * (.97 - prog * .30);
+    const hg = cx.createLinearGradient(0, hy - 90 * dpr, 0, hy + 90 * dpr);
+    hg.addColorStop(0, 'rgba(255,217,160,0)');
+    hg.addColorStop(.5, `rgba(255,217,160,${.05 + bell * .05})`);
+    hg.addColorStop(1, 'rgba(255,217,160,0)');
+    cx.fillStyle = hg; cx.fillRect(0, hy - 90 * dpr, w, 180 * dpr);
+
+    motes.forEach(m => {
+      m.y -= m.s; m.p += .012;
+      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; }
+      const tw = (Math.sin(m.p) * .35 + .65) * m.a * (.34 + bell * .66);
+      cx.beginPath(); cx.arc(m.x + Math.sin(m.p * .55) * 9 * dpr, m.y, m.r, 0, 6.2832);
+      cx.fillStyle = `rgba(255,228,186,${tw})`; cx.fill();
+    });
+    requestAnimationFrame(draw);
+  };
+  if (!RM) requestAnimationFrame(draw);
+  else { // static wash for reduced motion
+    const gr = cx.createRadialGradient(w * .5, h * .7, 0, w * .5, h * .7, Math.max(w, h) * .55);
+    gr.addColorStop(0, 'rgba(255,217,160,.10)'); gr.addColorStop(1, 'rgba(4,6,13,0)');
+    cx.fillStyle = gr; cx.fillRect(0, 0, w, h);
+  }
+})();
+</script>

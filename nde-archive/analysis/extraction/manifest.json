@@ -1,0 +1,21 @@
+{
+ "weights": {
+  "nderf": {
+   "sampled": 500,
+   "eligible": 5650,
+   "weight": 11.3
+  },
+  "adcrf": {
+   "sampled": 500,
+   "eligible": 1739,
+   "weight": 3.478
+  },
+  "oberf": {
+   "sampled": 500,
+   "eligible": 2213,
+   "weight": 4.426
+  }
+ },
+ "n_batches": 93,
+ "n_sampled": 1500
+}

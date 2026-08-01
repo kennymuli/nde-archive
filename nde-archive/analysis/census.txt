@@ -1,0 +1,118 @@
+
+==============================================================================
+A. CORPUS BASELINE
+==============================================================================
+site     accounts  total words  med words     med Qs  no-narr
+nderf        5750    8,047,776        420         46        1
+adcrf        1766    1,785,970        361         37        1
+oberf        2248    2,795,460        434         28        1
+
+narrative length percentiles (words)
+site        p10    p25    p50    p75    p90    max
+nderf       151    245    420    765   1355  24556
+adcrf       127    213    361    632   1076   7590
+oberf       157    253    434    789   1381  13812
+
+==============================================================================
+B. ELEMENT CENSUS - PROMPTED (questionnaire, full corpus)
+==============================================================================
+share answering YES, among those asked. n = number asked.
+
+element                            nderf             adcrf             oberf
+------------------------------------------------------------------------------
+out_of_body               56.6%+(n=5445)     16.5% (n=967)    61.2% (n=1410)
+tunnel                    29.8% (n=5406)     10.6% (n=151)     23.9% (n=808)
+light                     60.0% (n=5466)    30.9% (n=1087)    46.9% (n=1759)
+life_review               54.3% (n=5403)              n=11                 -
+deceased_beings           44.3% (n=5153)    52.4% (n=1277)     25.4% (n=472)
+border                    65.4% (n=5320)     22.6% (n=106)     37.2% (n=514)
+ineffable                 50.6% (n=5457)    21.3% (n=1364)    40.6% (n=1963)
+altered_time              76.6% (n=5406)     29.6% (n=108)     64.4% (n=461)
+total_understanding       67.9% (n=5395)      31.3% (n=99)     46.9% (n=463)
+unearthly_world           49.2%+(n=5154)      28.3%+(n=99)     46.7%+(n=460)
+future_scenes             43.5% (n=5120)       6.1% (n=98)     16.5% (n=461)
+psychic_after             42.4% (n=5423)    24.2% (n=1023)    31.9% (n=1418)
+values_changed            61.2% (n=5425)              n=12                 -
+
+==============================================================================
+B. ELEMENT CENSUS - SPONTANEOUS (free narrative, sampled)
+==============================================================================
+share whose OWN narrative describes it, unprompted.
+95% CI in brackets. n per site = nderf=500, adcrf=500, oberf=497
+
+element                                nderf                 adcrf                 oberf
+------------------------------------------------------------------------------------------
+out_of_body                    54.4% [50-59]            6.6% [5-9]         62.6% [58-67]
+tunnel                         20.6% [17-24]            2.2% [1-4]         12.5% [10-16]
+light                          50.4% [46-55]         16.0% [13-19]         33.4% [29-38]
+life_review                    14.2% [11-18]            0.0% [0-1]            4.4% [3-7]
+deceased_beings                16.8% [14-20]         70.2% [66-74]         12.7% [10-16]
+border                         13.0% [10-16]            2.8% [2-5]            6.6% [5-9]
+ineffable                      18.8% [16-22]           7.6% [6-10]         19.5% [16-23]
+realer_than_real                  3.0% [2-5]            1.2% [1-3]            4.8% [3-7]
+altered_time                   17.6% [15-21]            3.2% [2-5]         14.3% [11-18]
+total_understanding              9.2% [7-12]            1.6% [1-3]           7.6% [6-10]
+telepathy                      21.4% [18-25]         18.2% [15-22]         18.3% [15-22]
+unconditional_love             20.6% [17-24]           9.4% [7-12]         23.1% [20-27]
+peace                          40.2% [36-45]         16.0% [13-19]         25.6% [22-30]
+fear_terror                    22.6% [19-26]         14.4% [12-18]         39.0% [35-43]
+darkness_void                  25.2% [22-29]            3.2% [2-5]         15.5% [13-19]
+music_sound                    12.4% [10-16]           7.0% [5-10]         15.3% [12-19]
+religious_figure               21.0% [18-25]            4.6% [3-7]         17.3% [14-21]
+garden_landscape                10.6% [8-14]            6.2% [4-9]          10.3% [8-13]
+reluctant_return               25.6% [22-30]            2.8% [2-5]         15.1% [12-19]
+chose_return                   19.4% [16-23]            0.2% [0-1]          10.5% [8-13]
+no_fear_of_death                10.0% [8-13]            0.6% [0-2]            4.8% [3-7]
+
+==============================================================================
+B. PROMPTED vs SPONTANEOUS (nderf)
+==============================================================================
+A large gap means people confirm the element when asked but rarely
+volunteer it. A small gap means it is central to how they tell the story.
+
+element                    prompted    spontaneous        gap
+--------------------------------------------------------------
+out_of_body                   56.6%          54.4%      -2.2
+tunnel                        29.8%          20.6%      -9.2
+light                         60.0%          50.4%      -9.6
+life_review                   54.3%          14.2%     -40.1
+deceased_beings               44.3%          16.8%     -27.5
+border                        65.4%          13.0%     -52.4
+ineffable                     50.6%          18.8%     -31.8
+altered_time                  76.6%          17.6%     -59.0
+total_understanding           67.9%           9.2%     -58.7
+
+==============================================================================
+B14. ELEMENTS THE QUESTIONNAIRE NEVER ASKS ABOUT
+==============================================================================
+Present in narratives but absent from the instrument, so no
+prompted rate exists anywhere in the published research.
+
+element                   spontaneous
+----------------------------------------
+realer_than_real                 3.0%
+telepathy                       19.3%
+unconditional_love              17.7%
+peace                           27.3%
+fear_terror                     25.3%
+darkness_void                   14.6%
+music_sound                     11.6%
+religious_figure                14.3%
+garden_landscape                 9.0%
+reluctant_return                14.5%
+chose_return                    10.0%
+no_fear_of_death                 5.1%
+
+==============================================================================
+METHOD NOTE - why spontaneous rates are not from regex
+==============================================================================
+The regex lexicon was validated against 80 blind-labelled narratives
+and retired: micro recall 0.40, precision 0.84, with per-element
+recall from 0.00 to 0.93. Inter-labeller kappa was 0.96, so the
+failure was the patterns, not the task. Worst offenders:
+    border                 regex recall 0.00
+    chose_return           regex recall 0.00
+    peace                  regex recall 0.04
+    life_review            regex recall 0.12
+    reluctant_return       regex recall 0.17
+    altered_time           regex recall 0.20

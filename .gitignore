@@ -1,0 +1,23 @@
+# Extracted corpus — 12.9M words of other people's published first-person
+# accounts. Kept out of version control deliberately: it is ~630 MB, and it is
+# not ours to redistribute. Anyone with the code can regenerate it in about an
+# hour by running scrape.py.
+nde-archive/output/
+nde-archive/analysis/data/
+nde-archive/.cache/
+
+# Narrative payloads handed to the extraction workers (full account text).
+nde-archive/analysis/extraction/batch_*.json
+nde-archive/analysis/tier3/batch_*.json
+nde-archive/analysis/validation/batch_*.json
+nde-archive/analysis/quotes.json
+
+# Run logs
+nde-archive/analysis/*.log
+nde-archive/analysis/*.err
+nde-archive/run*.log
+nde-archive/run*.err
+
+.DS_Store
+__pycache__/
+*.pyc

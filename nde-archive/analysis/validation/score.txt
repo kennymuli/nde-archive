@@ -1,0 +1,51 @@
+LEXICON VALIDATION
+==========================================================================
+narratives labelled: 80
+inter-labeller agreement on 24 shared narratives: kappa=0.96 (raw 98.4%)
+  -> regex recall below roughly 98% is a regex problem; above it, labelling noise dominates
+
+element                 TP    FP    FN   prec   rec    F1
+--------------------------------------------------------------------------
+out_of_body             16     1    21   0.94  0.43  0.59
+tunnel                  15     3     2   0.83  0.88  0.86
+light                   27     4     9   0.87  0.75  0.81
+life_review              1     0     7   1.00  0.12  0.22
+deceased_beings          6     0    16   1.00  0.27  0.43
+border                   0     0     9    -    0.00   -  
+ineffable               10     0     7   1.00  0.59  0.74
+realer_than_real         1     0     2   1.00  0.33  0.50
+altered_time             3     0    12   1.00  0.20  0.33
+total_understanding      3     1     5   0.75  0.38  0.50
+telepathy               11     1    12   0.92  0.48  0.63
+unconditional_love       5     1    10   0.83  0.33  0.48
+peace                    1     0    27   1.00  0.04  0.07
+fear_terror              4     2    12   0.67  0.25  0.36
+darkness_void            7     1    15   0.88  0.32  0.47
+music_sound              4     1     5   0.80  0.44  0.57
+religious_figure        14     8     1   0.64  0.93  0.76
+garden_landscape         2     2     3   0.50  0.40  0.44
+reluctant_return         3     0    15   1.00  0.17  0.29
+chose_return             0     1    11   0.00  0.00   -  
+no_fear_of_death         3     0     4   1.00  0.43  0.60
+--------------------------------------------------------------------------
+OVERALL (micro)        136    26   205   0.84  0.40  0.54
+
+LOW RECALL - these under-count and need patterns added:
+  border               recall 0.00  (9 missed)
+  chose_return         recall 0.00  (11 missed)
+  peace                recall 0.04  (27 missed)
+  life_review          recall 0.12  (7 missed)
+  reluctant_return     recall 0.17  (15 missed)
+  altered_time         recall 0.20  (12 missed)
+  fear_terror          recall 0.25  (12 missed)
+  deceased_beings      recall 0.27  (16 missed)
+  darkness_void        recall 0.32  (15 missed)
+  realer_than_real     recall 0.33  (2 missed)
+  unconditional_love   recall 0.33  (10 missed)
+  total_understanding  recall 0.38  (5 missed)
+  garden_landscape     recall 0.40  (3 missed)
+  no_fear_of_death     recall 0.43  (4 missed)
+  out_of_body          recall 0.43  (21 missed)
+  music_sound          recall 0.44  (5 missed)
+  telepathy            recall 0.48  (12 missed)
+  ineffable            recall 0.59  (7 missed)

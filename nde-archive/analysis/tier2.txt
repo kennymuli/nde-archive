@@ -1,0 +1,140 @@
+
+================================================================================
+I66. RELIGION BEFORE -> AFTER
+================================================================================
+The item's answers combine two axes; they are separated here.
+
+RELIGIOSITY (n=2395 pairs).  rows = before, cols = after, % of row
+                    Liberal   Moderate Conservative        n
+Liberal              81.7%     13.3%      5.0%      840
+Moderate             20.0%     71.1%      8.9%     1064
+Conservative         22.4%     13.0%     64.6%      491
+unchanged: 73.4%
+
+DENOMINATION (n=3026 pairs). % of row that ended in each column
+before                           stayed  -> None        n
+Christian - Catholic              57.8%    13.7%      913
+Christian - Protestant            54.3%    12.1%      635
+Christian - Other                 67.5%     6.6%      366
+Unaffiliated - None               57.9%    60.8%      347
+Unaffiliated - Atheist            41.9%    57.6%      172
+Unaffiliated - Agnostic           57.1%    64.3%      154
+Other or several faiths           67.4%     7.4%       95
+Jewish                            74.1%     5.2%       58
+Other - New age/Pagan             73.2%    10.7%       56
+
+net change by category (positive = gained adherents)
+   Other or several faiths           +185
+   Other - New age/Pagan             +109
+   Christian - Other                  +96
+   Spiritual, not religious           +93
+   Buddhist                           +52
+   Unaffiliated - None                +39
+   Christian - Catholic              -312
+   Christian - Protestant            -212
+   Unaffiliated - Atheist             -67
+
+================================================================================
+J78. ELEMENT RATES BY GENDER
+================================================================================
+prompted affirmative rate, by subgroup (n in header)
+element                   Female(3103)      Male(2457)
+--------------------------------------------------------------------------------
+out_of_body                      65.6%           64.8%
+tunnel                           36.6%           34.1%
+light                            67.8%           64.2%  **
+life_review                      54.1%           54.4%
+deceased_beings                  49.8%           46.1%  *
+border                           68.0%           62.2%  **
+ineffable                        57.3%           50.3%  **
+altered_time                     78.6%           74.1%  **
+total_understanding              69.5%           65.9%  **
+unearthly_world                  60.2%           60.4%
+future_scenes                    44.1%           42.7%
+psychic_after                    56.6%           43.9%  **
+values_changed                   68.3%           65.4%  *
+
+* p<0.05, ** p<0.01 comparing first and last column only.
+With 13 elements tested, expect ~1 false positive at p<0.05 by chance.
+
+================================================================================
+J79. ELEMENT RATES BY AGE AT EXPERIENCE
+================================================================================
+prompted affirmative rate, by subgroup (n in header)
+element                    Toddler(96)  Young Chi(501)  Older Chi(625) College A(1048)     Adult(2207)      Older(592)
+--------------------------------------------------------------------------------
+out_of_body                      74.4%           68.5%           67.7%           69.2%           64.1%           51.8%  **
+tunnel                           30.6%           33.3%           37.6%           39.7%           37.2%           26.6%
+light                            62.7%           67.6%           65.7%           66.4%           66.8%           65.6%
+life_review                      47.9%           52.9%           56.5%           60.8%           55.6%           46.8%
+deceased_beings                  50.0%           41.7%           40.9%           47.8%           52.7%           44.3%
+border                           65.3%           61.3%           61.9%           69.6%           68.6%           62.4%
+ineffable                        52.3%           48.0%           55.0%           55.5%           56.1%           47.2%
+altered_time                     70.5%           74.8%           77.4%           78.2%           78.4%           71.7%
+total_understanding              70.5%           63.9%           66.0%           70.7%           71.7%           61.5%
+unearthly_world                  60.9%           52.5%           58.5%           59.6%           62.2%           63.8%
+future_scenes                    46.7%           46.1%           42.8%           44.9%           44.8%           34.0%  *
+psychic_after                    68.2%           66.9%           54.7%           53.9%           48.1%           34.0%  **
+values_changed                   52.1%           59.6%           62.0%           71.8%           67.6%           66.2%  *
+
+* p<0.05, ** p<0.01 comparing first and last column only.
+With 13 elements tested, expect ~1 false positive at p<0.05 by chance.
+
+================================================================================
+B12. ELEMENT CO-OCCURRENCE (spontaneous labels, n=1500)
+================================================================================
+lift = P(both) / (P(a) * P(b)). >1 means they travel together.
+
+strongest positive associations
+element A                element B                   lift co-occur
+altered_time             total_understanding         3.45     2.5%
+total_understanding      no_fear_of_death            3.39     1.1%
+life_review              total_understanding         3.16     1.2%
+unconditional_love       no_fear_of_death            2.94     2.7%
+total_understanding      unconditional_love          2.89     3.1%
+tunnel                   border                      2.77     2.5%
+life_review              altered_time                2.76     2.0%
+border                   reluctant_return            2.75     3.0%
+total_understanding      chose_return                2.70     1.7%
+life_review              chose_return                2.67     1.7%
+unconditional_love       reluctant_return            2.61     6.7%
+ineffable                unconditional_love          2.60     7.0%
+
+weakest (elements that avoid each other)
+deceased_beings          music_sound                 0.69     2.7%
+deceased_beings          total_understanding         0.69     1.4%
+deceased_beings          chose_return                0.60     2.0%
+deceased_beings          no_fear_of_death            0.59     1.0%
+out_of_body              deceased_beings             0.55     7.6%
+deceased_beings          darkness_void               0.55     2.7%
+
+elements reported per narrative: median=3  p25=1  p75=5  max=16
+narratives with zero elements: 118 (7.9%)
+
+================================================================================
+J83. PRIOR NDE KNOWLEDGE vs ACCOUNT CONTENT
+================================================================================
+Does knowing about NDEs beforehand predict a more canonical account?
+This is the corpus's own test of an expectancy effect.
+
+group sizes: knew=1264, did not know=3099
+
+element                          knew   did not know        z
+--------------------------------------------------------------
+out_of_body                     58.2%          63.8%    -3.21
+tunnel                          29.2%          37.6%    -4.78
+light                           63.6%          67.2%    -2.15
+life_review                     46.0%          48.4%    -1.46
+deceased_beings                 49.7%          43.3%    +3.54
+border                          65.4%          66.3%    -0.58
+ineffable                       55.7%          53.7%    +1.18
+altered_time                    79.1%          76.1%    +2.13
+total_understanding             68.7%          68.2%    +0.36
+unearthly_world                 63.8%          58.2%    +3.27
+future_scenes                   44.1%          44.3%    -0.10
+psychic_after                   45.7%          51.4%    -3.16
+values_changed                  63.5%          63.9%    -0.23
+
+spontaneous elements per narrative (prompting-free measure)
+   knew           n=125  median=4  mean=4.44
+   did not know   n=261  median=4  mean=4.57
