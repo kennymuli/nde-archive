@@ -1,0 +1,435 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology — The Threshold Archive</title>
+
+<style>
+:root{
+  --void:#04060D; --stratum:#0B1222; --bone:#E9E4DA; --dim:#98A1B4; --faint:#5C6679; --rule:#1B2439;
+  --halo:#FFD9A0; --amber:#B87F26; --amber-lit:#E5A73E;
+  --instrument:#3689B6; --instrument-lit:#57AEDC; --ember:#B65C48;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+  --measure:36rem; --gut:clamp(1.15rem,5vw,4rem);
+}
+:root[data-theme="light"],:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--void);color:var(--bone);font-family:var(--serif);
+  font-size:clamp(1rem,.5vw + .92rem,1.13rem);line-height:1.74;overflow-x:hidden}
+::selection{background:rgba(255,217,160,.24)}
+
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+
+.wrap{width:min(100% - var(--gut)*2,68rem);margin-inline:auto}
+.narrow{width:min(100% - var(--gut)*2,var(--measure));margin-inline:auto}
+section{padding-block:clamp(3.5rem,8vh,6rem)}
+
+h1,h2,h3,h4{font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.03;letter-spacing:-.032em}
+h2{font-size:clamp(1.55rem,3.2vw,2.3rem);line-height:1.14;letter-spacing:-.02em;margin-bottom:1.3rem}
+h3{font-size:clamp(1.1rem,1.8vw,1.32rem);line-height:1.3;margin-bottom:.6rem}
+p{margin:0 0 1.3em}
+.lede{font-size:clamp(1.12rem,1.4vw,1.32rem);color:#D6D1C7;line-height:1.62}
+.dim{color:var(--dim)}
+.note{font-family:var(--mono);font-size:.75rem;line-height:1.68;color:var(--faint)}
+strong{font-weight:600;color:#F5F1E8}
+em.k{font-style:normal;color:var(--halo)}
+code{font-family:var(--mono);font-size:.86em;color:var(--amber-lit);
+  background:rgba(184,127,38,.11);padding:.1em .38em;border-radius:3px}
+
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--amber-lit);margin:0 0 1.2rem;display:flex;align-items:center;gap:.8rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--rule),transparent)}
+
+a{color:var(--amber-lit);text-decoration:none;border-bottom:1px solid rgba(229,167,62,.32);transition:border-color .25s,color .25s}
+a:hover,a:focus-visible{color:var(--halo);border-color:var(--halo)}
+a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2px}
+
+/* masthead */
+.mast{padding-block:clamp(4.5rem,12vh,8rem) clamp(2rem,5vh,3.5rem);border-bottom:1px solid var(--rule)}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--faint);border:0;display:inline-block;margin-bottom:2.5rem}
+.back:hover{color:var(--amber-lit)}
+
+/* contents */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-block:2.5rem}
+.toc a{background:var(--stratum);padding:1.1rem 1.2rem;border:0;display:block;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--dim);transition:background .25s,color .25s}
+.toc a:hover,.toc a:focus-visible{background:#131D33;color:var(--halo)}
+.toc a b{display:block;color:var(--amber-lit);font-weight:500;font-size:.62rem;letter-spacing:.2em;margin-bottom:.4rem}
+
+/* step list */
+.stage{border-left:1px solid var(--rule);padding-left:clamp(1.2rem,3vw,2.2rem);margin-block:2.4rem;position:relative}
+.stage::before{content:"";position:absolute;left:-4px;top:.55rem;width:7px;height:7px;border-radius:50%;
+  background:var(--amber);box-shadow:0 0 0 4px var(--void),0 0 14px 2px rgba(184,127,38,.55)}
+.stage h3{color:var(--bone)}
+.stage .meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:.75rem}
+
+/* table */
+.tbl{width:100%;overflow-x:auto;margin-block:1.8rem}
+table{border-collapse:collapse;width:100%;min-width:30rem;font-family:var(--mono);font-size:.76rem}
+th,td{text-align:left;padding:.72rem .9rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--amber-lit);font-weight:500;letter-spacing:.13em;text-transform:uppercase;font-size:.63rem;white-space:nowrap}
+td{color:var(--dim);line-height:1.55}
+td.num{font-variant-numeric:tabular-nums;color:var(--bone);white-space:nowrap}
+tbody tr:hover{background:rgba(255,255,255,.028)}
+td .good{color:var(--instrument-lit)}
+td .bad{color:var(--ember)}
+
+/* trap cards */
+.trap{border:1px solid var(--rule);border-radius:4px;background:rgba(11,18,34,.55);
+  padding:1.35rem 1.5rem;margin-bottom:.9rem}
+.trap h4{font-size:1rem;color:var(--bone);margin-bottom:.5rem}
+.trap p{margin:0;font-size:.94rem;color:var(--dim);line-height:1.6}
+.trap .swing{display:block;font-family:var(--mono);font-size:.74rem;color:var(--halo);margin-top:.75rem}
+.trap .swing s{color:var(--ember);text-decoration-color:rgba(182,92,72,.6)}
+
+.warn{border-left:2px solid var(--ember);padding-left:1.4rem;margin-block:2rem}
+.warn h3{color:var(--ember)}
+
+footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
+.copyright{border-top:1px solid var(--rule);margin-top:2rem;padding-top:1.6rem;
+  display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.7rem;color:var(--faint)}
+
+.rise{opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.16,.8,.3,1),transform .9s cubic-bezier(.16,.8,.3,1)}
+.rise.in{opacity:1;transform:none}
+
+@media (hover:hover) and (pointer:fine){
+  body,a{cursor:none}
+  #cur,#cur-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;
+    will-change:transform;mix-blend-mode:screen}
+  #cur{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--halo);box-shadow:0 0 12px 3px rgba(255,217,160,.75)}
+  #cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(255,217,160,.42);
+    transition:width .3s,height .3s,margin .3s,border-color .3s}
+  body.hot #cur-ring{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:rgba(255,217,160,.85)}
+}
+@media (max-width:640px){
+  :root{--gut:1.15rem}
+  .toc{grid-template-columns:1fr}
+  .trap{padding:1.1rem 1.15rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important}
+  .rise{opacity:1;transform:none}
+  body,a{cursor:auto!important}
+}
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+
+<main>
+<header class="mast">
+  <div class="narrow">
+    <a class="back" href="index.html">← The Threshold Archive</a>
+    <h1>Methodology</h1>
+    <p class="lede" style="margin-top:1.5rem">How 9,764 accounts became the numbers on the previous page — what was measured, what was validated, and what is still provisional.</p>
+  </div>
+</header>
+
+<section>
+  <div class="narrow">
+    <nav class="toc rise">
+      <a href="#sources"><b>01</b>Sources and extraction</a>
+      <a href="#structure"><b>02</b>What the data is</a>
+      <a href="#coding"><b>03</b>Response coding</a>
+      <a href="#elements"><b>04</b>Element detection</a>
+      <a href="#validation"><b>05</b>Validation</a>
+      <a href="#traps"><b>06</b>Five failures</a>
+      <a href="#limits"><b>07</b>Limits and confounds</a>
+      <a href="#provisional"><b>08</b>Still provisional</a>
+    </nav>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="narrow">
+    <p class="eyebrow rise">01 — Sources and extraction</p>
+    <h2 class="rise">Three archives, three architectures.</h2>
+    <p class="rise">The corpus is the complete public archives of three sister sites run by the Experience Research Foundation. Each was scraped with a purpose-built extractor, because each stores its accounts differently.</p>
+  </div>
+  <div class="wrap">
+    <div class="tbl rise">
+      <table>
+        <thead><tr><th>Archive</th><th>Content</th><th class="num">Accounts</th><th class="num">Words</th><th>Discovery method</th></tr></thead>
+        <tbody>
+          <tr><td>nderf.org</td><td>Near-death experiences</td><td class="num">5,750</td><td class="num">8,192,299</td><td>52 static archive index pages</td></tr>
+          <tr><td>adcrf.org</td><td>After-death communication</td><td class="num">1,766</td><td class="num">1,850,928</td><td>A–Z sitemap ∪ 8 era archives</td></tr>
+          <tr><td>oberf.org</td><td>Out-of-body, prebirth, deathbed and related</td><td class="num">2,248</td><td class="num">2,817,541</td><td>A–Z sitemap ∪ 20 category pages</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="narrow">
+    <div class="stage rise">
+      <div class="meta">Discovery</div>
+      <h3>Why not the search API</h3>
+      <p class="dim">nderf.org exposes a JSON search API, which looks like the obvious route. It advertises 292 pages of results but returns <code>HTTP 500</code> for any page beyond the 49th, capping a single query at 980 of its 5,826 records. Its filter fields are also not covering partitions — <code>GENDER=M</code> plus <code>GENDER=F</code> sums to 5,731, not 5,826 — so no combination of queries can be shown to reach everything. Discovery instead walks the static archive index, which yields <strong>5,811 URLs</strong> from plain HTML with no such ceiling. The API is still used, but only to attach country, age and classification to accounts already found.</p>
+    </div>
+    <div class="stage rise">
+      <div class="meta">Coverage</div>
+      <h3>Union, because every index is incomplete</h3>
+      <p class="dim">On both sister sites the A–Z sitemap and the category pages each omit accounts the other contains. oberf.org's sitemap has a corrupted stretch through section D — 19 accounts appear only in the category listings, while 56 older ones appear only in the sitemap. Discovery therefore unions every index and de-duplicates. Final coverage: <strong>9,764 of 9,793</strong> discovered URLs. All 29 misses are genuine dead links published by the sites themselves.</p>
+    </div>
+    <div class="stage rise">
+      <div class="meta">Politeness</div>
+      <h3>Rate limits and shared hosting</h3>
+      <p class="dim">No robots.txt exists on any host, which was treated as <em class="k">no directives published</em> rather than as permission. Two concurrent requests per server, ≥0.35 s spacing, exponential backoff with jitter, <code>Retry-After</code> honoured. adcrf.org and oberf.org resolve to the same physical machine, so they share one concurrency budget rather than getting one each.</p>
+    </div>
+  </div>
+</section>
+
+<section id="structure">
+  <div class="narrow">
+    <p class="eyebrow rise">02 — What the data is</p>
+    <h2 class="rise">A survey, not a pile of prose.</h2>
+    <p class="rise">This is the fact that makes quantitative analysis possible. Every contributor writes a free-text narrative <em class="k">and</em> answers a standardised questionnaire — roughly 50 items on nderf.org, answered by 5,300–5,700 people each.</p>
+    <p class="rise dim">So each account yields two independent records of the same experience: what the person chose to write, and how they responded when asked directly. The site's published research draws on the questionnaire. Comparing the two halves is where most of the findings on the previous page come from.</p>
+    <div class="stage rise">
+      <div class="meta">Enrichment</div>
+      <h3>Demographics</h3>
+      <p class="dim">Gender, religion before and after, and the date of the experience come from the questionnaire. Country, age bracket and editorial classification exist <strong>only</strong> in the search API, and reaching them meant working around the 980-record ceiling: each sort order opens a near-disjoint window onto the same result set, so sweeping six of them reaches roughly five times further than one. Combined with the site's own 116-country vocabulary as a partition key, this lifted coverage from 22% to <strong>93.2%</strong> for country and <strong>88.5%</strong> for age.</p>
+    </div>
+  </div>
+</section>
+
+<section id="coding">
+  <div class="narrow">
+    <p class="eyebrow rise">03 — Response coding</p>
+    <h2 class="rise">The questionnaire has no single answer format.</h2>
+    <p class="rise">This is the least glamorous part of the work and the one most capable of destroying every number downstream. Responses arrive in at least three shapes, and no generic rule handles all of them.</p>
+  </div>
+  <div class="wrap">
+    <div class="tbl rise">
+      <table>
+        <thead><tr><th>Shape</th><th>Example item</th><th>What a naive parser does</th></tr></thead>
+        <tbody>
+          <tr><td>Yes / No / Uncertain</td><td>Did you pass through a tunnel?</td><td>Works</td></tr>
+          <tr><td>Coded value plus free text</td><td>“Yes” followed by a paragraph of elaboration</td><td><span class="bad">Discards the answer entirely</span></td></tr>
+          <tr><td>Descriptive alternatives</td><td>Did time seem to speed up or slow down?</td><td><span class="bad">Reports 0% — “yes” never appears</span></td></tr>
+          <tr><td>Non-response</td><td>“No response”, “No comment”</td><td><span class="bad">Counted as a negative</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="narrow">
+    <p class="rise dim">Every item's option vocabulary was therefore enumerated from the data and coded by hand as affirmative, partial, negative, uncertain or missing. Denominators count only valid responses; “partial” is reported separately rather than folded into the headline figure. The coding table is <a href="https://github.com/kennymuli/nde-archive/blob/main/nde-archive/analysis/option_coding.py">published in full</a>.</p>
+  </div>
+</section>
+
+<section id="elements">
+  <div class="narrow">
+    <p class="eyebrow rise">04 — Element detection</p>
+    <h2 class="rise">Two rates, never merged.</h2>
+    <p class="rise"><strong>Prompted</strong> rates come from the questionnaire across the full corpus. <strong>Spontaneous</strong> rates come from reading narratives and recording what the writer described unbidden. They answer different questions and are never summed or averaged.</p>
+    <div class="stage rise">
+      <div class="meta">Sampling</div>
+      <h3>1,500 narratives, 500 per archive</h3>
+      <p class="dim">Equal allocation rather than proportional, so each archive carries the same precision for cross-corpus comparison; sampling weights are recorded so overall rates can be reweighted to the true corpus mix. Narratives under 60 words were excluded. Batches were sized by word count rather than narrative count, so a single 15,000-word account could not crowd out its batch.</p>
+    </div>
+    <div class="stage rise">
+      <div class="meta">Coding</div>
+      <h3>21 elements, read individually</h3>
+      <p class="dim">Each narrative was read and coded for 21 elements — presence only, negations excluded, borderline calls recorded separately as uncertain rather than forced. A further 600 narratives were coded in more depth for event order, beings encountered, settings, corroboration claims and style. Coverage: <strong>1,497 of 1,500</strong> and <strong>598 of 600</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="validation">
+  <div class="narrow">
+    <p class="eyebrow rise">05 — Validation</p>
+    <h2 class="rise">The first method failed its own test.</h2>
+    <p class="rise">Element detection was originally done with hand-written text patterns. Before trusting it, 80 narratives were coded blind by two independent readers and the patterns scored against them.</p>
+  </div>
+  <div class="wrap">
+    <div class="tbl rise">
+      <table>
+        <thead><tr><th>Measure</th><th class="num">Result</th><th>Reading</th></tr></thead>
+        <tbody>
+          <tr><td>Inter-reader agreement (κ)</td><td class="num">0.96</td><td><span class="good">The task itself is reliable — readers agree on 98.4% of judgements</span></td></tr>
+          <tr><td>Pattern precision</td><td class="num">0.84</td><td>What the patterns found was usually right</td></tr>
+          <tr><td>Pattern recall</td><td class="num">0.40</td><td><span class="bad">They missed three fifths of everything</span></td></tr>
+          <tr><td>Recall range across elements</td><td class="num">0.00 – 0.93</td><td><span class="bad">Fatal: relative frequencies became artefacts of pattern quality</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="narrow">
+    <p class="rise">The κ of 0.96 is what makes the verdict unambiguous. Because two independent readers agreed almost perfectly, the disagreement with the patterns was pattern failure, not ambiguity in the task. There was no defence available.</p>
+    <p class="rise dim">The uneven recall mattered more than the low average. “Peace” scored 0.04 and “religious figure” 0.93, so any ranking between elements would have measured how well each pattern happened to be written. The pattern lexicon was retired, flagged invalid in the published codebook, and replaced by read-through coding. <a href="https://github.com/kennymuli/nde-archive/blob/main/nde-archive/analysis/score_lexicon.py">Scoring code</a> and the labelled sample are in the repository.</p>
+  </div>
+</section>
+
+<section id="traps">
+  <div class="narrow">
+    <p class="eyebrow rise">06 — Five failures</p>
+    <h2 class="rise">Every one produced a confident wrong number.</h2>
+    <p class="rise">None of these threw an error. Each was caught because a figure was <em class="k">implausible</em>, not because anything broke.</p>
+    <div class="rise">
+      <div class="trap"><h4>Elaborated answers were discarded</h4><p>Many people answer “Yes” and then keep writing. Matching only the bare token dropped every one of them from both numerator and denominator.</p><span class="swing">Saw a light: <s>9.7%</s> → 62.6%</span></div>
+      <div class="trap"><h4>Six items were never yes/no</h4><p>They offer descriptive alternatives, so no valid answer contains the word “yes”.</p><span class="swing">Time distortion: <s>0.0%</s> → 76.6% · Border: <s>0.1%</s> → 65.4%</span></div>
+      <div class="trap"><h4>Pattern matching missed most of its targets</h4><p>Recall of 0.40, varying from 0.00 to 0.93 by element, making cross-element comparison meaningless.</p><span class="swing">Retired; replaced by 1,500 read-through judgements</span></div>
+      <div class="trap"><h4>An age effect was a recall effect</h4><p>Reports of psychic ability appeared to vary sharply with age at the time of the experience. Cross-tabulating against years elapsed showed most of the gradient was simply time to notice.</p><span class="swing">Apparent 34-point age gradient → largely recall interval</span></div>
+      <div class="trap"><h4>Pooling three archives invented a correlation</h4><p>Combining collections with very different base rates made encounters with the dead appear to repel every other element. Within a single archive they are among the strongest pairings — Simpson's paradox.</p><span class="swing">Caught by re-running every correlation within corpus</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="narrow">
+    <p class="eyebrow rise">07 — Limits and confounds</p>
+    <h2 class="rise">What these numbers cannot tell you.</h2>
+    <div class="warn rise">
+      <h3>This is not a population sample</h3>
+      <p class="dim">Contributors chose to submit to a research site about near-death experience. Nothing here estimates how common any of this is in the general population — only what this corpus contains.</p>
+    </div>
+    <div class="warn rise">
+      <h3>Prompting is not neutral</h3>
+      <p class="dim">Asking “did you pass through a tunnel?” invites a judgement about a specific element. That is precisely why prompted and spontaneous rates are reported separately and never merged: the gap between them is a measurement, not a nuisance.</p>
+    </div>
+    <div class="warn rise">
+      <h3>The corpus is 61% United States</h3>
+      <p class="dim">Of accounts with a recorded country, 3,284 of 5,358 are American. Canada, France, Australia and the United Kingdom follow far behind. Any “cross-cultural” comparison here is really the United States against a thin and uneven tail.</p>
+    </div>
+    <div class="warn rise">
+      <h3>Recall intervals are long and uneven</h3>
+      <p class="dim">Many accounts were written decades after the event. Every content finding was tested against years-elapsed; one apparent age effect dissolved entirely under that test, and it is the first check any new finding gets.</p>
+    </div>
+    <div class="warn rise">
+      <h3>The questionnaire changed</h3>
+      <p class="dim">Earlier submissions answered roughly 23 questions; later ones answer 50–57. Any trend across time is confounded with instrument version unless segmented, so decade comparisons are reported within recall window.</p>
+    </div>
+    <div class="warn rise">
+      <h3>Coverage is not quite complete</h3>
+      <p class="dim">Country and age reach 93.2% and 88.5% of accounts. The unmatched remainder skews toward newer submissions, so it is not a random slice — trends across time will slightly under-weight recent accounts.</p>
+    </div>
+  </div>
+</section>
+
+<section id="provisional">
+  <div class="narrow">
+    <p class="eyebrow rise">08 — Still provisional</p>
+    <h2 class="rise">Flagged rather than fixed.</h2>
+    <p class="rise">Three things on the previous page are weaker than the rest, and are marked here so nobody cites them as settled.</p>
+    <div class="stage rise">
+      <h3>Claim taxonomy</h3>
+      <p class="dim">Categories for corroboration claims were defined in advance rather than derived from the data, and 314 of 880 claims fell into “other”. The specificity breakdown is unaffected — it is coded independently — but the <em class="k">kinds</em> of claim should be rebuilt from the corpus before anyone relies on them.</p>
+    </div>
+    <div class="stage rise">
+      <h3>Message themes</h3>
+      <p class="dim">Recurring themes in what people report being told are keyword matches over paraphrases, never checked against blind reading. Unlike the element labels, they carry no validation. They are the weakest numbers produced and are not shown on the main page.</p>
+    </div>
+    <div class="stage rise">
+      <h3>The life review measure</h3>
+      <p class="dim">Its two affirmative options behave very differently from one another, which suggests merging them into a single rate was probably a mistake. The decline across decades holds in both recall windows, but the absolute level should be treated as soft.</p>
+    </div>
+    <p class="rise" style="margin-top:2.5rem">Everything here is descriptive. It reports what tens of thousands of pages say and how often they say it. It makes no claim about what caused the experiences, and none of the analysis is capable of addressing that question.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="narrow">
+    <p class="note">Sources: the public archives of nderf.org, adcrf.org and oberf.org — 9,764 accounts, 12,860,768 words, extracted August 2026. Experiences on these archives are jointly copyrighted by the foundation and the people who wrote them; many contributors did not grant permission to publish their words elsewhere, so no account text is reproduced anywhere on this site. Full pipeline and data available at <a href="https://github.com/kennymuli/nde-archive">github.com/kennymuli/nde-archive</a>.</p>
+    <div class="copyright">
+      <span>© 2026 Kenny Li. Analysis, writing and design.</span>
+      <span>Underlying accounts © their authors and the Experience Research Foundation.</span>
+    </div>
+  </div>
+</footer>
+</main>
+
+<script>
+(() => {
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.rise').forEach(n => io.observe(n));
+
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let mx = innerWidth / 2, my = innerHeight / 2, hasMouse = false;
+  if (fine && !RM) {
+    const dot = document.createElement('div'), ring = document.createElement('div');
+    dot.id = 'cur'; ring.id = 'cur-ring'; document.body.append(dot, ring);
+    let rx = mx, ry = my;
+    addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY; hasMouse = true;
+      dot.style.transform = `translate(${mx}px,${my}px)`;
+    }, { passive: true });
+    document.querySelectorAll('a').forEach(n => {
+      n.addEventListener('mouseenter', () => document.body.classList.add('hot'));
+      n.addEventListener('mouseleave', () => document.body.classList.remove('hot'));
+    });
+    (function trail() {
+      rx += (mx - rx) * .16; ry += (my - ry) * .16;
+      ring.style.transform = `translate(${rx}px,${ry}px)`;
+      requestAnimationFrame(trail);
+    })();
+  } else if (fine) {
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; hasMouse = true; }, { passive: true });
+  }
+
+  const cv = document.getElementById('field'), cx = cv.getContext('2d');
+  let w, h, dpr, motes = [];
+  const size = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = cv.width = innerWidth * dpr; h = cv.height = innerHeight * dpr;
+    cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+    motes = Array.from({ length: Math.round(innerWidth / 13) }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: (Math.random() * 1.7 + .5) * dpr, s: (Math.random() * .15 + .04) * dpr,
+      a: Math.random() * .4 + .26, p: Math.random() * 6.28, dx: 0, dy: 0,
+      k: Math.random() * .5 + .5
+    }));
+  };
+  size(); addEventListener('resize', size);
+
+  const draw = () => {
+    cx.clearRect(0, 0, w, h);
+    const g = cx.createRadialGradient(w * .5, h * .16, 0, w * .5, h * .16, Math.max(w, h) * .7);
+    g.addColorStop(0, 'rgba(255,217,160,.055)');
+    g.addColorStop(.5, 'rgba(54,137,182,.022)');
+    g.addColorStop(1, 'rgba(4,6,13,0)');
+    cx.fillStyle = g; cx.fillRect(0, 0, w, h);
+
+    const px = mx * dpr, py = my * dpr, reach = 200 * dpr;
+    motes.forEach(m => {
+      m.y -= m.s; m.p += .012;
+      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; m.dx = m.dy = 0; }
+      let glow = 0;
+      if (hasMouse) {
+        const vx = px - (m.x + m.dx), vy = py - (m.y + m.dy), d = Math.hypot(vx, vy);
+        if (d < reach) {
+          const pull = (1 - d / reach) * (1 - d / reach);
+          m.dx += (vx / (d || 1)) * pull * 1.6 * m.k;
+          m.dy += (vy / (d || 1)) * pull * 1.6 * m.k;
+          glow = pull;
+        }
+      }
+      m.dx *= .90; m.dy *= .90;
+      const x = m.x + m.dx + Math.sin(m.p * .55) * 8 * dpr, y = m.y + m.dy;
+      const r = m.r * (1 + glow * .8);
+      const tw = (Math.sin(m.p) * .3 + .7) * m.a * (1 + glow * 2);
+      if (glow > .06) {
+        const hg = cx.createRadialGradient(x, y, 0, x, y, r * 7);
+        hg.addColorStop(0, `rgba(255,224,176,${.28 * glow})`);
+        hg.addColorStop(1, 'rgba(255,224,176,0)');
+        cx.fillStyle = hg; cx.beginPath(); cx.arc(x, y, r * 7, 0, 6.2832); cx.fill();
+      }
+      cx.beginPath(); cx.arc(x, y, r, 0, 6.2832);
+      cx.fillStyle = `rgba(255,228,186,${Math.min(.92, tw)})`; cx.fill();
+    });
+    requestAnimationFrame(draw);
+  };
+  if (!RM) requestAnimationFrame(draw);
+  else {
+    const g = cx.createRadialGradient(w * .5, h * .3, 0, w * .5, h * .3, Math.max(w, h) * .6);
+    g.addColorStop(0, 'rgba(255,217,160,.06)'); g.addColorStop(1, 'rgba(4,6,13,0)');
+    cx.fillStyle = g; cx.fillRect(0, 0, w, h);
+  }
+})();
+</script>

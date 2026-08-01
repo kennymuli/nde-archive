@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Threshold Archive — 9,764 accounts of what people report at the edge of death</title>
 
 <style>
@@ -210,13 +212,82 @@ svg.line circle.pt{opacity:0;transition:opacity .5s 1.2s}
 .trap p{margin:0;font-size:.94rem;color:var(--dim);line-height:1.62}
 .trap .swing{font-family:var(--mono);font-size:.76rem;color:var(--halo);margin-top:.6rem;display:block}
 
-footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
+footer{border-top:1px solid var(--rule);padding-block:4rem 5rem}
+.foot-nav{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2.6rem;align-items:baseline}
+.foot-nav a{font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--amber-lit);text-decoration:none;position:relative;padding-bottom:.3rem;transition:color .25s}
+.foot-nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--amber-lit);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.3,1)}
+.foot-nav a:hover::after,.foot-nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
+.foot-nav a:hover,.foot-nav a:focus-visible{color:var(--halo)}
+a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2px}
+.copyright{border-top:1px solid var(--rule);margin-top:3rem;padding-top:1.8rem;
+  display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;color:var(--faint)}
 
+/* ---------- kinetic hero ---------- */
+.ln{display:block;overflow:hidden;padding-bottom:.06em}
+.ln > i{display:block;font-style:inherit;transform:translateY(112%);
+  transition:transform 1.25s cubic-bezier(.16,.9,.28,1)}
+.lit .ln > i{transform:none}
+.ln:nth-child(2) > i{transition-delay:.14s}
+
+.wordwrap > i{display:inline-block;opacity:0;transform:translateY(.5em);
+  transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.lit .wordwrap > i{opacity:1;transform:none}
+
+/* the halo line keeps breathing after it lands */
+.lit #hero h1 .l2 > i{animation:breathe 7.5s ease-in-out 1.6s infinite}
+@keyframes breathe{0%,100%{opacity:.86;text-shadow:0 0 26px rgba(255,217,160,.16)}
+  50%{opacity:1;text-shadow:0 0 46px rgba(255,217,160,.42)}}
+
+.hero-mark,.scroll-cue{opacity:0;transform:translateY(10px);
+  transition:opacity 1s .15s cubic-bezier(.2,.8,.3,1),transform 1s .15s cubic-bezier(.2,.8,.3,1)}
+.lit .hero-mark,.lit .scroll-cue{opacity:1;transform:none}
+.lit .scroll-cue{transition-delay:1.15s}
+
+/* ---------- custom cursor ---------- */
+@media (hover:hover) and (pointer:fine){
+  body{cursor:none}
+  a,button{cursor:none}
+  #cur,#cur-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+    border-radius:50%;will-change:transform;mix-blend-mode:screen}
+  #cur{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--halo);
+    box-shadow:0 0 12px 3px rgba(255,217,160,.75)}
+  #cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;
+    border:1px solid rgba(255,217,160,.42);transition:width .3s,height .3s,margin .3s,border-color .3s,opacity .3s}
+  body.hot #cur-ring{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:rgba(255,217,160,.85)}
+  body.press #cur-ring{width:22px;height:22px;margin:-11px 0 0 -11px}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .fig-head{flex-direction:column;align-items:flex-start;gap:.7rem}
+}
 @media (max-width:640px){
-  .row{grid-template-columns:1fr;gap:.3rem}
-  .track{height:1.8rem}
-  .trap{grid-template-columns:1fr;gap:.5rem}
-  .arc-item{grid-template-columns:1fr auto}
+  :root{--gut:1.15rem}
+  body{line-height:1.66}
+  section{padding-block:clamp(4rem,10vh,6rem)}
+  #hero{padding-block:6rem 3.5rem}
+  .row{grid-template-columns:1fr;gap:.15rem;padding:.55rem .2rem}
+  .row .name{font-size:.71rem;color:var(--bone)}
+  .track{height:1.7rem}
+  .trap{grid-template-columns:1fr;gap:.45rem}
+  .trap .idx{padding-top:0}
+  .arc-item{grid-template-columns:1fr auto;gap:.7rem;padding:.65rem .75rem}
+  .arc-step{font-size:.7rem}
+  .ledger{grid-template-columns:repeat(2,1fr)}
+  .ledger div{padding:1.25rem .95rem}
+  .steps{grid-template-columns:1fr}
+  .step{padding:1.35rem 1.2rem}
+  .legend{font-size:.64rem;gap:.8rem}
+  .card p{font-size:clamp(1.18rem,5.4vw,1.6rem);max-width:22ch}
+  .interlude{min-height:auto;padding-block:5.5rem}
+  /* value labels sit under the bar on narrow screens instead of overflowing */
+  .bar-val,.val{font-size:.66rem}
+}
+@media (max-width:400px){
+  .ledger{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -225,7 +296,14 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
   .rise{opacity:1;transform:none}
   .dot{transform:translate(-50%,-50%) scale(1)}
   svg.line path.series{stroke-dashoffset:0}
+  .ln > i,.wordwrap > i{transform:none!important;opacity:1!important}
+  .hero-mark,.scroll-cue{opacity:1;transform:none}
+  .lit #hero h1 .l2 > i{animation:none}
+  body{cursor:auto!important}
 }
+/* If scripting is unavailable the hero must still be readable. */
+.no-js .ln > i,.no-js .wordwrap > i{transform:none;opacity:1}
+.no-js .hero-mark,.no-js .scroll-cue{opacity:1;transform:none}
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -236,10 +314,10 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
 <!-- ═══════════════ HERO ═══════════════ -->
 <section id="hero">
   <div class="wrap">
-    <div class="hero-mark rise in">The Threshold Archive</div>
-    <h1 class="rise in" data-d="1">Nine thousand people<span class="l2">described the same door.</span></h1>
-    <p class="hero-sub rise in" data-d="2">Between 1998 and 2026, strangers with nothing in common wrote down what happened to them at the edge of death. This is what the whole archive says when you read all of it at once — and where the standard account of it turns out to be wrong.</p>
-    <div class="scroll-cue rise in" data-d="4"><i></i>Begin</div>
+    <div class="hero-mark">The Threshold Archive</div>
+    <h1><span class="ln"><i>Nine thousand people</i></span><span class="ln l2"><i>described the same door.</i></span></h1>
+    <p class="hero-sub wordwrap" data-stagger>Between 1998 and 2026, strangers with nothing in common wrote down what happened to them at the edge of death. This is what the whole archive says when you read all of it at once — and where the standard account of it turns out to be wrong.</p>
+    <div class="scroll-cue"><i></i>Begin</div>
   </div>
 </section>
 
@@ -485,8 +563,17 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
 
 <footer>
   <div class="narrow">
+    <nav class="foot-nav">
+      <a href="methodology.html">Full methodology</a>
+      <a href="https://github.com/kennymuli/nde-archive">Source &amp; data pipeline</a>
+      <a href="#hero">Back to the top</a>
+    </nav>
     <p class="note">Sources: the public archives of nderf.org, adcrf.org and oberf.org — 9,764 accounts, 12,860,768 words, extracted August 2026. Accounts are published under the names their authors chose. Each remains the work of the person who wrote it.</p>
     <p class="note" style="margin-top:1.4rem;color:#454E60">The three individual accounts are <strong style="color:#5C6679;font-weight:400">paraphrased summaries written by the analyst, not quotations</strong>. Experiences on these archives are jointly copyrighted by the foundation and the people who wrote them, and many contributors did not grant permission to publish their words anywhere else — so none are reproduced here. Only the recorded circumstances are given verbatim. No professional identities appear because the archives do not record them.</p>
+    <div class="copyright">
+      <span>© 2026 Kenny Li. Analysis, writing and design.</span>
+      <span>Underlying accounts © their authors and the Experience Research Foundation.</span>
+    </div>
   </div>
 </footer>
 </main>
@@ -641,6 +728,47 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
   }, { threshold: .18, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.rise, .figure, .ledger, .steps, .traps').forEach(n => io.observe(n));
 
+  /* ---------- hero entrance ---------- */
+  (() => {
+    const sub = document.querySelector('[data-stagger]');
+    if (sub) {
+      // wrap each word so they can arrive in sequence rather than as one block
+      sub.innerHTML = sub.textContent.trim().split(/\s+/)
+        .map((word, i) => `<i style="transition-delay:${(.55 + i * .012).toFixed(3)}s">${word}</i>`)
+        .join(' ');
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      document.getElementById('hero').classList.add('lit')));
+  })();
+
+  /* ---------- custom cursor ---------- */
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let mx = innerWidth / 2, my = innerHeight / 2, hasMouse = false;
+  if (fine && !RM) {
+    const dot = el('div'), ring = el('div');
+    dot.id = 'cur'; ring.id = 'cur-ring';
+    document.body.append(dot, ring);
+    let rx = mx, ry = my;
+    addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY; hasMouse = true;
+      dot.style.transform = `translate(${mx}px,${my}px)`;
+    }, { passive: true });
+    addEventListener('mousedown', () => document.body.classList.add('press'));
+    addEventListener('mouseup', () => document.body.classList.remove('press'));
+    document.querySelectorAll('a,button').forEach(n => {
+      n.addEventListener('mouseenter', () => document.body.classList.add('hot'));
+      n.addEventListener('mouseleave', () => document.body.classList.remove('hot'));
+    });
+    // the ring lags the dot slightly, so the cursor reads as light with weight
+    (function trail() {
+      rx += (mx - rx) * .16; ry += (my - ry) * .16;
+      ring.style.transform = `translate(${rx}px,${ry}px)`;
+      requestAnimationFrame(trail);
+    })();
+  } else if (fine) {
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; hasMouse = true; }, { passive: true });
+  }
+
   /* ---------- ambient light field ---------- */
   const cv = document.getElementById('field'), cx = cv.getContext('2d');
   let w, h, dpr, motes = [];
@@ -648,11 +776,13 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
     dpr = Math.min(devicePixelRatio || 1, 2);
     w = cv.width = innerWidth * dpr; h = cv.height = innerHeight * dpr;
     cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
-    motes = Array.from({ length: Math.round(innerWidth / 26) }, () => ({
+    motes = Array.from({ length: Math.round(innerWidth / 11) }, () => ({
       x: Math.random() * w, y: Math.random() * h,
-      r: (Math.random() * 1.5 + .35) * dpr,
-      s: (Math.random() * .16 + .04) * dpr,
-      a: Math.random() * .5 + .12, p: Math.random() * 6.28
+      r: (Math.random() * 1.9 + .55) * dpr,
+      s: (Math.random() * .17 + .045) * dpr,
+      a: Math.random() * .46 + .3, p: Math.random() * 6.28,
+      dx: 0, dy: 0,                       // accumulated drift toward the pointer
+      k: Math.random() * .5 + .5          // per-mote responsiveness, so they don't move as a sheet
     }));
   };
   size(); addEventListener('resize', size);
@@ -683,12 +813,39 @@ footer{border-top:1px solid var(--rule);padding-block:4rem 6rem}
     hg.addColorStop(1, 'rgba(255,217,160,0)');
     cx.fillStyle = hg; cx.fillRect(0, hy - 90 * dpr, w, 180 * dpr);
 
+    // pointer, in canvas space
+    const px = mx * dpr, py = my * dpr, reach = 210 * dpr;
+
     motes.forEach(m => {
       m.y -= m.s; m.p += .012;
-      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; }
-      const tw = (Math.sin(m.p) * .35 + .65) * m.a * (.34 + bell * .66);
-      cx.beginPath(); cx.arc(m.x + Math.sin(m.p * .55) * 9 * dpr, m.y, m.r, 0, 6.2832);
-      cx.fillStyle = `rgba(255,228,186,${tw})`; cx.fill();
+      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; m.dx = m.dy = 0; }
+
+      let glow = 0;
+      if (hasMouse) {
+        // gentle attraction, easing off with distance — the light leans toward you
+        const vx = px - (m.x + m.dx), vy = py - (m.y + m.dy);
+        const d = Math.hypot(vx, vy);
+        if (d < reach) {
+          const pull = (1 - d / reach) * (1 - d / reach);
+          m.dx += (vx / (d || 1)) * pull * 1.7 * m.k;
+          m.dy += (vy / (d || 1)) * pull * 1.7 * m.k;
+          glow = pull;
+        }
+      }
+      m.dx *= .90; m.dy *= .90;   // spring back so they never pile onto the cursor
+
+      const tw = (Math.sin(m.p) * .3 + .7) * m.a * (.42 + bell * .58) * (1 + glow * 2.1);
+      const x = m.x + m.dx + Math.sin(m.p * .55) * 9 * dpr, y = m.y + m.dy;
+      const r = m.r * (1 + glow * .8);
+
+      if (glow > .06) {                      // halo only on the ones near the pointer
+        const g = cx.createRadialGradient(x, y, 0, x, y, r * 7);
+        g.addColorStop(0, `rgba(255,224,176,${.30 * glow})`);
+        g.addColorStop(1, 'rgba(255,224,176,0)');
+        cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r * 7, 0, 6.2832); cx.fill();
+      }
+      cx.beginPath(); cx.arc(x, y, r, 0, 6.2832);
+      cx.fillStyle = `rgba(255,228,186,${Math.min(.95, tw)})`; cx.fill();
     });
     requestAnimationFrame(draw);
   };
