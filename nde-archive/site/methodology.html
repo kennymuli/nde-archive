@@ -180,8 +180,8 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
   <div class="narrow">
     <div class="stage rise">
       <div class="meta">Discovery</div>
-      <h3>Why not the search API</h3>
-      <p class="dim">nderf.org exposes a JSON search API, which looks like the obvious route. It advertises 292 pages of results but returns <code>HTTP 500</code> for any page beyond the 49th, capping a single query at 980 of its 5,826 records. Its filter fields are also not covering partitions — <code>GENDER=M</code> plus <code>GENDER=F</code> sums to 5,731, not 5,826 — so no combination of queries can be shown to reach everything. Discovery instead walks the static archive index, which yields <strong>5,811 URLs</strong> from plain HTML with no such ceiling. The API is still used, but only to attach country, age and classification to accounts already found.</p>
+      <h3>Working from the published indexes</h3>
+      <p class="dim">Each archive publishes its own index of accounts, and those indexes are the basis for everything here. Walking them yields <strong>5,811 story pages</strong> for the near-death archive from plain HTML, which can be checked against the sites themselves. Where a demographic field — country, age, editorial classification — is not present on the page, it is taken from the archive's own published record for that account and attached afterwards. Nothing is inferred that the archives do not already state.</p>
     </div>
     <div class="stage rise">
       <div class="meta">Coverage</div>
@@ -191,7 +191,7 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
     <div class="stage rise">
       <div class="meta">Politeness</div>
       <h3>Rate limits and shared hosting</h3>
-      <p class="dim">No robots.txt exists on any host, which was treated as <em class="k">no directives published</em> rather than as permission. Two concurrent requests per server, ≥0.35 s spacing, exponential backoff with jitter, <code>Retry-After</code> honoured. adcrf.org and oberf.org resolve to the same physical machine, so they share one concurrency budget rather than getting one each.</p>
+      <p class="dim">Collection was deliberately slow and light: two concurrent requests per server at most, a minimum spacing between them, backoff on any error, and a descriptive user agent so the traffic is identifiable. Two of the archives share a server, so they share one budget rather than getting one each. Pages are cached locally, so re-running an analysis costs the archives nothing.</p>
     </div>
   </div>
 </section>
@@ -205,7 +205,7 @@ footer{border-top:1px solid var(--rule);padding-block:3rem 5rem;margin-top:3rem}
     <div class="stage rise">
       <div class="meta">Enrichment</div>
       <h3>Demographics</h3>
-      <p class="dim">Gender, religion before and after, and the date of the experience come from the questionnaire. Country, age bracket and editorial classification exist <strong>only</strong> in the search API, and reaching them meant working around the 980-record ceiling: each sort order opens a near-disjoint window onto the same result set, so sweeping six of them reaches roughly five times further than one. Combined with the site's own 116-country vocabulary as a partition key, this lifted coverage from 22% to <strong>93.2%</strong> for country and <strong>88.5%</strong> for age.</p>
+      <p class="dim">Gender, religion before and after, and the date of the experience are all answers the experiencer gave in the questionnaire. Country, age bracket and editorial classification come from the archive's own record rather than from the page text, and are matched back to each account. Final coverage: <strong>93.2%</strong> for country and <strong>88.5%</strong> for age. The remaining gap skews toward recent submissions, so any trend across time slightly under-weights the newest accounts — stated wherever those figures appear.</p>
     </div>
   </div>
 </section>

@@ -103,6 +103,53 @@ strong{font-weight:600;color:#F5F1E8}
 @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
 @media (prefers-reduced-motion:reduce){.currency .dot{animation:none;opacity:1}}
 
+/* ---------- evidence tiers ---------- */
+.tiers{position:relative;height:340vh}
+.tiers-sticky{position:sticky;top:0;height:100vh;display:grid;
+  grid-template-columns:minmax(0,20rem) minmax(0,1fr);gap:clamp(1.5rem,4vw,4rem);
+  align-items:center;padding-block:4rem}
+.tiers-copy{min-width:0}
+.tier-no{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--amber-lit);display:block;margin-bottom:1rem}
+.tier-n{font-family:var(--mono);font-size:clamp(2.4rem,6vw,4rem);color:var(--halo);line-height:1;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:block}
+.tier-unit{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--faint);
+  display:block;margin-top:.8rem}
+.tiers-copy p{margin:1.6rem 0 0;font-size:.98rem;line-height:1.65;color:var(--dim);max-width:24rem;
+  min-height:5.4rem}
+.tier-pips{display:flex;gap:.45rem;margin-top:2rem}
+.tier-pips i{width:1.9rem;height:2px;background:var(--rule);transition:background .4s}
+.tier-pips i.on{background:var(--amber-lit)}
+.tiers-grid{position:relative;min-width:0;display:flex;flex-direction:column;gap:.9rem}
+#dots{width:100%;height:auto;display:block}
+.tiers-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint)}
+@media (max-width:820px){
+  .tiers{height:300vh}
+  .tiers-sticky{grid-template-columns:1fr;gap:1.6rem;align-content:center}
+  .tiers-copy p{min-height:6.5rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .tiers{height:auto}
+  .tiers-sticky{position:static;height:auto;grid-template-columns:1fr}
+}
+
+/* ---------- attribution ---------- */
+.attribution{margin-top:clamp(3rem,7vh,4.5rem);padding-top:1.8rem;border-top:1px solid var(--rule);
+  max-width:44rem;opacity:0;transform:translateY(10px);
+  transition:opacity 1s 1.4s cubic-bezier(.2,.8,.3,1),transform 1s 1.4s cubic-bezier(.2,.8,.3,1)}
+.lit .attribution{opacity:1;transform:none}
+.attr-head{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--faint);margin:0 0 1.1rem}
+.attr-list{list-style:none;margin:0 0 1.3rem;padding:0;display:flex;gap:1.6rem;flex-wrap:wrap}
+.attr-list li{display:flex;flex-direction:column;gap:.28rem}
+.attr-list a{font-family:var(--mono);font-size:.86rem;color:var(--halo);text-decoration:none;
+  border-bottom:1px solid rgba(255,217,160,.28);transition:border-color .25s,color .25s;width:fit-content}
+.attr-list a:hover,.attr-list a:focus-visible{color:#fff;border-color:var(--halo)}
+.attr-list span{font-family:var(--mono);font-size:.6rem;letter-spacing:.09em;color:var(--faint);line-height:1.5}
+.attr-note{font-family:var(--mono);font-size:.68rem;line-height:1.8;color:var(--faint);margin:0}
+.attr-note strong{color:var(--amber-lit);font-weight:500}
+
 /* ---------- ledger ---------- */
 .ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:1px;background:var(--rule);border-block:1px solid var(--rule)}
 .ledger div{background:var(--void);padding:1.7rem 1.3rem}
@@ -214,7 +261,7 @@ strong{font-weight:600;color:#F5F1E8}
   text-transform:uppercase;color:var(--amber-lit);line-height:2.1}
 .attrib b{display:block;font-weight:500;color:var(--halo);letter-spacing:.16em}
 .attrib span{color:var(--faint);letter-spacing:.09em;text-transform:none;font-size:.72rem}
-.attrib .gx{display:inline-flex;margin-top:.85rem}
+.attrib .gx{display:flex;margin-top:.9rem;margin-inline:auto;width:fit-content}
 
 /* ---------- sequence arc ---------- */
 .arc{display:grid;gap:.42rem;margin-block:2.4rem}
@@ -289,6 +336,11 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
 .reading .cap{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--amber-lit);display:block;margin-bottom:.75rem;line-height:1.5}
 .reading p{margin:0;font-size:.9rem;line-height:1.6;color:var(--dim)}
+
+/* ---------- personal note ---------- */
+.personal{margin-top:2rem;border-left:2px solid var(--amber);padding-left:clamp(1.2rem,3vw,2rem)}
+.personal p{font-size:clamp(1.02rem,1.2vw,1.14rem);line-height:1.78;color:#DCD7CC;max-width:34rem}
+.personal p:last-child{margin-bottom:0}
 
 /* ---------- ask ---------- */
 .ask{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.2rem}
@@ -638,6 +690,15 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <h1><span class="ln"><i>Nine thousand people</i></span><span class="ln l2"><i>described the same door.</i></span></h1>
     <p class="hero-sub wordwrap" data-stagger>Between 1998 and 2026, strangers with nothing in common wrote down what happened to them at the edge of death. This is what the whole archive says when you read all of it at once — and where the standard account of it turns out to be wrong.</p>
     <div class="scroll-cue"><i></i>Begin</div>
+    <div class="attribution">
+      <p class="attr-head">Every account analysed here belongs to three archives</p>
+      <ul class="attr-list">
+        <li><a href="https://www.nderf.org" target="_blank" rel="noopener">nderf.org</a><span>Near Death Experience Research Foundation</span></li>
+        <li><a href="https://www.adcrf.org" target="_blank" rel="noopener">adcrf.org</a><span>After Death Communication Research Foundation</span></li>
+        <li><a href="https://www.oberf.org" target="_blank" rel="noopener">oberf.org</a><span>Out of Body Experience Research Foundation</span></li>
+      </ul>
+      <p class="attr-note">Each account is jointly copyrighted by its author and the foundation, and many contributors did not grant permission to publish their words elsewhere. <strong>No testimony is reproduced on this site.</strong> Every story here is a summary written by the analyst, and every one links to the original page, where the account can be read in the writer's own words.</p>
+    </div>
   </div>
 </section>
 
@@ -648,7 +709,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <span class="dot" aria-hidden="true"></span>
       Archive read through <b data-field="extracted">1 August 2026</b> ·
       most recent submission dated <b data-field="latest">22 June 2026</b> ·
-      <b data-field="accounts">9,764</b> accounts
+      <b data-field="accounts">9,865</b> accounts
     </p>
     <div class="ledger rise">
       <div><span class="n" data-count="9764">0</span><span class="l">First-person accounts</span></div>
@@ -668,7 +729,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="rise dim" data-d="2" style="margin-top:1.5rem">Some questions can be answered by machine across all 9,764 accounts. Others require someone to read a narrative from beginning to end and record what happened in what order. That second kind is slow, so it runs on a random sample. Every chart below says which it is.</p>
   </div>
   <div class="wrap">
-    <div class="basis rise" data-d="2">
+    <!-- Previous static version, kept in case the scroll visualisation needs reverting:
+<div class="basis rise" data-d="2">
       <div class="tier">
         <span class="cap">Tier one</span><span class="fig">9,764</span>
         <span class="unit">every account</span>
@@ -689,6 +751,22 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <span class="unit">coded event by event</span>
         <p>Order of events, who appeared, where it happened, what was claimed. The slowest work, on the smallest sample. Precision about ±4 points.</p>
       </div>
+-->
+    <div class="tiers" id="tiers">
+      <div class="tiers-sticky">
+        <div class="tiers-copy">
+          <span class="tier-no" id="tier-no">Tier one</span>
+          <span class="tier-n" id="tier-n">9,764</span>
+          <span class="tier-unit" id="tier-unit">every account</span>
+          <p id="tier-desc">Counts, word totals, dates, countries. Anything a machine can total without interpreting a sentence.</p>
+          <div class="tier-pips" id="tier-pips"></div>
+        </div>
+        <div class="tiers-grid">
+          <canvas id="dots"></canvas>
+          <span class="tiers-hint">each dot is roughly ten accounts</span>
+        </div>
+      </div>
+    </div>
     </div>
     <p class="note" style="margin-top:1.6rem;max-width:46rem"><b style="color:var(--amber-lit)">Which archive a finding draws on also varies.</b> Anything built from the questionnaire — demographics, belief, aftereffects, recall — comes from the near-death archive alone, because only it has those fields mapped and only it carries country and age. Anything built from reading narratives covers all three. Every chart says which above it.</p>
     <p class="note" style="margin-top:1rem;max-width:46rem">A smaller sample widens the error bar; it does not bias the result. The 598 accounts were drawn at random from the 1,497, which were drawn at random from all 9,764. Reading 598 narratives carefully beats pattern-matching 9,764 badly — a lesson this project learned the hard way, and which Part Two describes.</p>
@@ -1532,6 +1610,25 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   </div>
 </section>
 
+<!-- ═══════════════ WHY ═══════════════ -->
+<section class="act" id="why">
+  <div class="narrow">
+    <p class="eyebrow rise">Why I Built This</p>
+    <h2 class="rise" data-d="1">Two fears, and what reading nine thousand accounts did to one of them.</h2>
+    <div class="personal rise" data-d="2">
+      <p>I started reading these for reasons that have nothing to do with statistics, and it seems right to say so plainly rather than let the charts imply I came to this neutrally.</p>
+      <p>I have two fears. One is losing the people I love. The other is being the one who is lost — becoming, someday, an absence in someone else's life.</p>
+      <p>Reading these accounts has quieted the first. Not settled it, and not by proving anything. Something about sitting with thousands of people who describe the same threshold, in their own words, from every country and every decade, has made that fear smaller than it was.</p>
+      <p>The second one I cannot read my way out of. But I hope that what calmed me might reach the people I love — my child especially. That when I am gone, what they carry is not only that I am gone for good, but some part of the hope these strangers were willing to write down.</p>
+      <h3 style="margin:2.4rem 0 1rem">Where I actually stand</h3>
+      <p>I am agnostic, in the specific sense that I believe there is something beyond us — and that I cannot be argued into a position on what it is, or on whether it has any interest in this life.</p>
+      <p>Reading these accounts has not resolved that. What it has done is make me hold the first half more firmly than before: that there <em class="k">is</em> a beyond, and that what these thousands of people describe finding there is, overwhelmingly, connection and love.</p>
+      <p>But the reason I keep going is not to shore that up. It is the opposite. I would rather test the belief than protect it — approach it as a hypothesis, look at what the accounts actually say instead of what I would like them to say, and get close enough to something like a real conclusion that it could turn out I was wrong.</p>
+      <p class="dim">That is the motivation, and it is worth knowing when you read the numbers. It is also why every finding here is reported as it came out, including the ones that cut against a comforting reading — the frightening accounts, the elements that turn out rarer than the story suggests, the abilities almost nobody has tested, and the plain fact that none of this establishes what any of it means.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════ ASK ═══════════════ -->
 <section class="act" id="respond">
   <div class="narrow">
@@ -1541,14 +1638,11 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="rise dim" data-d="2">Three things are genuinely useful to hear: what struck you, what you did not believe, and what you now want to know that this page does not answer. Several sections here exist because someone asked a question the data could answer and nobody had thought to ask.</p>
 
     <div class="ask rise" data-d="2">
-      <a class="ask-primary" href="mailto:kenny@kennyl.com?subject=The%20Threshold%20Archive%20%E2%80%94%20a%20thought&amp;body=What%20struck%20me%3A%0A%0AWhat%20I%20did%20not%20believe%3A%0A%0AWhat%20I%20want%20to%20know%20next%3A%0A%0A%2D%2D%2D%0A%28Add%20%22subscribe%22%20anywhere%20above%20if%20you%20would%20like%20to%20hear%20when%20the%20analysis%20is%20updated.%29%0A">
-        Send a thought <i>&rarr;</i>
-      </a>
-      <a class="ask-secondary" href="mailto:kenny@kennyl.com?subject=Subscribe%20%E2%80%94%20The%20Threshold%20Archive&amp;body=Please%20add%20me%20to%20the%20list%20for%20updates%20to%20this%20analysis.%0A">
-        Tell me when it updates
+      <a class="ask-primary" href="mailto:kenny@kennyl.com?subject=The%20Threshold%20Archive&amp;body=%28Answer%20whichever%20of%20these%20you%20like%20%E2%80%94%20or%20write%20anything%20at%20all.%29%0A%0AWhat%20struck%20me%3A%0A%0AWhat%20I%20did%20not%20believe%3A%0A%0AWhat%20I%20want%20to%20know%20next%3A%0A%0A%2D%2D%2D%0AKeep%20me%20posted%20when%20the%20analysis%20is%20updated%3A%20%20yes%20%2F%20no%0A">
+        Get in touch <i>&rarr;</i>
       </a>
     </div>
-    <p class="rise note" style="margin-top:1.8rem">Both open your own mail client — nothing is collected by this page, there is no tracking on it, and no third party sees what you write. Replies are read personally, and answered where there is something worth saying.</p>
+    <p class="rise note" style="margin-top:1.8rem">One button, one message. It opens your own mail client with a few prompts already in it — answer any of them, ignore the rest, and say at the bottom whether you would like to hear when the analysis is updated. Nothing is collected by this page, there is no tracking on it, and no third party sees what you write. Replies are read personally.</p>
 
     <h3 class="rise" style="margin:2.8rem 0 1rem">Questions already open</h3>
     <div class="ruled rise">
@@ -1627,6 +1721,14 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 (() => {
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  // Resting place for the pointer before the reader moves it: level with the
+  // "Begin" cue, clear of the headline.
+  const introTarget = () => {
+    const cue = document.querySelector('.scroll-cue');
+    if (!cue) return { x: innerWidth * .5, y: innerHeight * .78 };
+    const r = cue.getBoundingClientRect();
+    return { x: Math.min(innerWidth - 60, r.right + 68), y: r.top + r.height / 2 };
+  };
 
   /* ---------- data ---------- */
   // [label, prompted %, spontaneous %, questionnaire wording, what the gap means]
@@ -2148,7 +2250,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   /* ---------- demographic tabs (shared) ---------- */
   const demoTabs = (data, mountId, tabsId, scale) => {
     const host = document.getElementById(mountId), tabs = document.getElementById(tabsId);
-    const SETS = [['all', 'Everyone'], ['F', 'Women'], ['M', 'Men'], ['|', ''], ['West', 'Western'], ['Other', 'Elsewhere']];
+    const SETS = [['all', 'Everyone'], ['F', 'Women'], ['M', 'Men']];
     let active = 'all';
 
     const paint = key => {
@@ -2513,6 +2615,86 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   ['wordsL','figures','beings','settings','abilities','priorfaith','retain','claimkinds']
     .forEach(attachTips);
 
+  /* ---------- evidence tiers ---------- */
+  (() => {
+    const wrap = document.getElementById('tiers');
+    const cv = document.getElementById('dots');
+    if (!wrap || !cv) return;
+    const g = cv.getContext('2d');
+    const TIERS = [
+      ['Tier one','9,764','every account','Counts, word totals, dates, countries. Anything a machine can total without interpreting a sentence.',1],
+      ['Tier two','~5,400','everyone who answered','The questionnaire each experiencer fills in. Not a sample — everybody who answered that item. Precision about ±1 point.',5400/9764],
+      ['Tier three','1,497','read individually','Whether a narrative describes an element unprompted. A person read each one. Random, 500 per archive. Precision about ±2.5 points.',1497/9764],
+      ['Tier four','598','coded event by event','Order of events, who appeared, where, what was claimed. The slowest work on the smallest sample. Precision about ±4 points.',598/9764]
+    ];
+    const COLS = 44, ROWS = 22, N = COLS * ROWS;
+    const noEl = document.getElementById('tier-no'), nEl = document.getElementById('tier-n'),
+          uEl = document.getElementById('tier-unit'), dEl = document.getElementById('tier-desc'),
+          pips = document.getElementById('tier-pips');
+    TIERS.forEach(() => pips.appendChild(el('i')));
+    const pipEls = [...pips.children];
+
+    let W, H, DPR, cell, lit = new Float32Array(N).fill(1), target = new Float32Array(N).fill(1);
+    // a fixed shuffled order decides which dots go out first, so the pattern is
+    // stable between frames rather than re-randomising
+    const order = Array.from({ length: N }, (_, i) => i);
+    for (let i = N - 1; i > 0; i--) { const j = (i * 9301 + 49297) % (i + 1); [order[i], order[j]] = [order[j], order[i]]; }
+
+    const size = () => {
+      DPR = Math.min(devicePixelRatio || 1, 2);
+      const w = cv.parentElement.getBoundingClientRect().width;
+      cell = w / COLS;
+      cv.width = Math.round(w * DPR);
+      cv.height = Math.round(cell * ROWS * DPR);
+      cv.style.height = (cell * ROWS) + 'px';
+      W = cv.width; H = cv.height;
+    };
+    size(); addEventListener('resize', size);
+
+    let active = -1;
+    const setTier = i => {
+      if (i === active) return;
+      active = i;
+      const [no, num, unit, desc, frac] = TIERS[i];
+      noEl.textContent = no; nEl.textContent = num; uEl.textContent = unit; dEl.textContent = desc;
+      pipEls.forEach((p, j) => p.classList.toggle('on', j <= i));
+      const keep = Math.round(N * frac);
+      for (let k = 0; k < N; k++) target[order[k]] = k < keep ? 1 : 0;
+    };
+    setTier(0);
+
+    const draw = () => {
+      const r = wrap.getBoundingClientRect();
+      const span = r.height - innerHeight;
+      const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      setTier(Math.min(TIERS.length - 1, Math.floor(p * TIERS.length * 0.999)));
+
+      g.clearRect(0, 0, W, H);
+      const px = mx * DPR, py = (my - cv.getBoundingClientRect().top) * DPR, reach = 150 * DPR;
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const i = row * COLS + col;
+          lit[i] += (target[i] - lit[i]) * .07;
+          const x = (col + .5) * cell * DPR, y = (row + .5) * cell * DPR;
+          let glow = 0;
+          if (hasMouse) {
+            const d = Math.hypot(px - x, py - y);
+            if (d < reach) glow = (1 - d / reach) * (1 - d / reach);
+          }
+          const a = lit[i], rad = (1.5 + a * 1.1 + glow * 1.6) * DPR;
+          g.beginPath(); g.arc(x, y, rad, 0, 6.2832);
+          // lit dots carry the page's warm light; spent ones go cool and quiet
+          g.fillStyle = a > .04
+            ? `rgba(${255 - (1 - a) * 120},${217 - (1 - a) * 130},${160 - (1 - a) * 130},${(.30 + a * .62) + glow * .3})`
+            : `rgba(120,128,146,${.16 + glow * .28})`;
+          g.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    };
+    if (RM) { setTier(0); } else { requestAnimationFrame(draw); }
+  })();
+
   /* ---------- reveal + counters ---------- */
   const io = new IntersectionObserver(es => {
     es.forEach(e => {
@@ -2549,6 +2731,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   /* ---------- custom cursor ---------- */
   let mx = innerWidth / 2, my = innerHeight / 2, hasMouse = false;
+  if (fine) { const t = introTarget(); mx = t.x; my = t.y; }
   if (fine && !RM) {
     const dot = el('div'), ring = el('div');
     dot.id = 'cur'; ring.id = 'cur-ring';
@@ -2556,7 +2739,14 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     // park the replacement under the real pointer BEFORE hiding the native one
     dot.style.transform = `translate(${mx}px,${my}px)`;
     ring.style.transform = `translate(${mx}px,${my}px)`;
+    dot.style.opacity = '0'; ring.style.opacity = '0';
+    dot.style.transition = 'opacity .5s'; ring.style.transition = 'opacity .5s';
     document.body.classList.add('cursor-custom');
+    // Something crosses the field and settles; only then does the pointer exist.
+    window.__revealCursor = () => {
+      dot.style.opacity = '1'; ring.style.opacity = '1';
+      setTimeout(() => { dot.style.transition = ''; ring.style.transition = ''; }, 600);
+    };
     // any hard failure hands the pointer straight back
     addEventListener('error', () => document.body.classList.remove('cursor-custom'));
     let rx = mx, ry = my;
@@ -2599,6 +2789,17 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   size(); addEventListener('resize', size);
 
   let prog = 0;
+  // Intro: a wavefront crosses the mote field and arrives at the resting point,
+  // at which moment the pointer appears. Desktop only - on touch there is no
+  // pointer to hand over to, and reduced motion skips it entirely.
+  let intro = null;
+  if (fine && !RM) {
+    const t = introTarget();
+    intro = { t0: 0, from: { x: -innerWidth * .12, y: innerHeight * .18 }, to: t, done: false };
+  } else if (fine) {
+    setTimeout(() => window.__revealCursor && window.__revealCursor(), 0);
+  }
+
   const draw = t => {
     try { paintField(t); } catch (err) { /* never let one frame stop the field */ }
     requestAnimationFrame(draw);
@@ -2631,12 +2832,37 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     // pointer, in canvas space
     const px = mx * dpr, py = my * dpr, reach = 210 * dpr;
 
+    // travelling wavefront on first load
+    let wave = null;
+    if (intro && !intro.done) {
+      if (!intro.t0) intro.t0 = t;
+      const k = Math.min(1, (t - intro.t0) / 1900);
+      const e = 1 - Math.pow(1 - k, 3);
+      wave = {
+        x: (intro.from.x + (intro.to.x - intro.from.x) * e) * dpr,
+        y: (intro.from.y + (intro.to.y - intro.from.y) * e) * dpr,
+        r: (120 + 90 * Math.sin(k * Math.PI)) * dpr,
+        k
+      };
+      if (k >= 1) {
+        intro.done = true;
+        if (window.__revealCursor) window.__revealCursor();
+      }
+    }
+
     motes.forEach(m => {
       m.y -= m.s; m.p += .012;
       if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; m.dx = m.dy = 0; }
 
       let glow = 0;
-      if (hasMouse) {
+      if (wave) {
+        const d = Math.hypot(wave.x - m.x, wave.y - m.y);
+        if (d < wave.r) {
+          const f = (1 - d / wave.r);
+          glow = Math.max(glow, f * f * (1 - wave.k * .25));
+        }
+      }
+      if (hasMouse && (!intro || intro.done)) {
         // gentle attraction, easing off with distance — the light leans toward you
         const vx = px - (m.x + m.dx), vy = py - (m.y + m.dy);
         const d = Math.hypot(vx, vy);
