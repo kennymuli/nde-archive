@@ -1,0 +1,56 @@
+name: Daily archive check
+
+# Checks the three archives for newly published accounts and refreshes the
+# "archive read through" stamp on the site. It does NOT re-scrape the corpus:
+# only the index pages are fetched, so a run takes well under a minute and puts
+# almost no load on the source servers.
+#
+# The extracted accounts are deliberately not in version control, so nothing
+# here commits story text — only the URL manifest and the date stamp.
+
+on:
+  schedule:
+    - cron: "17 7 * * *"   # 07:17 UTC daily, off the hour to avoid the stampede
+  workflow_dispatch:        # and runnable by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archive-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check the archives for new accounts
+        working-directory: nde-archive
+        run: python3 analysis/refresh.py
+
+      - name: Commit the manifest and date stamp
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No change — the archives published nothing new today."
+            exit 0
+          fi
+          git config user.name  "archive-refresh[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add nde-archive/analysis/manifest.json docs/index.html nde-archive/site/index.html
+          NEW=$(python3 -c "
+          import json
+          h = json.load(open('nde-archive/analysis/manifest.json'))['history']
+          print(h[-1]['new'] if h else 0)")
+          git commit -m "Daily archive check: ${NEW} new account(s)
+
+          Automated. Refreshes the URL manifest and the currency stamp on the
+          site. No account text is committed — the corpus stays out of version
+          control, and running scrape.py regenerates it."
+          git push

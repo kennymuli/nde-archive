@@ -93,6 +93,16 @@ strong{font-weight:600;color:#F5F1E8}
 .scroll-cue i{display:block;width:1px;height:2.6rem;background:linear-gradient(180deg,var(--amber-lit),transparent);animation:drop 2.6s ease-in-out infinite}
 @keyframes drop{0%,100%{transform:scaleY(.35);transform-origin:top;opacity:.5}50%{transform:scaleY(1);transform-origin:top;opacity:1}}
 
+/* ---------- currency ---------- */
+.currency{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:0 0 1.4rem;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);line-height:1.9}
+.currency b{color:var(--halo);font-weight:500}
+.currency .dot{width:.42rem;height:.42rem;border-radius:50%;background:var(--amber-lit);flex:none;
+  box-shadow:0 0 0 3px rgba(229,167,62,.14);animation:pulse 3.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.currency .dot{animation:none;opacity:1}}
+
 /* ---------- ledger ---------- */
 .ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:1px;background:var(--rule);border-block:1px solid var(--rule)}
 .ledger div{background:var(--void);padding:1.7rem 1.3rem}
@@ -117,6 +127,8 @@ strong{font-weight:600;color:#F5F1E8}
 .row{display:grid;grid-template-columns:minmax(7.5rem,10.5rem) 1fr;gap:1rem;align-items:center;
   padding:.5rem .55rem;border-radius:3px;transition:background .22s}
 .row:hover{background:rgba(255,255,255,.032)}
+.row[tabindex]{cursor:pointer}
+.row[tabindex]:focus-visible{outline:1px solid var(--amber);outline-offset:2px;border-radius:3px}
 .row .name{font-family:var(--mono);font-size:.74rem;color:var(--dim);letter-spacing:.02em;line-height:1.35}
 .track{position:relative;height:2.1rem}
 #dumb-rows .track{height:2.9rem}
@@ -277,6 +289,20 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
 .reading .cap{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--amber-lit);display:block;margin-bottom:.75rem;line-height:1.5}
 .reading p{margin:0;font-size:.9rem;line-height:1.6;color:var(--dim)}
+
+/* ---------- ask ---------- */
+.ask{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.2rem}
+.ask a{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;border-radius:99px;padding:.9rem 1.5rem;transition:all .28s;
+  display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--rule)}
+.ask-primary{background:linear-gradient(100deg,var(--amber),var(--amber-lit));color:#0A0D14;
+  border-color:transparent;font-weight:600}
+.ask-primary:hover,.ask-primary:focus-visible{filter:brightness(1.12);transform:translateY(-1px)}
+.ask-primary i{font-style:normal;transition:transform .25s}
+.ask-primary:hover i{transform:translateX(3px)}
+.ask-secondary{color:var(--amber-lit)}
+.ask-secondary:hover,.ask-secondary:focus-visible{color:var(--halo);border-color:var(--amber);
+  background:rgba(184,127,38,.10)}
 
 /* ---------- ruled list ---------- */
 .ruled{display:grid;gap:0;margin-block:1.8rem;border-top:1px solid var(--rule)}
@@ -618,6 +644,12 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 <!-- ═══════════════ LEDGER ═══════════════ -->
 <section style="padding-block:0 clamp(3.5rem,7vh,5rem)">
   <div class="wrap">
+    <p class="currency rise" id="currency">
+      <span class="dot" aria-hidden="true"></span>
+      Archive read through <b data-field="extracted">1 August 2026</b> ·
+      most recent submission dated <b data-field="latest">22 June 2026</b> ·
+      <b data-field="accounts">9,764</b> accounts
+    </p>
     <div class="ledger rise">
       <div><span class="n" data-count="9764">0</span><span class="l">First-person accounts</span></div>
       <div><span class="n" data-count="12.9" data-dec="1">0</span><span class="l">Million words</span></div>
@@ -658,7 +690,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <p>Order of events, who appeared, where it happened, what was claimed. The slowest work, on the smallest sample. Precision about ±4 points.</p>
       </div>
     </div>
-    <p class="note" style="margin-top:1.6rem;max-width:46rem">A smaller sample widens the error bar; it does not bias the result. The 598 accounts were drawn at random from the 1,497, which were drawn at random from all 9,764. Reading 598 narratives carefully beats pattern-matching 9,764 badly — a lesson this project learned the hard way, and which Part Two describes.</p>
+    <p class="note" style="margin-top:1.6rem;max-width:46rem"><b style="color:var(--amber-lit)">Which archive a finding draws on also varies.</b> Anything built from the questionnaire — demographics, belief, aftereffects, recall — comes from the near-death archive alone, because only it has those fields mapped and only it carries country and age. Anything built from reading narratives covers all three. Every chart says which above it.</p>
+    <p class="note" style="margin-top:1rem;max-width:46rem">A smaller sample widens the error bar; it does not bias the result. The 598 accounts were drawn at random from the 1,497, which were drawn at random from all 9,764. Reading 598 narratives carefully beats pattern-matching 9,764 badly — a lesson this project learned the hard way, and which Part Two describes.</p>
   </div>
 </section>
 
@@ -673,7 +706,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">What people confirm when asked, versus what they say unprompted</div><div class="scope full"><b>Asked:</b> all 5,400 who answered &nbsp;·&nbsp; <b>Unprompted:</b> 1,497 read in full</div></div>
+      <div><div class="fig-title">What people confirm when asked, versus what they say unprompted</div><div class="scope full"><b>Asked:</b> 5,400 near-death accounts &nbsp;·&nbsp; <b>Unprompted:</b> 1,497 across all three archives</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Asked directly</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Volunteered freely</span>
@@ -738,7 +771,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">How reliably one event precedes another, among accounts containing both</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
+      <div><div class="fig-title">How reliably one event precedes another, among accounts containing both</div><div class="scope"><b>598 accounts</b> — all three archives, coded event by event</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Near-deterministic</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Essentially unordered</span>
@@ -788,7 +821,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">Who appears, as a share of all 951 beings described</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
+      <div><div class="fig-title">Who appears, as a share of all 951 beings described</div><div class="scope"><b>598 accounts</b> — all three archives, coded event by event</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of 951 encounters</span></div>
     </div>
     <div class="rows" id="beings"></div>
@@ -890,7 +923,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">Settings described, as a share of accounts</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
+      <div><div class="fig-title">Settings described, as a share of accounts</div><div class="scope"><b>598 accounts</b> — all three archives, coded event by event</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Ordinary place</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Otherworldly place</span>
@@ -928,7 +961,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="lede rise" data-d="2" style="margin-top:1.8rem">"There are no words for it" reads like an apology for a thin account. It is the opposite.</p>
     <div class="figure rise" data-d="2">
       <div class="fig-head">
-        <div><div class="fig-title">Average number of distinct events an account describes</div><div class="scope"><b>598 accounts</b> coded event by event</div></div>
+        <div><div class="fig-title">Average number of distinct events an account describes</div><div class="scope"><b>598 accounts</b> — all three archives, coded event by event</div></div>
         <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Mean events per account</span></div>
       </div>
       <p class="howto">Accounts were sorted into three groups by how often the experiencer states that the experience cannot be put into words. Each bar is the <em>average count of distinct events</em> those accounts go on to describe — separation, light, an encounter, a message, and so on. If “beyond words” meant having little to say, the bars would fall. They rise.</p>
@@ -966,7 +999,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">Share reporting changed values and beliefs afterwards</div><div class="scope full"><b>4,593–4,803 accounts</b> — everyone who answered both items</div></div>
+      <div><div class="fig-title">Share reporting changed values and beliefs afterwards</div><div class="scope full"><b>4,593–4,803 near-death accounts</b> — everyone who answered both items</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Reported the element</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Did not report it</span>
@@ -1009,7 +1042,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">Reported life review, by decade the experience occurred</div><div class="scope full"><b>3,600+ accounts</b> — everyone with a dated experience</div></div>
+      <div><div class="fig-title">Reported life review, by decade the experience occurred</div><div class="scope full"><b>3,600+ near-death accounts</b> — everyone with a dated experience</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share reporting a life review</span></div>
     </div>
     <p class="howto">Every dated account, grouped by the decade the experience happened in. No filtering by how long anyone waited before writing — see the check below for why that matters.</p>
@@ -1023,7 +1056,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <h3 class="rise" style="margin:2.6rem 0 1rem">The check that nearly produced the opposite story</h3>
     <p class="rise dim">People write in at wildly different distances from the event. Splitting by that distance is the standard way to test whether a trend is really about memory rather than about the era — but the windows are not available in every decade, and choosing among them can manufacture a trend that is not there.</p>
     <div class="recall rise" id="recall"></div>
-    <p class="rise note" style="margin-top:1.2rem">An earlier version of this page showed only the middle two columns and reported a smooth decline from about 70% to about 27%. That comparison was invalid: the 1980s have no under-ten-year column, because the archive did not exist yet, while for the 2000s that missing column is the largest group and runs the other way at 70.0%. The apparent trend was an artefact of which columns happened to be populated.</p>
+    <p class="rise note" style="margin-top:1.2rem">Reading only the middle two columns would produce a smooth decline from about 70% to about 27% — and it would be wrong. The 1980s have no under-ten-year column, because the archive did not exist yet, while for the 2000s that column holds the largest group and runs the other way at 70.0%. Any trend drawn from a subset of these columns is an artefact of which ones happen to be populated.</p>
     <p class="rise">Comparing like with like — accounts written within ten years of the event, the only window available for both recent decades — the fall is real and sharp: <strong>70.0%</strong> for the 2000s against <strong>29.1%</strong> for the 2010s.</p>
 
     <h3 class="rise" style="margin:2.8rem 0 1rem">Why? Here is what it is not.</h3>
@@ -1055,7 +1088,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
 
 <!-- ═══════════════ WHO YOU ARE ═══════════════ -->
-<section>
+<section class="act">
   <div class="narrow">
     <p class="eyebrow rise">Finding Nine — Does It Depend On Who You Are</p>
     <h2 class="rise" data-d="1">The sensations are universal. The story around them is not.</h2>
@@ -1066,7 +1099,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Element rates by group</div>
-      <div class="scope full"><b>Full corpus</b> — 4,500–5,400 per element</div></div>
+      <div class="scope full"><b>Near-death archive</b> — 4,500–5,400 per element</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share answering yes</span></div>
     </div>
     <div class="tabs" role="tablist" id="demotabs"></div>
@@ -1077,7 +1110,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">And what people report afterwards</div>
-      <div class="scope full"><b>Full corpus</b> — 2,400–5,400 per item</div></div>
+      <div class="scope full"><b>Near-death archive</b> — 2,400–5,400 per item</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share answering yes</span></div>
     </div>
     <div class="tabs" role="tablist" id="aftertabs"></div>
@@ -1120,7 +1153,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 
   <div class="wrap figure rise">
     <div class="fig-head">
-      <div><div class="fig-title">United States compared with everywhere else</div><div class="scope full"><b>4,200–5,000 accounts</b> — everyone with a recorded country</div></div>
+      <div><div class="fig-title">United States compared with everywhere else</div><div class="scope full"><b>4,200–5,000 near-death accounts</b> — everyone with a recorded country</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>United States</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Rest of world</span>
@@ -1164,7 +1197,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Religious stance, before and after</div>
-      <div class="scope full"><b>2,395 accounts</b> stating a stance both times</div></div>
+      <div class="scope full"><b>2,395 near-death accounts</b> stating a stance both times</div></div>
     </div>
     <p class="howto">Each row is where people started. The three figures are where they ended up. <strong style="color:var(--bone);font-weight:400">Read across a row to see how a group dispersed.</strong> Movement is not symmetrical: liberal is the hardest position to leave and the easiest to arrive at.</p>
     <div class="matrix" id="stance"></div>
@@ -1174,7 +1207,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Who keeps the tradition they arrived with</div>
-      <div class="scope full"><b>3,851 accounts</b> naming an affiliation both times</div></div>
+      <div class="scope full"><b>3,851 near-death accounts</b> naming an affiliation both times</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share reporting the same affiliation afterwards</span></div>
     </div>
     <div class="rows" id="retain"></div>
@@ -1212,7 +1245,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Accounts naming a religious figure, by religion held beforehand</div>
-      <div class="scope full"><b>3,187 accounts</b> stating a prior religion</div></div>
+      <div class="scope full"><b>3,187 near-death accounts</b> stating a prior religion</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Names God, Jesus, an angel or another figure</span></div>
     </div>
     <div class="rows" id="priorfaith"></div>
@@ -1241,7 +1274,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">Element rate by how long the writer waited</div>
-      <div class="scope full"><b>3,924 accounts</b> with both an experience date and a submission date</div></div>
+      <div class="scope full"><b>3,924 near-death accounts</b> with both dates recorded</div></div>
       <div class="legend">
         <span><i class="swatch" style="background:var(--amber-lit)"></i>Under 10 years</span>
         <span><i class="swatch" style="background:var(--instrument-lit)"></i>Over 40 years</span>
@@ -1273,7 +1306,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="wrap figure rise">
     <div class="fig-head">
       <div><div class="fig-title">What the reported abilities are</div>
-      <div class="scope full"><b>2,159 affirmative answers</b> with a written explanation</div></div>
+      <div class="scope full"><b>2,159 near-death answers</b> with a written explanation</div></div>
       <div class="legend"><span><i class="swatch" style="background:var(--amber-lit)"></i>Share of those answering yes</span></div>
     </div>
     <div class="rows" id="abilities"></div>
@@ -1329,7 +1362,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     </div>
     <p class="rise">That is the closest this data comes to identifying a distressing experience: not merely frightening at the outset, which is common, but frightening without the resolution that usually follows.</p>
     <p class="rise dim">Explicitly infernal language is rarer but not marginal. <strong>16.4%</strong> of narratives use it somewhere — “hell” appears in 620 accounts, “screaming” in 583, “evil” in 308, with the devil, Satan, demons and the abyss trailing well behind. Out-of-body and related experiences carry by far the most fear (<strong>39.0%</strong>), roughly double the near-death rate.</p>
-    <p class="rise note">Why this section exists: an earlier version of this page had no treatment of distressing experiences at all, which left the reader with a rosier picture than the archive supports. The omission was mine, not the corpus's.</p>
+    <p class="rise note">Frightening accounts are easy to leave out of a summary — they are less quotable, less shareable, and less like the story most people expect. Omitting them would give a rosier picture than the archive supports, which is why they have a section of their own.</p>
   </div>
 </section>
 <!-- ═══════════════ INTERLUDE ═══════════════ -->
@@ -1371,8 +1404,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="rise">Across the after-death archive alone, <strong>2,348</strong> claims were recorded. <strong>920</strong> assert third-party confirmation and <strong>581</strong> of those are specific rather than impressionistic. They appear in <strong>440 of 1,588</strong> accounts — <strong>27.7%</strong>, with a margin of just ±2.2 points.</p>
     <p class="rise">The concentration is the finding. After-death accounts carry these at <strong>27.7%</strong> against <strong>12.5%</strong> for near-death and <strong>9.5%</strong> for out-of-body experiences. The claims cluster where the experience is about <em class="k">someone else</em> rather than about the experiencer.</p>
     <div class="callout rise">
-      <span class="big">26.1% → 27.7%</span>
-      This section previously rested on 199 sampled accounts. Reading all 1,588 moved the figure by 1.6 points and cut the margin from ±6.1 to ±2.2. The sample was right — which is worth stating, because a sample that fails this test would have quietly invalidated several other numbers on this page.
+      <span class="big">±2.2</span>
+      Reading a 199-account sample of this archive gave 26.1%. Reading all 1,588 gives <strong>27.7%</strong> — a shift of 1.6 points, with the margin cut from ±6.1 to ±2.2. Sampling was tested against the full count here and held, which is the reason to trust the sampled figures elsewhere on this page.
     </div>
 
     <h3 class="rise" style="margin:2.6rem 0 1rem">What is actually being claimed</h3>
@@ -1402,7 +1435,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 <section class="act">
   <div class="narrow">
     <p class="eyebrow rise">If You Remember Only This</p>
-    <h2 class="rise" data-d="1">Nine things the archive says.</h2>
+    <h2 class="rise" data-d="1">Fourteen things the archive says.</h2>
     <p class="lede rise" data-d="2" style="margin-top:1.6rem">Every one of these is a count, not an interpretation. None of them says anything about what caused these experiences.</p>
   </div>
   <div class="wrap">
@@ -1440,6 +1473,26 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <p><b>73.4%</b> keep the religious stance they arrived with. But of those who move, the traffic runs one way — liberal is the hardest position to leave and the easiest to reach. The lowest retention of any group is <b>atheist</b>, at <b>36.9%</b>.</p>
       </li>
       <li>
+        <h3>What fades is the story, not the sensation</h3>
+        <p>Across four decades of delay before writing, the light holds at <b>65.8%</b> then <b>68.3%</b>, and so do ineffability and reported life change. Sudden total understanding falls <b>73.8%</b> to <b>60.6%</b>, meeting the dead <b>48.4%</b> to <b>38.4%</b>. Sort by decade or by delay and the same layer erodes.</p>
+      </li>
+      <li>
+        <h3>Prior belief shifts the odds, it does not set them</h3>
+        <p>The affiliated name a religious figure in <b>42.3%</b> of accounts, the unaffiliated in <b>30.7%</b>. But <b>28.4%</b> of prior atheists name one too — most often God, the same figure that leads for every group.</p>
+      </li>
+      <li>
+        <h3>Half report new abilities. Almost none were tested</h3>
+        <p>The commonest are quiet ones: knowing things unprompted <b>18.9%</b>, sensing the dead <b>17.9%</b>. Electrical interference, a fixture of popular accounts, is among the rarest at <b>1.5%</b>. Just <b>3.6%</b> mention verification of any kind.</p>
+      </li>
+      <li>
+        <h3>One account in six is frightening and stays that way</h3>
+        <p><b>15.9%</b> describe fear or terror with no peace and no love anywhere in them. Out-of-body accounts carry the most at <b>39.0%</b>, roughly double the near-death rate. The benign version of this subject is a selection effect.</p>
+      </li>
+      <li>
+        <h3>The claims cluster where the experience is about someone else</h3>
+        <p><b>27.7%</b> of after-death accounts assert something specific that another person later confirmed — against 12.5% for near-death and 9.5% for out-of-body. Read in full across all 1,588.</p>
+      </li>
+      <li>
         <h3>The life review fell off a cliff</h3>
         <p>Steady at <b>57–61%</b> from the 1980s through the 2000s, then <b>31.8%</b> for experiences in the 2010s. Comparing only accounts written within ten years, the drop is <b>70.0%</b> to <b>29.1%</b> in a single decade.</p>
       </li>
@@ -1460,6 +1513,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <div><b>The dramatic part is not the part that changes people.</b><span>Reaching a border predicts changed values at 66.7% against 66.7% — no effect whatsoever. Being unable to put the experience into words predicts it at 75.0% against 57.9%. Whatever transforms a life here is not the spectacle.</span></div>
       <div><b>The setting is ordinary.</b><span>A quarter of these accounts are set in a bedroom, a fifth in a hospital room. Whatever people describe, most of it is reported as happening exactly where they already were.</span></div>
       <div><b>Two thirds report changed values afterwards.</b><span>That is the most consistent aftereffect in the corpus — steadier than any single element of the experience itself, and stable across gender, region and decade.</span></div>
+      <div><b>What changes is not what you would brace for.</b><span>Sorting by how long people waited before writing, the sensory core holds across four decades while the interpretive layer thins. Whatever these experiences are, the part that persists in memory is the sensation, not the explanation built around it.</span></div>
       <div><b>Certainty moves; affiliation mostly does not.</b><span>73.4% keep their religious stance and 62.2% keep their tradition. Where movement happens it runs one way, toward the more liberal position, and the lowest retention of any group is atheist at 36.9%.</span></div>
     </div>
 
@@ -1467,6 +1521,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="ruled rise">
       <div><b>The people who appear are overwhelmingly family.</b><span>Deceased parents and grandparents together outnumber every named religious figure combined. An unnamed presence — someone felt but never identified — is the single most common category of all.</span></div>
       <div><b>Encounters are described as ordinary in manner.</b><span>Where a mode of contact is described, plain speech outnumbers wordless communication two to one. In four cases in ten nothing is exchanged at all; the person is simply present.</span></div>
+      <div><b>Roughly half report something new about themselves afterwards.</b><span>Most often it is quiet — knowing things without being told, or a sense of the person they lost. Worth saying plainly: nothing in this archive tests any of it, and only 3.6% of those reporting an ability mention verification of any kind. It is what people say about their own lives, recorded once, years later.</span></div>
       <div><b>One detail stands out.</b><span><strong>14.6%</strong> of encounters with the dead were with someone the experiencer says they did not know had died at the time. It recurs across decades, countries and languages, in accounts written by people with no contact with one another. What to make of it is beyond anything counting can settle — but it is there, consistently, and it is not a small number.</span></div>
     </div>
 
@@ -1474,6 +1529,33 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="rise dim">Every limit here is a limit of arithmetic, not of the accounts. Percentages describe a corpus, not a person: no figure on this page tells any individual what their own experience was, and a rare element is not a less real one. The people who wrote these did not submit data — they described something that changed their lives, and the parts that mattered most to them are frequently the parts that no coding scheme can hold.</p>
     <p class="rise dim">Two things follow. Because everyone here chose to write to an archive about near-death experience, none of these rates estimate how common any of this is in the wider world; they describe who wrote in. And where the accounts contradict the popular picture — the ordinary rooms, the plain conversation, the middle of the sequence that turns out to have no fixed order — the thing being corrected is the <em class="k">popular picture</em>, not the people. On every point where the familiar story and the accounts disagree, this page sides with the accounts.</p>
     <p class="rise">What no method reaches is the thing most of them were actually trying to say. The strongest statistical signal in the entire corpus is that the people who insist their experience cannot be put into words are the ones it changed most. That is as close as counting gets to admitting what it is missing.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ ASK ═══════════════ -->
+<section class="act" id="respond">
+  <div class="narrow">
+    <p class="eyebrow rise">Before You Go</p>
+    <h2 class="rise" data-d="1">What did you make of this?</h2>
+    <p class="lede rise" data-d="2" style="margin-top:1.8rem">This is an open analysis of an archive that keeps growing, and the questions worth asking next are not obvious from the inside.</p>
+    <p class="rise dim" data-d="2">Three things are genuinely useful to hear: what struck you, what you did not believe, and what you now want to know that this page does not answer. Several sections here exist because someone asked a question the data could answer and nobody had thought to ask.</p>
+
+    <div class="ask rise" data-d="2">
+      <a class="ask-primary" href="mailto:kenny@kennyl.com?subject=The%20Threshold%20Archive%20%E2%80%94%20a%20thought&amp;body=What%20struck%20me%3A%0A%0AWhat%20I%20did%20not%20believe%3A%0A%0AWhat%20I%20want%20to%20know%20next%3A%0A%0A%2D%2D%2D%0A%28Add%20%22subscribe%22%20anywhere%20above%20if%20you%20would%20like%20to%20hear%20when%20the%20analysis%20is%20updated.%29%0A">
+        Send a thought <i>&rarr;</i>
+      </a>
+      <a class="ask-secondary" href="mailto:kenny@kennyl.com?subject=Subscribe%20%E2%80%94%20The%20Threshold%20Archive&amp;body=Please%20add%20me%20to%20the%20list%20for%20updates%20to%20this%20analysis.%0A">
+        Tell me when it updates
+      </a>
+    </div>
+    <p class="rise note" style="margin-top:1.8rem">Both open your own mail client — nothing is collected by this page, there is no tracking on it, and no third party sees what you write. Replies are read personally, and answered where there is something worth saying.</p>
+
+    <h3 class="rise" style="margin:2.8rem 0 1rem">Questions already open</h3>
+    <div class="ruled rise">
+      <div><b>Why did the elaborated content thin after 2010?</b><span>Same instrument, longer accounts, higher depth scores — and a shift in how the archive's editors classified submissions. Which of those is cause and which is symptom is unresolved.</span></div>
+      <div><b>Does the corroboration pattern survive scrutiny?</b><span>27.7% of after-death accounts assert a specific claim someone else confirmed. Nothing here can check any of them. What would a real check even look like?</span></div>
+      <div><b>Why does speechlessness predict change when spectacle does not?</b><span>The strongest signal in the corpus, and the one with no obvious mechanism behind it.</span></div>
+    </div>
   </div>
 </section>
 
@@ -1515,6 +1597,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
 <footer>
   <div class="narrow">
     <nav class="foot-nav">
+      <a href="#respond">Send a thought</a>
       <a href="methodology.html">Full methodology</a>
       <a href="https://github.com/kennymuli/nde-archive">Source &amp; data pipeline</a>
       <a href="#hero">Back to the top</a>
@@ -1757,6 +1840,150 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     it.appendChild(el('div', 'arc-pct', pct + '%'));
     arc.appendChild(it);
   });
+
+  /* ---------- row annotations, shown on hover / focus / tap ---------- */
+  const ANNOT = {
+    wordsL: {
+      'white':  ['The commonest descriptor of the light.', 'Appears near “light” 3,310 times and near “tunnel” 791. Colour is the single most reached-for quality.'],
+      'bright': ['Second commonest descriptor.', 'Intensity rather than hue. Together with “white” it accounts for most of how the light gets described at all.'],
+      'love':   ['Not a visual word — and it outranks “bright”.', '3,417 appearances near “light”. People describe the light and the feeling of it in the same breath, more often than they describe how it looked.'],
+      'end':    ['Almost exclusively a tunnel word.', '1,169 appearances near “tunnel”. The tunnel is written as something with a far side — a passage toward, not a place to be.'],
+      'dark':   ['The tunnel’s texture.', '723 appearances near “tunnel”, and far fewer near “light”. Darkness is what the passage is made of, not where people end up.'],
+      'body':   ['The body is described alongside both.', 'Near “light” 3,927 times and near “tunnel” 1,211. Leaving the body and seeing the light are usually narrated in the same passage, which is why the words sit so close together.'],
+      'through':['The verb of transit.', '1,508 near “tunnel”, 2,866 near “light”. Movement is described as passing through something rather than arriving somewhere.'],
+      'back':   ['The return, told in the same breath.', 'Appears near both because accounts rarely describe the light without also describing coming back from it.']
+    },
+    figures: {
+      'God':          ['Named in more accounts than every other figure combined.', 'Leads for every prior religion in the corpus — including self-described atheists and the unaffiliated.'],
+      'Angel':        ['Second most named, ahead of Jesus.', 'Often unnamed and unspecified — closer to “a presence” than to a doctrinal figure.'],
+      'Jesus':        ['Named in roughly 1,600 accounts.', 'Rises among prior Protestants and other Christians; still well behind God in every group.'],
+      'Christ':       ['Counted separately from “Jesus”.', 'Some accounts use one, some the other, some both — so the two are not additive.'],
+      'Buddha':       ['43 mentions across 5,749 narratives.', 'The cliff below the Christian vocabulary is steep and is mostly a fact about who writes in.'],
+      'Virgin Mary':  ['25 mentions.', 'Appears almost entirely in accounts from prior Catholics.'],
+      'Allah':        ['25 mentions.', 'The corpus holds only a few dozen accounts from Muslim-majority countries, so this is a sampling floor rather than a finding.'],
+      'Krishna':      ['18 mentions.', 'Same caution — the archive is overwhelmingly Anglophone.'],
+      'Muhammad':     ['6 mentions.', 'The rarest named figure in the corpus.']
+    },
+    beings: {
+      'Unspecified other':     ['Someone described but not categorised.', 'Usually a person the writer knew, named in a way that resists grouping.'],
+      'Deceased parent':       ['The single commonest identified figure.', 'Mothers and fathers together outnumber every named religious figure.'],
+      'Unidentified presence': ['Felt but never named.', 'More common than Jesus, God and angels combined. The most frequent single category after family.'],
+      'Deceased grandparent':  ['The second family tier.', 'With parents, this makes the encounter overwhelmingly domestic rather than theological.'],
+      'A child':               ['Includes the writer’s own children and unknown children.', 'Appears in both near-death and after-death accounts.'],
+      'Strangers':             ['People the writer did not recognise.', 'Often described as a crowd or a group rather than individuals.'],
+      'Sibling':               ['Brothers and sisters.', ''],
+      'God':                   ['Counted here only when described as an encountered being.', 'Distinct from the vocabulary scan, which counts any mention.'],
+      'Spouse or partner':     ['Concentrated in the after-death archive.', ''],
+      'A friend':              ['', ''],
+      'Jesus':                 ['3.5% of all beings described.', 'Far below deceased family in the same corpus.'],
+      'An angel':              ['3.4% of beings.', 'Frequently unnamed and inferred rather than identified.'],
+      'Living person':         ['Someone alive at the time.', 'A small but persistent category that complicates any simple reading of who appears.'],
+      'Extended family':       ['Aunts, uncles, cousins, in-laws.', '']
+    },
+    settings: {
+      'Bedroom':       ['The commonest setting in the entire corpus.', 'One account in four. Most of what is described is reported as happening where the body already was.'],
+      'Hospital room': ['Second commonest.', 'With bedrooms, ordinary rooms account for far more accounts than every otherworldly setting put together.'],
+      'A road':        ['Accident scenes.', ''],
+      'The sky':       ['Counted as otherworldly.', 'Often described from above the body rather than as a destination.'],
+      'A building':    ['Unspecified structures.', ''],
+      'A house':       ['Domestic settings other than a bedroom.', ''],
+      'Tunnel':        ['The most recognisable image attached to this subject.', 'Appears in one account in ten — well behind the bedroom.'],
+      'The void':      ['Empty or featureless space.', 'Often described before the light rather than after it.'],
+      'Water':         ['', ''],
+      'A field':       ['', ''],
+      'Pure light':    ['Light as a place rather than an object.', ''],
+      'Darkness':      ['Darkness as a location.', 'Distinct from the void: described as somewhere passed through.'],
+      'A garden':      ['The classic image of the afterlife in popular accounts.', 'One account in thirty.']
+    },
+    abilities: {
+      'Knowing things unprompted':  ['The commonest reported ability.', 'Described as knowing without being told rather than as a formal power. 18.9% of those answering yes.'],
+      'Sensing or seeing the dead': ['Second commonest.', 'Concentrated among people who lost someone close, and often described as ongoing rather than a single event.'],
+      'Foreknowledge of events':    ['Knowing something before it happens.', 'Includes dreams reported as later coming true.'],
+      'Healing others':             ['Ranges from formal practice to an informal sense of helping.', ''],
+      'Feeling others’ states':     ['Picking up emotions, pain or illness from other people.', ''],
+      'Hearing guidance':           ['An inner voice or sense of being directed.', ''],
+      'Seeing auras':               ['Colour or light around people.', 'Much rarer than popular accounts suggest.'],
+      'Leaving the body at will':   ['Repeating the out-of-body state deliberately.', ''],
+      'Electrical interference':    ['Affecting watches, bulbs, computers.', 'A fixture of popular accounts and among the rarest things anyone actually reports — 1.5%.']
+    },
+    priorfaith: {
+      'Christian (other)': ['Highest rate of naming a religious figure.', 'Non-denominational and other Christian identifications.'],
+      'Protestant':        ['', ''],
+      'Catholic':          ['The largest single group in the corpus.', 'God leads, then angels, then Jesus.'],
+      'Agnostic':          ['Nearly identical to the unaffiliated rate.', ''],
+      'Unaffiliated':      ['No religion stated beforehand.', ''],
+      'Atheist':           ['28.4% name a religious figure anyway.', 'Twelve points below Catholics, not zero. Prior belief shifts the odds without gating them.'],
+      'Muslim':            ['n=60 — the smallest group shown.', 'Too few accounts to read much into the rate.']
+    },
+    retain: {
+      'Christian (other)': ['Highest retention of any group.', ''],
+      'Protestant':        ['', ''],
+      'Catholic':          ['', ''],
+      'Unaffiliated':      ['', ''],
+      'Agnostic':          ['', ''],
+      'Atheist':           ['The lowest retention in the corpus.', 'Under four in ten still describe themselves as atheist afterwards.']
+    },
+    claimkinds: {
+      'Learned an unknown fact':     ['The largest confirmed category.', 'A specific fact the writer says they had no way of knowing, later borne out. Only visible once it was given its own code.'],
+      'Other / unclassified':        ['A third of confirmed claims.', 'The categories were fixed before the data was read, so this bucket stays large. It is the weakest part of this section.'],
+      'Saw an object':               ['Something described that the writer says they could not have seen.', ''],
+      'Met someone not known dead':  ['The rarest and least explicable pattern.', '77 claims in the full archive; 66 assert the death was confirmed afterwards.'],
+      'Event elsewhere':             ['Something happening in another room or another place.', ''],
+      'Medical detail':              ['Procedures or clinical facts described from outside the body.', ''],
+      'Overheard talk':              ['Conversation the writer says they could not have heard.', '']
+    }
+  };
+
+  const attachTips = (mountId) => {
+    const table = ANNOT[mountId];
+    const host = document.getElementById(mountId);
+    if (!table || !host) return;
+    host.querySelectorAll('.row').forEach(row => {
+      const nameEl = row.querySelector('.name');
+      if (!nameEl) return;
+      const key = nameEl.textContent.split('\n')[0].trim().replace(/\s+n=.*$/, '');
+      const entry = table[key];
+      if (!entry || !entry[0]) return;
+      const value = (row.querySelector('.bar-val') || {}).textContent || '';
+      row.tabIndex = 0;
+      row.setAttribute('role', 'img');
+      row.setAttribute('aria-label', key + ': ' + value + '. ' + entry[0] + ' ' + (entry[1] || ''));
+      const show = () => {
+        tip.innerHTML = '<span class="t">' + key + '</span>' +
+          (value ? '<div class="r amber"><span>Value</span><span>' + value + '</span></div>' : '') +
+          '<p>' + entry[0] + '</p>' + (entry[1] ? '<p>' + entry[1] + '</p>' : '');
+        tip.classList.add('on');
+      };
+      const move = e => {
+        const pt = e.touches ? e.touches[0] : e;
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        let x = (pt.clientX || 0) + 18, y = (pt.clientY || 0) + 18;
+        if (x + w > innerWidth - 12) x = (pt.clientX || 0) - w - 18;
+        if (y + h > innerHeight - 12) y = (pt.clientY || 0) - h - 18;
+        tip.style.left = Math.max(12, x) + 'px'; tip.style.top = Math.max(12, y) + 'px';
+      };
+      if (fine) {
+        row.addEventListener('mouseenter', show);
+        row.addEventListener('mousemove', move, { passive: true });
+        row.addEventListener('mouseleave', () => tip.classList.remove('on'));
+      }
+      row.addEventListener('click', e => {
+        if (tip.classList.contains('on') && tip.dataset.owner === mountId + key) {
+          tip.classList.remove('on'); tip.dataset.owner = '';
+        } else {
+          tip.dataset.owner = mountId + key; show();
+          const r = row.getBoundingClientRect();
+          move({ clientX: Math.min(e.clientX || r.left + 40, innerWidth - 40), clientY: r.bottom - 8 });
+        }
+        e.stopPropagation();
+      });
+      row.addEventListener('focus', () => {
+        show(); const r = row.getBoundingClientRect();
+        move({ clientX: r.left + 40, clientY: r.bottom });
+      });
+      row.addEventListener('blur', () => tip.classList.remove('on'));
+    });
+  };
 
   /* ---------- horizontal bars ---------- */
   const bars = (mount, rows, maxv, cls) => {
@@ -2282,6 +2509,9 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     host.appendChild(grid);
   })();
 
+
+  ['wordsL','figures','beings','settings','abilities','priorfaith','retain','claimkinds']
+    .forEach(attachTips);
 
   /* ---------- reveal + counters ---------- */
   const io = new IntersectionObserver(es => {
