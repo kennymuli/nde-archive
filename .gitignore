@@ -21,3 +21,6 @@ nde-archive/run*.err
 .DS_Store
 __pycache__/
 *.pyc
+
+# Private corpus mirror — its own repository, never part of this one
+nde-corpus-private/
