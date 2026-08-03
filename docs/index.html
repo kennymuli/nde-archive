@@ -337,15 +337,16 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
   line-height:1.08}
 .seq-row i{font-style:normal;font-variant-numeric:tabular-nums;opacity:.55;padding-left:.7rem}
 .seq-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.7rem;
-  color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-top:.6rem;
-  padding-left:12.6rem}
+  color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-left:12.6rem;
+  border-top:1px solid var(--rule);padding-top:.55rem;margin-top:.5rem}
 .seq-read{min-height:2.6rem;margin-top:1rem;font-family:var(--mono);font-size:.78rem;
   color:var(--bone);padding-left:12.6rem}
 .seq-read b{color:var(--amber-lit);font-weight:400}
 @media (max-width:640px){
   .seq-row b{width:6.4rem;font-size:.66rem}
   .seq-row i{font-size:.64rem;padding-left:.45rem}
-  .seq-axis,.seq-read{padding-left:8.8rem;font-size:.66rem}
+  .seq-axis{margin-left:8.8rem;font-size:.62rem}
+  .seq-read{padding-left:8.8rem;font-size:.66rem}
 }
 .step2 h4{margin:0 0 .3rem;font-size:1rem;font-weight:400;color:var(--bone);padding-top:.45rem}
 .step2 p{margin:0;font-size:.9rem;line-height:1.55;color:var(--dim)}
@@ -908,7 +909,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       <canvas id="seqcv"></canvas>
       <div class="seq-rows" id="seqrows"></div>
     </div>
-    <div class="seq-axis"><span>start of the account</span><span>end</span></div>
+    <div class="seq-axis"><span>NDE begins</span><span>NDE ends</span></div>
     <div class="seq-read" id="seqread"></div>
     <p class="note" style="margin-top:1.6rem">Rows are ordered by where each event typically falls, so the diagonal is the canonical sequence rather than an assumption imposed on the data. These 200 accounts take <b style="color:var(--amber-lit)">185 different orderings between them</b>, and 177 of those orderings belong to exactly one account. The commonest single path is shared by seven. Only <b style="color:var(--amber-lit)">39%</b> get from start to finish without doubling back. The shape is real — the threads crowd the diagonal and thin out away from it — but almost nobody walks it cleanly.</p>
     <p class="note" style="margin-top:1rem">Near-death accounts only. The after-death archive was coded the same way, but its accounts are about a visit rather than a passage, so the events and their order are not the same thing and pooling them would produce a shape belonging to neither.</p>
@@ -2646,7 +2647,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     // deterministic jitter so threads sharing a row stay distinguishable
     const jit = SEQ.map((s, i) => s.map((_, j) => (((i * 73 + j * 31) % 17) / 17 - .5)));
 
-    let W, H, DPR, padL, rowH, plotW, hot = -1, t = 0, started = false;
+    let W, H, DPR, padL, rowH, plotW, hot = -1, pick = -1, t = 0, started = false;
     const size = () => {
       DPR = Math.min(devicePixelRatio || 1, 2);
       const w = host.getBoundingClientRect().width;
@@ -2729,10 +2730,12 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         const L = lens[i], total = L[L.length - 1];
         if (!total) continue;
         const want = total * k;
-        const on = hot >= 0 && SEQ[i].indexOf(hot) !== -1;
-        g.strokeStyle = on ? 'rgba(255,198,126,.6)'
-                           : (hot >= 0 ? 'rgba(150,160,180,.05)' : 'rgba(255,190,124,.11)');
-        g.lineWidth = (on ? 1.4 : .9) * DPR;
+        const sel = pick === i;
+        const on = sel || (pick < 0 && hot >= 0 && SEQ[i].indexOf(hot) !== -1);
+        g.strokeStyle = sel ? 'rgba(255,228,182,.98)'
+                      : on ? 'rgba(255,198,126,.6)'
+                      : ((pick >= 0 || hot >= 0) ? 'rgba(150,160,180,.045)' : 'rgba(255,190,124,.11)');
+        g.lineWidth = (sel ? 2.3 : on ? 1.4 : .9) * DPR;
         g.beginPath();
         g.moveTo(P[0][0], P[0][1]);
         for (let j = 1; j < P.length; j++) {
@@ -2757,14 +2760,16 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         const total = L[L.length - 1];
         if (!total) continue;
         const want = total * k;
-        const on = hot >= 0 && SEQ[i].indexOf(hot) !== -1;
+        const sel = pick === i;
+        const on = sel || (pick < 0 && hot >= 0 && SEQ[i].indexOf(hot) !== -1);
         for (let j = 0; j < P.length; j++) {
           if (L[j * SUB] > want) break;
-          const isHot = on && SEQ[i][j] === hot;
-          g.fillStyle = isHot ? 'rgba(255,214,150,.95)'
-                              : (hot >= 0 ? 'rgba(150,160,180,.10)' : 'rgba(255,206,150,.30)');
+          const isHot = sel || (on && SEQ[i][j] === hot);
+          g.fillStyle = sel ? 'rgba(255,240,210,.99)'
+                       : isHot ? 'rgba(255,214,150,.95)'
+                       : ((pick >= 0 || hot >= 0) ? 'rgba(150,160,180,.09)' : 'rgba(255,206,150,.30)');
           g.beginPath();
-          g.arc(P[j][0], P[j][1], (isHot ? 2.6 : 1.5) * DPR, 0, 6.2832);
+          g.arc(P[j][0], P[j][1], (sel ? 3.4 : isHot ? 2.6 : 1.5) * DPR, 0, 6.2832);
           g.fill();
         }
       }
@@ -2774,26 +2779,65 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       if (t < 1) { t = Math.min(1, t + .012); draw(); requestAnimationFrame(tick); }
     };
 
-    const setHot = i => {
-      if (i === hot) return;
-      hot = i;
-      rowNodes.forEach((n, j) => n.classList.toggle('hot', j === i));
-      if (i < 0) { readEl.textContent = ''; }
-      else {
-        const n = SEQ.filter(s => s.indexOf(i) !== -1).length;
-        readEl.innerHTML = '<b>' + EV[i][0] + '</b> — reported in ' + n + ' of 200 accounts (' +
+    const refresh = () => {
+      rowNodes.forEach((n, j) => n.classList.toggle('hot', pick < 0 && j === hot));
+      if (pick >= 0) {
+        // one account, spelled out — the whole point of picking a line is to be
+        // able to read where it goes without tracing it by eye
+        const s = SEQ[pick];
+        readEl.innerHTML = '<b>One account</b> — ' + s.length + ' events, told in this order: ' +
+          s.map(e => EV[e][0]).join(' → ') + '.';
+      } else if (hot >= 0) {
+        const n = SEQ.filter(s => s.indexOf(hot) !== -1).length;
+        readEl.innerHTML = '<b>' + EV[hot][0] + '</b> — reported in ' + n + ' of 200 accounts (' +
           (100 * n / SEQ.length).toFixed(1) + '%). Each lit line is one of those accounts ' +
           'in full, from its own beginning to its own end; the bright dot on each marks where ' +
-          'this event fell in that telling.';
-      }
+          'this event fell in that telling. Hover a dot to follow that one account.';
+      } else readEl.textContent = '';
       draw();
     };
 
     cv.addEventListener('mousemove', e => {
       const r = cv.getBoundingClientRect();
-      setHot(Math.max(0, Math.min(ROWS - 1, Math.floor((e.clientY - r.top) / rowH))));
+      const px = (e.clientX - r.left) * DPR, py = (e.clientY - r.top) * DPR;
+      // a coded event under the pointer wins; otherwise fall back to the row band
+      const reach = (10 * DPR) * (10 * DPR);
+      let best = -1, bestD = reach;
+      for (let i = 0; i < nodes.length; i++) {
+        const P = nodes[i];
+        for (let j = 0; j < P.length; j++) {
+          const dx = P[j][0] - px, dy = P[j][1] - py, d = dx * dx + dy * dy;
+          if (d < bestD) { bestD = d; best = i; }
+        }
+      }
+      const row = Math.max(0, Math.min(ROWS - 1, Math.floor((e.clientY - r.top) / rowH)));
+      if (best === pick && (best >= 0 || row === hot)) return;
+      pick = best; hot = best >= 0 ? -1 : row;
+      cv.style.cursor = best >= 0 ? 'pointer' : 'crosshair';
+      refresh();
     });
-    cv.addEventListener('mouseleave', () => setHot(-1));
+    cv.addEventListener('mouseleave', () => { pick = -1; hot = -1; refresh(); });
+
+    // touch has no hover, so a tap does the same job; tapping empty space clears
+    cv.addEventListener('touchstart', e => {
+      const tp = e.touches[0];
+      if (!tp) return;
+      const r = cv.getBoundingClientRect();
+      const px = (tp.clientX - r.left) * DPR, py = (tp.clientY - r.top) * DPR;
+      const reach = (16 * DPR) * (16 * DPR);   // a fingertip is blunter than a pointer
+      let best = -1, bestD = reach;
+      for (let i = 0; i < nodes.length; i++) {
+        const P = nodes[i];
+        for (let j = 0; j < P.length; j++) {
+          const dx = P[j][0] - px, dy = P[j][1] - py, d = dx * dx + dy * dy;
+          if (d < bestD) { bestD = d; best = i; }
+        }
+      }
+      const row = Math.max(0, Math.min(ROWS - 1, Math.floor((tp.clientY - r.top) / rowH)));
+      if (best < 0 && pick < 0 && row === hot) { pick = -1; hot = -1; }
+      else { pick = best; hot = best >= 0 ? -1 : row; }
+      refresh();
+    }, { passive: true });
 
     size(); measure();
     addEventListener('resize', () => { size(); measure(); draw(); });
