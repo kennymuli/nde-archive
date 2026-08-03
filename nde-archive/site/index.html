@@ -338,14 +338,14 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
 .seq-row i{font-style:normal;font-variant-numeric:tabular-nums;opacity:.55;padding-left:.7rem}
 .seq-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.7rem;
   color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-top:.6rem;
-  padding-left:9.2rem}
-.seq-read{min-height:1.4rem;margin-top:1rem;font-family:var(--mono);font-size:.78rem;
-  color:var(--bone);padding-left:9.2rem}
+  padding-left:12.6rem}
+.seq-read{min-height:2.6rem;margin-top:1rem;font-family:var(--mono);font-size:.78rem;
+  color:var(--bone);padding-left:12.6rem}
 .seq-read b{color:var(--amber-lit);font-weight:400}
 @media (max-width:640px){
   .seq-row b{width:6.4rem;font-size:.66rem}
-  .seq-axis,.seq-read{padding-left:6.4rem}
-  .seq-row i{display:none}
+  .seq-row i{font-size:.64rem;padding-left:.45rem}
+  .seq-axis,.seq-read{padding-left:8.8rem;font-size:.66rem}
 }
 .step2 h4{margin:0 0 .3rem;font-size:1rem;font-weight:400;color:var(--bone);padding-top:.45rem}
 .step2 p{margin:0;font-size:.9rem;line-height:1.55;color:var(--dim)}
@@ -903,7 +903,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         <span><i class="swatch" style="background:var(--amber-lit)"></i>One account</span>
       </div>
     </div>
-    <p class="howto">How to read this — every line is <em>one person's telling</em>, running left to right from the start of their account to the end. The rows are the sixteen coded events, stacked in the order they typically occur. A line that ran straight down the diagonal would be the textbook sequence. Hover any row to pick out the accounts that pass through it.</p>
+    <p class="howto">How to read this — <b>the dots are the events; the line is only the thread joining them.</b> Follow any single line and you are reading one person's account in the order they told it: it starts at the left with whatever they described first, touches a dot on each row for each event they reported, and finishes at the right with whatever they described last. Left to right is <em>position in their telling</em>, not clock time — a line reaching halfway across is halfway through that account, however long it was. Rows are the sixteen coded events, stacked by where each one typically falls, so a line running straight down the dashed diagonal would be the textbook sequence. <strong style="color:var(--bone);font-weight:400">Hover a row to light up every account that reported that event</strong> — each lit line is a whole account, so they begin on whichever row that person started with, which is why they do not all start in the same place.</p>
     <div class="seq" id="seq">
       <canvas id="seqcv"></canvas>
       <div class="seq-rows" id="seqrows"></div>
@@ -2651,7 +2651,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       DPR = Math.min(devicePixelRatio || 1, 2);
       const w = host.getBoundingClientRect().width;
       const narrow = w < 560;
-      padL = narrow ? 6.4 * 16 : 9.2 * 16;
+      padL = narrow ? 8.8 * 16 : 12.6 * 16;
       rowH = narrow ? 32 : 32;
       H = rowH * ROWS;
       plotW = Math.max(40, w - padL - 12);
@@ -2668,30 +2668,27 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       return [x * DPR, y * DPR];
     };
 
-    // Straight segments between rows read as a zigzag and the eye cannot follow
-    // any single account through the crowd. Catmull-Rom through the coded events
-    // gives each telling a continuous line instead, so the common routes bundle
-    // together visually rather than crossing at hard angles.
-    const SUB = 8;
-    let paths = [], lens = [];
+    // Catmull-Rom was the first attempt here and it was wrong: with control
+    // points several rows apart it overshoots hard, so a line visibly swung
+    // through events its account never contained. The curve was inventing data.
+    // These are cubics that leave and arrive horizontally, which cannot leave
+    // the band between the two rows they connect.
+    const SUB = 10;
+    let paths = [], nodes = [], lens = [];
     const measure = () => {
+      nodes = SEQ.map((s, i) => s.map((_, j) => node(i, j)));
       paths = SEQ.map((s, i) => {
         const n = s.length;
         if (n < 2) return [];
-        const P = [];
-        for (let j = 0; j < n; j++) P.push(node(i, j));
+        const P = nodes[i];
         const out = [P[0]];
         for (let j = 0; j < n - 1; j++) {
-          const p0 = P[j ? j - 1 : 0], p1 = P[j], p2 = P[j + 1], p3 = P[j + 2 < n ? j + 2 : n - 1];
+          const [x1, y1] = P[j], [x2, y2] = P[j + 1], mx = (x1 + x2) / 2;
           for (let k = 1; k <= SUB; k++) {
-            const u = k / SUB, u2 = u * u, u3 = u2 * u;
+            const u = k / SUB, v = 1 - u;
             out.push([
-              .5 * ((2 * p1[0]) + (-p0[0] + p2[0]) * u +
-                    (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * u2 +
-                    (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * u3),
-              .5 * ((2 * p1[1]) + (-p0[1] + p2[1]) * u +
-                    (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * u2 +
-                    (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * u3)
+              v * v * v * x1 + 3 * v * v * u * mx + 3 * v * u * u * mx + u * u * u * x2,
+              v * v * v * y1 + 3 * v * v * u * y1 + 3 * v * u * u * y2 + u * u * u * y2
             ]);
           }
         }
@@ -2748,6 +2745,29 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         }
         g.stroke();
       }
+
+      // The curve only connects the coded events; these are the events. Without
+      // them there is no way to tell which rows an account actually touched.
+      for (let i = 0; i < SEQ.length; i++) {
+        const P = nodes[i], L = lens[i];
+        if (!P || P.length < 2 || !L) continue;
+        const delay = (i / SEQ.length) * .55;
+        const k = Math.max(0, Math.min(1, (t - delay) / .45));
+        if (k <= 0) continue;
+        const total = L[L.length - 1];
+        if (!total) continue;
+        const want = total * k;
+        const on = hot >= 0 && SEQ[i].indexOf(hot) !== -1;
+        for (let j = 0; j < P.length; j++) {
+          if (L[j * SUB] > want) break;
+          const isHot = on && SEQ[i][j] === hot;
+          g.fillStyle = isHot ? 'rgba(255,214,150,.95)'
+                              : (hot >= 0 ? 'rgba(150,160,180,.10)' : 'rgba(255,206,150,.30)');
+          g.beginPath();
+          g.arc(P[j][0], P[j][1], (isHot ? 2.6 : 1.5) * DPR, 0, 6.2832);
+          g.fill();
+        }
+      }
     };
 
     const tick = () => {
@@ -2761,8 +2781,10 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       if (i < 0) { readEl.textContent = ''; }
       else {
         const n = SEQ.filter(s => s.indexOf(i) !== -1).length;
-        readEl.innerHTML = '<b>' + EV[i][0] + '</b> — appears in ' + n + ' of 200 accounts (' +
-          (100 * n / SEQ.length).toFixed(1) + '%)';
+        readEl.innerHTML = '<b>' + EV[i][0] + '</b> — reported in ' + n + ' of 200 accounts (' +
+          (100 * n / SEQ.length).toFixed(1) + '%). Each lit line is one of those accounts ' +
+          'in full, from its own beginning to its own end; the bright dot on each marks where ' +
+          'this event fell in that telling.';
       }
       draw();
     };
