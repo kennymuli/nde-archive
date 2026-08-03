@@ -357,6 +357,18 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
   opacity:0;transition:opacity .18s ease;transform:translate(-50%,-150%)}
 .seq-tip.on{opacity:1}
 .seq-tip b{color:var(--amber-lit);font-weight:400}
+/* word constellation — words that share a sentence, laid out by association */
+.cons{position:relative;margin-block:2rem;min-width:0}
+.cons canvas{display:block;width:100%;cursor:crosshair}
+.cons-key{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;margin-top:1rem;
+  font-family:var(--mono);font-size:.72rem;color:var(--faint)}
+.cons-key span{display:inline-flex;align-items:center;gap:.45rem;transition:color .2s ease}
+.cons-key i{width:.55rem;height:.55rem;border-radius:50%;flex:none}
+.cons-read{min-height:2.6rem;margin-top:.9rem;font-family:var(--mono);font-size:.78rem;
+  line-height:1.6;color:var(--bone)}
+.cons-read b{color:var(--amber-lit);font-weight:400}
+.cons-read em{font-style:normal;color:var(--faint)}
+@media (max-width:640px){ .cons-read{font-size:.72rem} .cons-key{font-size:.66rem} }
 @media (max-width:640px){
   .seq-row b{width:6.4rem;font-size:.66rem}
   .seq-row i{font-size:.64rem;padding-left:.45rem}
@@ -1015,6 +1027,18 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
   <div class="narrow">
     <p class="rise">The light is <strong>white</strong> and it is <strong>bright</strong> — those two words dominate everything else. The third most common neighbour is not a visual word at all: it is <em class="k">love</em>, which appears near “light” 3,417 times, more often than “bright”.</p>
     <p class="rise dim">The tunnel is almost never described alone. “Light” sits near it 3,493 times, and the next most common neighbour is “end”. It is written about as a passage toward something rather than as a place in itself — which is consistent with how rarely it appears at all, in one account in ten.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">Which words keep company with which</div><div class="scope"><b>5,749 near-death narratives</b> — 44 words, placed by how often they share a sentence</div></div>
+    </div>
+    <p class="howto">How to read this — the bar charts above count what sits near <em>light</em> and near <em>tunnel</em>. This asks a different question: which words keep company with <em>each other</em>. Two words are pulled together when they turn up in the same sentence more often than their separate frequencies would predict, so common words do not simply drift to the middle. Position is the finding; nothing here was arranged by hand. <strong style="color:var(--bone);font-weight:400">Hover any word</strong> to see what it travels with.</p>
+    <div class="cons" id="cons"><canvas id="conscv"></canvas></div>
+    <div class="cons-key" id="conskey"></div>
+    <div class="cons-read" id="consread"></div>
+    <p class="note" style="margin-top:1.4rem">Four groups fall out of the arithmetic rather than being imposed on it, and they hold when the window is changed from a sentence to a fixed span of words. The strength is very unevenly spread: of the 422 word pairs that occur together often enough to measure, ten carry most of the structure and the median pair is weak. Faint lines are drawn faint for that reason — a diagram that gave every pair the same weight would look like a web and would say much less than it appeared to.</p>
+    <p class="note" style="margin-top:1rem">Sharing a sentence is not the same as meaning the same thing, and none of this shows what anyone meant. It shows which words arrive together when people reach for language, which is a fact about the telling rather than about the experience.</p>
   </div>
 
   <div class="wrap figure rise">
@@ -2956,6 +2980,163 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         started = true; ob.disconnect(); run();
       }), { threshold: .25 }).observe(host);
     }
+  })();
+
+
+  /* ---------- word constellation ---------- */
+  (() => {
+    const cv = document.getElementById('conscv'), host = document.getElementById('cons'),
+          keyEl = document.getElementById('conskey'), readEl = document.getElementById('consread');
+    if (!cv || !host) return;
+    const g = cv.getContext('2d');
+    const CD = {"N":[["light",12515,2,0.4226,0.1538],["tunnel",3299,2,0.3741,0.0],["love",8249,0,0.6632,0.5205],["peace",3493,0,0.5531,0.5174],["dark",3286,2,0.2825,0.0595],["body",12796,1,0.285,0.501],["god",4920,0,0.7395,0.7593],["family",2420,3,1.0,0.432],["back",14666,1,0.3825,0.5167],["time",13685,0,0.8275,0.8079],["life",10254,0,0.6986,0.8734],["experience",7961,0,0.8303,1.0],["room",6509,3,0.6264,0.0629],["people",5791,0,0.8139,0.6313],["pain",4888,1,0.1989,0.701],["white",3366,2,0.3553,0.1789],["place",3678,0,0.5746,0.3665],["hospital",5415,3,0.7748,0.0424],["eyes",3694,1,0.2116,0.3656],["heard",3709,1,0.4138,0.6348],["years",4727,0,0.9684,0.8821],["suddenly",2993,2,0.3289,0.3337],["death",3836,0,0.7454,0.9981],["earth",2874,0,0.7093,0.621],["bright",2213,2,0.3539,0.0921],["head",3628,1,0.1646,0.5206],["bed",3280,3,0.5879,0.173],["voice",2831,1,0.3418,0.6938],["beautiful",2485,2,0.4562,0.2933],["moment",2743,0,0.4891,0.7433],["home",3562,3,0.9312,0.1681],["sense",2475,0,0.58,0.6423],["mother",3031,3,0.8803,0.3239],["heart",3165,3,0.7761,0.3167],["water",3082,1,0.0,0.4032],["face",2618,1,0.0856,0.2764],["world",2452,0,0.6319,0.7334],["floating",1808,2,0.2761,0.2321],["though",2351,0,0.5457,0.8709],["hear",2366,1,0.3402,0.8405],["words",2183,1,0.4296,0.9246],["aware",1989,0,0.4653,0.4461],["end",2136,2,0.4604,0.0438],["doctor",3161,3,0.709,0.1937]],"E":[[0,1,0.351],[0,2,0.136],[0,3,0.102],[0,4,0.209],[0,15,0.39],[0,18,0.11],[0,21,0.112],[0,24,0.516],[0,28,0.216],[0,37,0.135],[0,41,0.09],[0,42,0.242],[1,4,0.318],[1,15,0.232],[1,21,0.155],[1,24,0.327],[1,37,0.191],[1,42,0.461],[2,3,0.311],[2,6,0.185],[2,7,0.101],[2,10,0.091],[2,16,0.103],[2,23,0.117],[2,28,0.115],[2,31,0.141],[2,36,0.09],[2,40,0.12],[3,14,0.102],[3,16,0.154],[3,28,0.171],[3,31,0.272],[3,37,0.098],[3,40,0.104],[4,15,0.106],[4,16,0.194],[4,18,0.085],[4,21,0.141],[4,24,0.186],[4,37,0.183],[4,41,0.084],[4,42,0.135],[5,8,0.263],[5,14,0.131],[5,21,0.182],[5,25,0.083],[5,26,0.134],[5,29,0.082],[5,37,0.235],[5,41,0.148],[6,10,0.112],[6,23,0.121],[7,20,0.085],[7,30,0.13],[7,32,0.08],[8,21,0.134],[8,23,0.147],[8,25,0.13],[8,26,0.114],[8,27,0.12],[8,30,0.104],[9,27,0.115],[9,31,0.099],[10,11,0.162],[10,20,0.083],[10,22,0.219],[10,23,0.167],[10,29,0.13],[10,42,0.089],[11,20,0.201],[11,22,0.402],[12,13,0.083],[12,15,0.09],[12,17,0.251],[12,19,0.083],[12,21,0.089],[12,24,0.089],[12,26,0.182],[12,37,0.119],[12,43,0.203],[13,19,0.083],[13,22,0.112],[13,23,0.099],[13,39,0.122],[14,21,0.098],[15,18,0.086],[15,24,0.427],[15,28,0.219],[15,35,0.091],[15,37,0.119],[15,42,0.192],[16,23,0.122],[16,24,0.083],[16,28,0.231],[16,31,0.081],[16,36,0.101],[17,26,0.279],[17,30,0.127],[17,32,0.12],[17,33,0.094],[17,43,0.171],[18,19,0.082],[18,21,0.102],[18,24,0.197],[18,25,0.151],[18,26,0.107],[18,29,0.099],[18,35,0.194],[19,21,0.129],[19,25,0.119],[19,27,0.509],[19,28,0.09],[19,29,0.097],[19,32,0.094],[19,39,0.13],[19,40,0.174],[19,43,0.138],[20,22,0.132],[20,32,0.116],[21,24,0.112],[21,26,0.118],[21,27,0.125],[21,34,0.097],[21,37,0.174],[21,41,0.162],[22,29,0.102],[23,28,0.084],[23,36,0.105],[24,28,0.205],[24,35,0.087],[24,37,0.139],[24,42,0.252],[25,26,0.092],[25,27,0.185],[25,34,0.149],[25,35,0.165],[25,43,0.091],[26,30,0.082],[26,32,0.115],[26,37,0.107],[26,42,0.101],[27,29,0.11],[27,39,0.265],[27,40,0.11],[28,40,0.104],[30,32,0.134],[31,38,0.096],[32,43,0.106],[33,43,0.137],[34,35,0.117],[34,37,0.147],[37,38,0.097],[37,41,0.104],[38,39,0.111],[38,40,0.081],[38,41,0.102],[39,40,0.144]],"C":["Meaning and afterlife","The body and the senses","The visual set-piece","The clinical scene"]};
+    const NODES = CD.N, EDGES = CD.E, CNAME = CD.C;
+
+    // one hue per group; the clinical words run cool and the light words bright,
+    // which is the only place the palette is allowed to mean anything
+    const HUE = [[255,190,124],[214,206,190],[255,232,190],[138,176,208]];
+    CNAME.forEach((label, c) => {
+      const sp = el('span');
+      const dot = el('i'); dot.style.background = `rgb(${HUE[c].join(',')})`;
+      sp.appendChild(dot); sp.appendChild(document.createTextNode(label));
+      keyEl.appendChild(sp);
+    });
+
+    // on a phone the layout is too tight for 44 labels — 15 of them collide —
+    // so only the commonest words stay labelled and the rest surface on tap
+    const byCount = NODES.map((n, i) => i).sort((a, b) => NODES[b][1] - NODES[a][1]);
+    const rank = []; byCount.forEach((i, r) => rank[i] = r);
+    let LABEL_CAP = 44;
+    const maxW = Math.max(...EDGES.map(e => e[2]));
+    const maxC = Math.max(...NODES.map(n => n[1]));
+    const nbrs = NODES.map(() => []);
+    EDGES.forEach(([i, j, w]) => { nbrs[i].push([j, w]); nbrs[j].push([i, w]); });
+    nbrs.forEach(a => a.sort((x, y) => y[1] - x[1]));
+
+    let W, H, DPR, padX, padY, hot = -1, t = 0, started = false, raf = 0;
+    const em = new Float32Array(NODES.length).fill(1), emT = new Float32Array(NODES.length).fill(1);
+
+    const size = () => {
+      DPR = Math.min(devicePixelRatio || 1, 2);
+      const w = host.getBoundingClientRect().width;
+      const h = Math.max(300, Math.min(560, w * 0.52));
+      padX = w < 560 ? 46 : 76; padY = w < 560 ? 26 : 34;
+      LABEL_CAP = w < 560 ? 8 : 44;
+      cv.width = Math.round(w * DPR); cv.height = Math.round(h * DPR);
+      cv.style.height = h + 'px';
+      W = cv.width; H = cv.height;
+    };
+
+    const px = i => (padX + NODES[i][3] * (cv.width / DPR - padX * 2)) * DPR;
+    const py = i => (padY + NODES[i][4] * (cv.height / DPR - padY * 2)) * DPR;
+    const rad = i => (2.4 + Math.sqrt(NODES[i][1] / maxC) * 5.2) * DPR;
+
+    const draw = () => {
+      g.clearRect(0, 0, W, H);
+      const focus = hot >= 0;
+      // Edges first, opacity raised to a power so the ten strong pairs carry the
+      // picture and the weak mat stays a whisper. Drawing them evenly would be a
+      // web that looked far more structured than the numbers actually are.
+      EDGES.forEach(([i, j, w]) => {
+        const rel = (w - .08) / (maxW - .08);
+        let a = Math.pow(Math.max(0, rel), 1.45) * .62 + .012;
+        const on = focus && (i === hot || j === hot);
+        if (focus) a = on ? Math.min(.85, a * 3.2 + .1) : a * .13;
+        const k = Math.max(0, Math.min(1, (t - .25) / .55));
+        g.strokeStyle = on ? `rgba(255,214,150,${a * k})` : `rgba(196,186,170,${a * k})`;
+        g.lineWidth = (on ? 1.5 : .8) * DPR;
+        g.beginPath();
+        g.moveTo(px(i) + (1 - k) * (W / 2 - px(i)), py(i) + (1 - k) * (H / 2 - py(i)));
+        g.lineTo(px(j) + (1 - k) * (W / 2 - px(j)), py(j) + (1 - k) * (H / 2 - py(j)));
+        g.stroke();
+      });
+      NODES.forEach((nd, i) => {
+        const [word, count, c] = nd;
+        const k = Math.max(0, Math.min(1, (t - i / NODES.length * .3) / .5));
+        if (k <= 0) return;
+        // nodes arrive from the centre so the layout appears to settle
+        const x = px(i) + (1 - k) * (W / 2 - px(i)), y = py(i) + (1 - k) * (H / 2 - py(i));
+        const e = em[i], rgb = HUE[c];
+        g.beginPath(); g.arc(x, y, rad(i) * (.7 + e * .45), 0, 6.2832);
+        g.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${(.30 + e * .55) * k})`;
+        g.fill();
+        if (rank[i] < LABEL_CAP || i === hot || (hot >= 0 && nbrs[hot].some(([j]) => j === i))) {
+          g.font = `${(i === hot ? 12.5 : 11) * DPR}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+          g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${(.24 + e * .74) * k})`;
+          g.fillText(word, x, y - rad(i) - 7 * DPR);
+        }
+      });
+    };
+
+    const loop = () => {
+      raf = 0; let moving = false;
+      if (t < 1) { t = Math.min(1, t + .014); moving = true; }
+      for (let i = 0; i < em.length; i++) {
+        const d = emT[i] - em[i];
+        if (d > .002 || d < -.002) { em[i] += d * .16; moving = true; } else em[i] = emT[i];
+      }
+      draw();
+      if (moving) raf = requestAnimationFrame(loop);
+    };
+    const run = () => { if (!raf) raf = requestAnimationFrame(loop); };
+
+    const retarget = () => {
+      for (let i = 0; i < NODES.length; i++) {
+        emT[i] = hot < 0 ? 1
+               : i === hot ? 1.35
+               : nbrs[hot].some(([j]) => j === i) ? .8 : .18;
+      }
+      if (RM) { em.set(emT); draw(); } else run();
+    };
+
+    const setHot = i => {
+      if (i === hot) return;
+      hot = i;
+      [...keyEl.children].forEach((sp, c) =>
+        sp.style.color = (i >= 0 && NODES[i][2] === c) ? 'var(--amber-lit)' : '');
+      if (i < 0) readEl.textContent = '';
+      else {
+        const top = nbrs[i].slice(0, 5).map(([j, w]) =>
+          `${NODES[j][0]} <em>${w.toFixed(2)}</em>`).join(' · ');
+        readEl.innerHTML = `<b>${NODES[i][0]}</b> — appears ${NODES[i][1].toLocaleString('en-US')} ` +
+          `times across the narratives, and belongs to <em>${CNAME[NODES[i][2]].toLowerCase()}</em>. ` +
+          `Travels most often with: ${top}`;
+      }
+      retarget();
+    };
+
+    cv.addEventListener('mousemove', e => {
+      const r = cv.getBoundingClientRect();
+      const mx = (e.clientX - r.left) * DPR, my = (e.clientY - r.top) * DPR;
+      let best = -1, bestD = (22 * DPR) * (22 * DPR);
+      for (let i = 0; i < NODES.length; i++) {
+        const dx = px(i) - mx, dy = py(i) - my, d = dx * dx + dy * dy;
+        if (d < bestD) { bestD = d; best = i; }
+      }
+      cv.style.cursor = best >= 0 ? 'pointer' : 'crosshair';
+      setHot(best);
+    });
+    cv.addEventListener('mouseleave', () => setHot(-1));
+    cv.addEventListener('touchstart', e => {
+      const tp = e.touches[0]; if (!tp) return;
+      const r = cv.getBoundingClientRect();
+      const mx = (tp.clientX - r.left) * DPR, my = (tp.clientY - r.top) * DPR;
+      let best = -1, bestD = (30 * DPR) * (30 * DPR);
+      for (let i = 0; i < NODES.length; i++) {
+        const dx = px(i) - mx, dy = py(i) - my, d = dx * dx + dy * dy;
+        if (d < bestD) { bestD = d; best = i; }
+      }
+      setHot(best);
+    }, { passive: true });
+
+    size();
+    addEventListener('resize', () => { size(); draw(); });
+    if (RM) { t = 1; requestAnimationFrame(draw); }
+    else new IntersectionObserver((es, ob) => es.forEach(e => {
+      if (!e.isIntersecting || started) return;
+      started = true; ob.disconnect(); run();
+    }), { threshold: .2 }).observe(host);
   })();
 
   /* ---------- glossary ---------- */
