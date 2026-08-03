@@ -90,6 +90,13 @@ strong{font-weight:600;color:#F5F1E8}
 }
 #hero h1 .l2{display:block;color:var(--halo);font-style:italic}
 .hero-sub{max-width:33rem;color:#CFC9BE;font-size:clamp(1.06rem,1.3vw,1.3rem);line-height:1.6}
+/* shown only where the interactive figures are harder to use */
+.deskhint{display:none}
+@media (max-width:820px),(pointer:coarse){
+  .deskhint{display:block;max-width:33rem;margin-top:1.5rem;padding:.75rem .9rem;
+    border-left:2px solid var(--amber);background:rgba(255,190,124,.05);
+    font-family:var(--mono);font-size:.76rem;line-height:1.55;color:var(--faint)}
+}
 .scroll-cue{margin-top:clamp(3rem,9vh,6rem);display:flex;align-items:center;gap:.8rem;
   font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
 .scroll-cue i{display:block;width:1px;height:2.6rem;background:linear-gradient(180deg,var(--amber-lit),transparent);animation:drop 2.6s ease-in-out infinite}
@@ -723,6 +730,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <div class="hero-mark">The Threshold Archive</div>
     <h1><span class="ln"><i>Nine thousand people</i></span><span class="ln l2"><i>described the same door.</i></span></h1>
     <p class="hero-sub wordwrap" data-stagger>Between 1998 and 2026, strangers with nothing in common wrote down what happened to them at the edge of death. This is what the whole archive says when you read all of it at once — and where the standard account of it turns out to be wrong.</p>
+    <p class="deskhint">There is a great deal of data here, and several of the figures reward hovering, tracing and clicking. It is all readable on a phone, but it opens up properly on a desktop.</p>
     <div class="scroll-cue"><i></i>Begin</div>
     <div class="attribution">
       <p class="attr-head">Every account analysed here belongs to three archives</p>
