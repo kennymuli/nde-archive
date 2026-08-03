@@ -324,6 +324,29 @@ body.daylight #rail a[aria-current="true"] i{background:#8A5A0E}
 .step2 .link2{position:absolute;left:1.3rem;top:2.6rem;bottom:0;width:1px;background:var(--rule)}
 .step2.loose .link2{background:repeating-linear-gradient(180deg,var(--rule) 0 4px,transparent 4px 9px)}
 .step2:last-child .link2{display:none}
+
+/* sequence threads — one polyline per account, drawn across its own telling */
+.seq{position:relative;margin-block:2.2rem;min-width:0}
+.seq canvas{display:block;width:100%;cursor:crosshair}
+.seq-rows{position:absolute;inset:0;pointer-events:none}
+.seq-row{position:absolute;left:0;right:0;display:flex;align-items:center;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.02em;color:var(--faint);
+  transition:color .25s ease}
+.seq-row.hot{color:var(--amber-lit)}
+.seq-row b{font-weight:400;width:9.2rem;flex:none;text-align:right;padding-right:.9rem;
+  line-height:1.08}
+.seq-row i{font-style:normal;font-variant-numeric:tabular-nums;opacity:.55;padding-left:.7rem}
+.seq-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.7rem;
+  color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-top:.6rem;
+  padding-left:9.2rem}
+.seq-read{min-height:1.4rem;margin-top:1rem;font-family:var(--mono);font-size:.78rem;
+  color:var(--bone);padding-left:9.2rem}
+.seq-read b{color:var(--amber-lit);font-weight:400}
+@media (max-width:640px){
+  .seq-row b{width:6.4rem;font-size:.66rem}
+  .seq-axis,.seq-read{padding-left:6.4rem}
+  .seq-row i{display:none}
+}
 .step2 h4{margin:0 0 .3rem;font-size:1rem;font-weight:400;color:var(--bone);padding-top:.45rem}
 .step2 p{margin:0;font-size:.9rem;line-height:1.55;color:var(--dim)}
 .step2 .conf{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
@@ -871,6 +894,24 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     <p class="rise note">Assembled by chaining the most frequent next-event at each stage across 598 accounts. It is a modal path, not a template — treat the dashed segments as genuinely unordered rather than as a sequence we are unsure about.</p>
     <p class="rise" style="margin-top:2.4rem">The frame is rigid. Crisis comes first, return comes last, and leaving the body always precedes looking down at it — <strong>119 times out of 119</strong>, never once reversed.</p>
     <p class="rise dim">But the famous middle sequence — tunnel, then light, then beings — barely holds together. Whether the light comes before arriving somewhere is a 51% call. That is a coin flip. The canonical ordering people recite is, in the middle, mostly something we added afterwards.</p>
+  </div>
+
+  <div class="wrap figure rise">
+    <div class="fig-head">
+      <div><div class="fig-title">Two hundred accounts, each drawn as one line</div><div class="scope"><b>200 near-death accounts</b> — coded event by event, in the order each person told it</div></div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--amber-lit)"></i>One account</span>
+      </div>
+    </div>
+    <p class="howto">How to read this — every line is <em>one person's telling</em>, running left to right from the start of their account to the end. The rows are the sixteen coded events, stacked in the order they typically occur. A line that ran straight down the diagonal would be the textbook sequence. Hover any row to pick out the accounts that pass through it.</p>
+    <div class="seq" id="seq">
+      <canvas id="seqcv"></canvas>
+      <div class="seq-rows" id="seqrows"></div>
+    </div>
+    <div class="seq-axis"><span>start of the account</span><span>end</span></div>
+    <div class="seq-read" id="seqread"></div>
+    <p class="note" style="margin-top:1.6rem">Rows are ordered by where each event typically falls, so the diagonal is the canonical sequence rather than an assumption imposed on the data. These 200 accounts take <b style="color:var(--amber-lit)">185 different orderings between them</b>, and 177 of those orderings belong to exactly one account. The commonest single path is shared by seven. Only <b style="color:var(--amber-lit)">39%</b> get from start to finish without doubling back. The shape is real — the threads crowd the diagonal and thin out away from it — but almost nobody walks it cleanly.</p>
+    <p class="note" style="margin-top:1rem">Near-death accounts only. The after-death archive was coded the same way, but its accounts are about a visit rather than a passage, so the events and their order are not the same thing and pooling them would produce a shape belonging to neither.</p>
   </div>
 </section>
 <!-- ═══════════════ INTERLUDE ═══════════════ -->
@@ -2581,6 +2622,167 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       st.appendChild(box);
       host.appendChild(st);
     });
+  })();
+
+
+  /* ---------- sequence threads ---------- */
+  (() => {
+    const cv = document.getElementById('seqcv'), host = document.getElementById('seq'),
+          rowsEl = document.getElementById('seqrows'), readEl = document.getElementById('seqread');
+    if (!cv || !host) return;
+    const g = cv.getContext('2d');
+    const SEQD = {"EV":[["The crisis",91.0],["Left the body",50.5],["Darkness",33.0],["Moving through",37.0],["Saw own body",36.5],["Arrived somewhere",36.5],["The light",48.0],["Met a being",63.0],["Life review",14.5],["A border",11.0],["Sudden knowing",28.0],["A message",45.0],["A choice",31.5],["Sent back",23.5],["Return",84.5],["After",83.5]],"SEQ":[[0,14,2,6,9,14,2,3,6,9,14,2,6,9,7,10,14,15],[0,1,4,14,0,1,4,3,14],[1,6,7,11,12,14,15,0,10,1,4,0,1,2,10,5,7,8,12,14,15],[0,8,1,7,12,14,15],[0,6,1,14,15],[0,14,10,9,15],[0,6,15],[0,7,11,10,12,14,15],[0,2,6,1,7,2,3,6,5,7,11,13,14,15],[0,1,3,6,10],[0,1,4,14,15],[0,1,4,3,6,12,14,15],[6,5,10,7,12,14,15],[0,1,4,2,5,7,11,12,14,15],[0,5,7,11,3,2,11,13,14,15,0,5,7,11,14,15],[0,6,15],[0,8,14,15],[0,2,6,7,12,13,14,15],[0,1,6,4,7,11,13,14,15],[0,8,2,6,14,15],[0,2,6,7,11,14],[0,14,3,5,7,12,10,6,15],[0,5,6,8,14,15],[0,3,2,14,15],[0,1,14,5,6,7,11,15],[2,7,9,10,12,3,14,2,7,11,3,14,15],[0,6,7,11,13,14,15],[0,1,4,7,10,13,14,15],[3,6,5,7,10,14,15],[0,1,6,14],[5,7,10,11,0,3,6,7,12,14,15],[0,5,7,11,13,14,15],[1,4,14,15],[0,1,4,8,12,14,15],[0,5,7,13,14,15],[0,1,15],[14,1,4,6,2,15],[0,7,1,4,3,5,7,6,9,10,11,13,14,15],[0,1,14,15],[0,6,1,14,15],[5,7,11,14,15],[0,1,3,6,7,11,12,14],[0,1,4,6,5,7,11,14,0,1,4,6,7,11,14,0,6,7,11,10,14,15],[1,7,12,14],[0,1,4,10,14,15],[0,1,4,14,15,1,6,1,4,7,5,15],[0,3,2,7,11,6,13,14,15],[0,1,4,3,2,6,7,10,5,12,14,15],[0,1,4,3,11,14,15],[0,5,7,13,14,15],[0,4,7,14],[0,12,10,1,4,7,10,12,14,15],[0,1,4,7,11,13,14,15],[1,10,14,15],[0,1,4,3,7,6,12,5,11,13,3,14,15],[0,2,5,6,9,12,15],[0,1,4,2,5,9,12,13,14,15],[0,1,4,14],[0,2,6,5,13,14,15],[0,3,11,15],[0,6,7,5,7,11,10,1,15],[0,6,11,12,14],[0,2,12,14,1,15,7,11,15],[0,1,3,10,14,12,15],[0,1,7,14,7,0,1,3,7,5,2,7,6,10,14,15,7,10,11,5,7,15],[1,4,7,12,14,15],[0,2,6,3,6,3,7,11,13,14],[0,8,15],[0,1,11,2,4,2,14],[0,2,7],[0,5,1],[0,1,4,7,3,5,6,7,10,7,9,7,7,14,15],[0,1,4,2,3,6,2,7,13,3,2,14,15],[0,1,4,6,7,13,14,15],[0,2,9,12,14,1,4,15],[0,2,5,6,7,11,10,14,15],[2,9,7,11,8,10,6,5,12,11,13,14,15],[0,1,4,10,14,1,14,15],[0,1,4,10,6,12,13,14,15,1,5,10,15],[0,1,4,3,8,5,7,11,7,11,13,14,15],[0,14,1,2,10,15],[0,1,4],[0,14,15,11,10],[0,8,2,14,15],[0,5],[0,1,10,6,3,7,11,5,12,10,14,15],[0,5,7,15],[0,1,4,7,11,15],[0,15,1,4],[0,1,2,3,4,9,12,14,15],[0,5,7,11,14,0,5,7,14,15],[0,5,7,11,13,14,15],[0,6,7,11,14,15,2,6,7,11,15],[0,4,3,7,5,11,6,12,8,10,14],[0,5,7,11,12,14,15,0,2,1,7,14,15],[0,1,2,7,10,12,14,15],[0,1,4,6,14,15],[0,1,0,4,12,11,15],[6,7,11,2,14,15],[0,1,4,7,3,6,12,14,15],[0,1,4,14,15],[0,1,2,6,7,11,10,13,14],[0,3,2,6,7,8,10,13,14,15],[0,3,6,12,14,4,15],[0,1,3,5,7,8,10,7,11,12,9,10,3,14,15],[0,2,6,3,7,11,13,15],[0,5,3,5,14],[0,5,7,13,14,15],[0,15,7,11,0,15],[0,1,4,14,15],[0,1,5,14,1,4,14],[0,3,6,8,14],[0,11,2,7,14],[3,9,10,12,11,14,0,15],[0,3,2,6,14,15],[0,2,1,4,14,15,0,6,15,0,2,14,15],[0,1,7,8,10,2,4,2,7,11,12,13,14,15],[0,15,7,10,12,15],[0,1,14,15],[0,7,1,4,6,8,10,13,14,15],[0,1,4,3,6,5,7,11,3,14,15],[0,7,11,3,6,5,7,12,10,1,4,14,1,4,15],[0,1,4,6,7,12,14,1,4,15],[0,7,6,10,5,7,11,13,14,15],[6,3,5,7,11,13,4,14],[0,1,4,5,7,10,8,12,14,15],[0,7,2],[0,2,7,11,14,15],[0,6,3,9,7,5,7,11,7,11,14],[0,1,2,3,6,7,11,8,12,14,15],[6,1,3,2,9,7,11,13,14,15],[3,10,7,6,7,15],[0,6,2,3,7,12,14,15],[0,5,6,10,12,14,15],[0,1,4,6,7,11,13,14,15],[0,2,6,3,10,3,10,7,5,7,11,13,14,15],[0,1,5,14,15],[0,1,2,8,3,7,5,7,7,5,11,6,8,9,12,11,10,14,15],[0,5,14,15],[0,5,7,7,11,13,14],[0,2,1,4,3,2,7,7,6,11,13,14,15],[0,3,5,7,6,12,14,15],[1,4,3,7,11,14,15],[0,3,7,5,11,14,15],[0,3,6,7,11,12,14,15],[0,6,7,1,3,4,12,14,15],[0,7,11,15],[0,2,3,1,7,5,10,11,4,12,14,15],[0,2,6,8,11,12,14],[0,2,7,8,3,11,14],[0,1,3,5,6,7,11,13,14,15],[0,1,4,7,11,3,6,10,3,5,7,11,5,7,10,11,14,15],[0,6,3,2,9,7,11,12,14,15],[0,1,2,13,14],[0,6,10,15],[0,5,7,11,10,13,14,15],[0,3,7,6,12,14,15],[0,2,3,6,9,7,11,13,14,15],[0,4,5,9,7,12,14],[7,11,0,1,7,7,11,15],[0,1,8,15],[0,1,4,7,12,11,14,15],[0,7,15],[0,4,3,5,7,11,2,6,13,5,7,14,15],[0,5,6,7,10,8,12,14,15],[1,2,3,14,0,1,4,14,15],[0,2,6,7,11,14,15],[0,2,3,6,8,11,14,15],[0,1,4,7,10,0,1,3,7,11,12,14,15],[0,7,12,5,14,15],[0,1,4,14,15],[0,8,5,7,11,3,6,7,11,3,7,11,7,9,14],[0,1,3,5,7,11,13,14,0,2,5,11,14,0,6,15],[0,5,14,15],[0,8,3,6,4,7,11,13,15],[0,8,7,11,8,12,15],[0,5,6,7,14,15],[0,6,7,12,13,14,15],[0,6,3,7,14],[0,1,4,14,15],[0,6,7,10,3,11,14,15],[0,1,4,14,15],[0,4,1,3,14,8,10,15],[0,3,4,15],[0,5,7,12,14,15],[0,5,7,11,14,15],[0,2,11,9,12,14,15],[0,2,3,5,7,10,3,6,7,11,12,14,15],[7,14,15],[1,4,1,3,2,6,13,14,7,11,7,6,5,10],[0,1,14,15],[2,1,4,10,14,15],[0,1,5,7,13],[0,3,6,7,12,4,2,14,15],[0,1,4,14,15],[0,2,1,4,6,3,8,5,7,11,9,7,11,13,3,14,15],[0,1,7,11,14,15],[0,2,12,6,7,10,14,15],[0,2,7,9,11,13,14,15],[0,1,15]]};
+    const EV = SEQD.EV, SEQ = SEQD.SEQ, ROWS = EV.length;
+
+    // label rows sit in normal flow above the canvas so they stay selectable
+    const rowNodes = EV.map(([label, share]) => {
+      const r = el('div', 'seq-row');
+      r.appendChild(el('b', null, label));
+      r.appendChild(el('i', null, share.toFixed(1) + '%'));
+      rowsEl.appendChild(r);
+      return r;
+    });
+
+    // deterministic jitter so threads sharing a row stay distinguishable
+    const jit = SEQ.map((s, i) => s.map((_, j) => (((i * 73 + j * 31) % 17) / 17 - .5)));
+
+    let W, H, DPR, padL, rowH, plotW, hot = -1, t = 0, started = false;
+    const size = () => {
+      DPR = Math.min(devicePixelRatio || 1, 2);
+      const w = host.getBoundingClientRect().width;
+      const narrow = w < 560;
+      padL = narrow ? 6.4 * 16 : 9.2 * 16;
+      rowH = narrow ? 32 : 32;
+      H = rowH * ROWS;
+      plotW = Math.max(40, w - padL - 12);
+      cv.width = Math.round(w * DPR); cv.height = Math.round(H * DPR);
+      cv.style.height = H + 'px';
+      W = cv.width;
+      rowNodes.forEach((n, i) => { n.style.top = (i * rowH) + 'px'; n.style.height = rowH + 'px'; });
+    };
+
+    const node = (si, j) => {
+      const s = SEQ[si], n = s.length;
+      const x = padL + (n > 1 ? j / (n - 1) : .5) * plotW;
+      const y = (s[j] + .5) * rowH + jit[si][j] * (rowH * .2);
+      return [x * DPR, y * DPR];
+    };
+
+    // Straight segments between rows read as a zigzag and the eye cannot follow
+    // any single account through the crowd. Catmull-Rom through the coded events
+    // gives each telling a continuous line instead, so the common routes bundle
+    // together visually rather than crossing at hard angles.
+    const SUB = 8;
+    let paths = [], lens = [];
+    const measure = () => {
+      paths = SEQ.map((s, i) => {
+        const n = s.length;
+        if (n < 2) return [];
+        const P = [];
+        for (let j = 0; j < n; j++) P.push(node(i, j));
+        const out = [P[0]];
+        for (let j = 0; j < n - 1; j++) {
+          const p0 = P[j ? j - 1 : 0], p1 = P[j], p2 = P[j + 1], p3 = P[j + 2 < n ? j + 2 : n - 1];
+          for (let k = 1; k <= SUB; k++) {
+            const u = k / SUB, u2 = u * u, u3 = u2 * u;
+            out.push([
+              .5 * ((2 * p1[0]) + (-p0[0] + p2[0]) * u +
+                    (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * u2 +
+                    (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * u3),
+              .5 * ((2 * p1[1]) + (-p0[1] + p2[1]) * u +
+                    (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * u2 +
+                    (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * u3)
+            ]);
+          }
+        }
+        return out;
+      });
+      lens = paths.map(P => {
+        const L = [0];
+        for (let j = 1; j < P.length; j++)
+          L.push(L[j - 1] + Math.hypot(P[j][0] - P[j - 1][0], P[j][1] - P[j - 1][1]));
+        return L;
+      });
+    };
+
+    // the canonical order, as a baseline to judge the deviation against
+    const guide = () => {
+      g.save();
+      g.strokeStyle = 'rgba(150,160,180,.22)';
+      g.lineWidth = 1 * DPR;
+      g.setLineDash([4 * DPR, 6 * DPR]);
+      g.beginPath();
+      g.moveTo(padL * DPR, .5 * rowH * DPR);
+      g.lineTo((padL + plotW) * DPR, (ROWS - .5) * rowH * DPR);
+      g.stroke();
+      g.restore();
+    };
+
+    const draw = () => {
+      g.clearRect(0, 0, W, cv.height);
+      guide();
+      g.lineCap = 'round'; g.lineJoin = 'round';
+      for (let i = 0; i < SEQ.length; i++) {
+        const P = paths[i];
+        if (!P || P.length < 2) continue;
+        // each thread starts a little after the last, so they arrive as a shoal
+        const delay = (i / SEQ.length) * .55;
+        const k = Math.max(0, Math.min(1, (t - delay) / .45));
+        if (k <= 0) continue;
+        const L = lens[i], total = L[L.length - 1];
+        if (!total) continue;
+        const want = total * k;
+        const on = hot >= 0 && SEQ[i].indexOf(hot) !== -1;
+        g.strokeStyle = on ? 'rgba(255,198,126,.6)'
+                           : (hot >= 0 ? 'rgba(150,160,180,.05)' : 'rgba(255,190,124,.11)');
+        g.lineWidth = (on ? 1.4 : .9) * DPR;
+        g.beginPath();
+        g.moveTo(P[0][0], P[0][1]);
+        for (let j = 1; j < P.length; j++) {
+          if (L[j] <= want) { g.lineTo(P[j][0], P[j][1]); continue; }
+          const seg = L[j] - L[j - 1];
+          const f = seg ? (want - L[j - 1]) / seg : 0;
+          g.lineTo(P[j - 1][0] + (P[j][0] - P[j - 1][0]) * f,
+                   P[j - 1][1] + (P[j][1] - P[j - 1][1]) * f);
+          break;
+        }
+        g.stroke();
+      }
+    };
+
+    const tick = () => {
+      if (t < 1) { t = Math.min(1, t + .012); draw(); requestAnimationFrame(tick); }
+    };
+
+    const setHot = i => {
+      if (i === hot) return;
+      hot = i;
+      rowNodes.forEach((n, j) => n.classList.toggle('hot', j === i));
+      if (i < 0) { readEl.textContent = ''; }
+      else {
+        const n = SEQ.filter(s => s.indexOf(i) !== -1).length;
+        readEl.innerHTML = '<b>' + EV[i][0] + '</b> — appears in ' + n + ' of 200 accounts (' +
+          (100 * n / SEQ.length).toFixed(1) + '%)';
+      }
+      draw();
+    };
+
+    cv.addEventListener('mousemove', e => {
+      const r = cv.getBoundingClientRect();
+      setHot(Math.max(0, Math.min(ROWS - 1, Math.floor((e.clientY - r.top) / rowH))));
+    });
+    cv.addEventListener('mouseleave', () => setHot(-1));
+
+    size(); measure();
+    addEventListener('resize', () => { size(); measure(); draw(); });
+
+    if (RM) { t = 1; requestAnimationFrame(draw); }
+    else {
+      new IntersectionObserver((es, ob) => es.forEach(e => {
+        if (!e.isIntersecting || started) return;
+        started = true; ob.disconnect(); requestAnimationFrame(tick);
+      }), { threshold: .25 }).observe(host);
+    }
   })();
 
   /* ---------- glossary ---------- */
