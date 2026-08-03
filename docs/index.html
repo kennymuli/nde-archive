@@ -3027,13 +3027,58 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       W = cv.width; H = cv.height;
     };
 
-    const px = i => (padX + NODES[i][3] * (cv.width / DPR - padX * 2)) * DPR;
-    const py = i => (padY + NODES[i][4] * (cv.height / DPR - padY * 2)) * DPR;
+    // Each word drifts on its own slow figure, phase-spread by the golden angle
+    // so nothing beats in time with anything else. The layout is still the finding —
+    // the drift is a few pixels, far less than the distance between any two words.
+    let clock = 0;
+    const ph = NODES.map((_, i) => (i * 2.39996) % 6.28318);
+    const driftX = i => Math.sin(clock * .00021 + ph[i]) * 4.2 * DPR;
+    const driftY = i => Math.cos(clock * .00017 + ph[i] * 1.31) * 3.1 * DPR;
+
+    const bx = i => (padX + NODES[i][3] * (cv.width / DPR - padX * 2)) * DPR;
+    const by = i => (padY + NODES[i][4] * (cv.height / DPR - padY * 2)) * DPR;
+    const px = i => bx(i) + driftX(i);
+    const py = i => by(i) + driftY(i);
     const rad = i => (2.4 + Math.sqrt(NODES[i][1] / maxC) * 5.2) * DPR;
+
+    // a halo sprite per hue, drawn once and stamped — 44 live gradients a frame
+    // would cost far more than this figure is worth
+    const SPRITE = HUE.map(rgb => {
+      const S = 128, c = document.createElement('canvas');
+      c.width = c.height = S;
+      const q = c.getContext('2d');
+      const gr = q.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+      gr.addColorStop(0, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},.85)`);
+      gr.addColorStop(.18, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},.34)`);
+      gr.addColorStop(.5, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},.07)`);
+      gr.addColorStop(1, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0)`);
+      q.fillStyle = gr; q.fillRect(0, 0, S, S);
+      return c;
+    });
+
+    // faint field behind the words, so they sit in a sky rather than on a panel
+    let dust = [];
+    const seedDust = () => {
+      dust = [];
+      for (let i = 0; i < 110; i++) {
+        const r = (i * 2654435761) % 1000 / 1000, r2 = (i * 40503) % 997 / 997;
+        dust.push({ u: r, v: r2, a: .10 + ((i * 7919) % 100) / 100 * .22,
+                    p: (i * 1.7) % 6.283, s: .5 + ((i * 31) % 10) / 10 * .7 });
+      }
+    };
+    seedDust();
 
     const draw = () => {
       g.clearRect(0, 0, W, H);
       const focus = hot >= 0;
+      // background dust, well below the words
+      dust.forEach(d => {
+        const tw = RM ? .7 : Math.sin(clock * .0007 + d.p) * .35 + .65;
+        g.beginPath();
+        g.arc(d.u * W, d.v * H, d.s * DPR, 0, 6.2832);
+        g.fillStyle = `rgba(214,206,190,${d.a * tw * .5 * Math.min(1, t * 1.4)})`;
+        g.fill();
+      });
       // Edges first, opacity raised to a power so the ten strong pairs carry the
       // picture and the weak mat stays a whisper. Drawing them evenly would be a
       // web that looked far more structured than the numbers actually are.
@@ -3043,8 +3088,8 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         const on = focus && (i === hot || j === hot);
         if (focus) a = on ? Math.min(.85, a * 3.2 + .1) : a * .13;
         const k = Math.max(0, Math.min(1, (t - .25) / .55));
-        g.strokeStyle = on ? `rgba(255,214,150,${a * k})` : `rgba(196,186,170,${a * k})`;
-        g.lineWidth = (on ? 1.5 : .8) * DPR;
+        g.strokeStyle = on ? `rgba(255,222,168,${a * k})` : `rgba(198,196,190,${a * k * .92})`;
+        g.lineWidth = (on ? 1.3 : .62) * DPR;
         g.beginPath();
         g.moveTo(px(i) + (1 - k) * (W / 2 - px(i)), py(i) + (1 - k) * (H / 2 - py(i)));
         g.lineTo(px(j) + (1 - k) * (W / 2 - px(j)), py(j) + (1 - k) * (H / 2 - py(j)));
@@ -3057,8 +3102,15 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         // nodes arrive from the centre so the layout appears to settle
         const x = px(i) + (1 - k) * (W / 2 - px(i)), y = py(i) + (1 - k) * (H / 2 - py(i));
         const e = em[i], rgb = HUE[c];
-        g.beginPath(); g.arc(x, y, rad(i) * (.7 + e * .45), 0, 6.2832);
-        g.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${(.30 + e * .55) * k})`;
+        const tw = RM ? 1 : Math.sin(clock * .00085 + ph[i]) * .16 + .84;
+        const r = rad(i) * (.7 + e * .45);
+        // halo first, then the star itself — the same order the mote field uses
+        const hs = r * 9 * (.85 + e * .5);
+        g.globalAlpha = Math.min(1, (.16 + e * .34) * tw * k);
+        g.drawImage(SPRITE[c], x - hs / 2, y - hs / 2, hs, hs);
+        g.globalAlpha = 1;
+        g.beginPath(); g.arc(x, y, r * .62, 0, 6.2832);
+        g.fillStyle = `rgba(${Math.min(255, rgb[0] + 20)},${Math.min(255, rgb[1] + 18)},${Math.min(255, rgb[2] + 14)},${(.42 + e * .5) * tw * k})`;
         g.fill();
         if (rank[i] < LABEL_CAP || i === hot || (hot >= 0 && nbrs[hot].some(([j]) => j === i))) {
           g.font = `${(i === hot ? 12.5 : 11) * DPR}px ui-monospace,SFMono-Regular,Menlo,monospace`;
@@ -3069,15 +3121,20 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       });
     };
 
-    const loop = () => {
-      raf = 0; let moving = false;
-      if (t < 1) { t = Math.min(1, t + .014); moving = true; }
+    // Unlike the other figures this one never settles — it drifts. So the loop
+    // runs while the figure is on screen and stops the moment it leaves, rather
+    // than idling when nothing is transitioning.
+    let onScreen = false;
+    const loop = ts => {
+      raf = 0;
+      clock = ts || 0;
+      if (t < 1) t = Math.min(1, t + .014);
       for (let i = 0; i < em.length; i++) {
         const d = emT[i] - em[i];
-        if (d > .002 || d < -.002) { em[i] += d * .16; moving = true; } else em[i] = emT[i];
+        if (d > .002 || d < -.002) em[i] += d * .16; else em[i] = emT[i];
       }
       draw();
-      if (moving) raf = requestAnimationFrame(loop);
+      if (onScreen && !RM) raf = requestAnimationFrame(loop);
     };
     const run = () => { if (!raf) raf = requestAnimationFrame(loop); };
 
@@ -3131,12 +3188,12 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     }, { passive: true });
 
     size();
-    addEventListener('resize', () => { size(); draw(); });
-    if (RM) { t = 1; requestAnimationFrame(draw); }
-    else new IntersectionObserver((es, ob) => es.forEach(e => {
-      if (!e.isIntersecting || started) return;
-      started = true; ob.disconnect(); run();
-    }), { threshold: .2 }).observe(host);
+    addEventListener('resize', () => { size(); seedDust(); draw(); });
+    if (RM) { t = 1; em.set(emT); requestAnimationFrame(draw); }
+    else new IntersectionObserver(es => es.forEach(e => {
+      onScreen = e.isIntersecting;
+      if (onScreen) { started = true; run(); }
+    }), { threshold: 0, rootMargin: '120px' }).observe(host);
   })();
 
   /* ---------- glossary ---------- */
