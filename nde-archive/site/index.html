@@ -3000,10 +3000,22 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     const pipEls = [...pips.children];
 
     let W, H, DPR, cell, lit = new Float32Array(N).fill(1), target = new Float32Array(N).fill(1);
-    // a fixed shuffled order decides which dots go out first, so the pattern is
-    // stable between frames rather than re-randomising
-    const order = Array.from({ length: N }, (_, i) => i);
-    for (let i = N - 1; i > 0; i--) { const j = (i * 9301 + 49297) % (i + 1); [order[i], order[j]] = [order[j], order[i]]; }
+    // Dots go out from the outside in, so each tier is the one before it with a
+    // shell peeled away and the smaller sample is visibly INSIDE the larger. The
+    // key is |u|³+|v|³ in normalised coordinates — a rounded rectangle at the
+    // grid's own 2:1 aspect, so all four tiers are the same shape at four sizes.
+    //
+    // This replaces a Fisher-Yates loop whose random draw had been written as a
+    // formula on the loop counter, making it a deterministic function rather than
+    // a shuffle. It was not scattering the dots: at tier four it left 41 of the 59
+    // survivors in the top two rows of twenty-two, so the smallest sample rendered
+    // as a bar along the top edge.
+    const tierKey = (col, row) => {
+      const u = Math.abs((col + .5) / COLS - .5), v = Math.abs((row + .5) / ROWS - .5);
+      return u * u * u + v * v * v;
+    };
+    const order = Array.from({ length: N }, (_, i) => i).sort((a, b) =>
+      tierKey(a % COLS, (a / COLS) | 0) - tierKey(b % COLS, (b / COLS) | 0) || a - b);
 
     const size = () => {
       DPR = Math.min(devicePixelRatio || 1, 2);
@@ -3092,8 +3104,17 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       // Reduced motion turns the sticky panel static, so scroll can no longer
       // advance the readout. Paint one settled frame and list the remaining
       // tiers underneath, rather than stranding three of the four.
-      setTier(0); setKeep(1);
-      lit.set(target);
+      setTier(0);
+      // With the dots nested, tier one IS the whole grid, so a single settled
+      // frame would show no containment at all. Paint the four shells at once
+      // instead, brightest at the core, so the nesting is legible without motion.
+      const BAND = [1, .72, .46, .24];
+      const ks = TIERS.map(t => Math.round(N * t[4])).sort((a, b) => a - b);
+      for (let j = 0; j < N; j++) {
+        let b = BAND.length - 1;
+        for (let s = 0; s < ks.length; s++) if (j < ks[s]) { b = s; break; }
+        lit[order[j]] = BAND[b];
+      }
       // deferred by one frame: paint() reads the shared pointer position, which
       // is declared further down this script and would still be in its temporal
       // dead zone if we painted synchronously here
