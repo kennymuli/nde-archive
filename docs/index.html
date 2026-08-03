@@ -3285,11 +3285,11 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     const bell = Math.sin(Math.min(1, prog * 1.12) * Math.PI);
     const cxp = w * (.5 + Math.sin(prog * 3.1) * .16);
     const cyp = h * (.86 - prog * .5);
-    const rad = Math.max(w, h) * (.30 + bell * .40);
+    const rad = Math.max(w, h) * (.30 + bell * .40) * (1 + warm * .55 - cool * .30);
     const gr = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, rad);
-    gr.addColorStop(0, `rgba(255,217,160,${(.11 + bell * .10) * (1 + warm * 2.6)})`);
-    gr.addColorStop(.34, `rgba(203,145,70,${(.05 + bell * .05) * (1 + warm * 2.2)})`);
-    gr.addColorStop(.68, `rgba(54,137,182,${(.030 + cool * .22).toFixed(4)})`);
+    gr.addColorStop(0, `rgba(255,${(217 - cool * 26) | 0},${(160 - warm * 34 + cool * 62) | 0},${(.11 + bell * .10) * (1 + warm * 1.3 - cool * .35)})`);
+    gr.addColorStop(.34, `rgba(${(203 - cool * 96) | 0},${(145 - cool * 8) | 0},${(70 + cool * 92) | 0},${(.05 + bell * .05) * (1 + warm * 1.6 + cool * .8)})`);
+    gr.addColorStop(.68, `rgba(54,137,182,${(.030 + cool * .30).toFixed(4)})`);
     gr.addColorStop(1, 'rgba(4,6,13,0)');
     cx.fillStyle = gr; cx.fillRect(0, 0, w, h);
 
@@ -3360,7 +3360,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         cx.fillStyle = g; cx.beginPath(); cx.arc(x, y, r * 7, 0, 6.2832); cx.fill();
       }
       cx.beginPath(); cx.arc(x, y, r, 0, 6.2832);
-      cx.fillStyle = `rgba(${(255 - cool * 49) | 0},${(228 - cool * 4 + warm * 0) | 0},${(186 + cool * 60 - warm * 18) | 0},${Math.min(.95, tw)})`;
+      cx.fillStyle = `rgba(${(255 - cool * 96) | 0},${(228 - cool * 10) | 0},${(186 + cool * 62 - warm * 44) | 0},${Math.min(.95, tw)})`;
       cx.fill();
     });
   };
