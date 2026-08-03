@@ -2716,6 +2716,33 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
       g.restore();
     };
 
+    // Each thread carries an emphasis value that eases toward its target rather
+    // than switching outright. Going from one lit line to two hundred was a hard
+    // cut before, which is unpleasant to look at when it happens on every small
+    // movement of the pointer.
+    const DIM = 0, BASE = .18, HOT = .6, SEL = 1;
+    const em = new Float32Array(SEQ.length).fill(BASE),
+          emT = new Float32Array(SEQ.length).fill(BASE);
+
+    // colour, alpha, line width and dot size all read off that one value, so a
+    // thread crossing between states passes through every intermediate look
+    const STOPS = [
+      [DIM,  150, 160, 180, .045, .9,  .09, 1.5],
+      [BASE, 255, 190, 124, .11,  .9,  .30, 1.5],
+      [HOT,  255, 198, 126, .60,  1.4, .72, 2.3],
+      [SEL,  255, 228, 182, .98,  2.3, .99, 3.4]
+    ];
+    const lerp = e => {
+      let a = STOPS[0], b = STOPS[STOPS.length - 1];
+      for (let k = 0; k < STOPS.length - 1; k++) {
+        if (e >= STOPS[k][0] && e <= STOPS[k + 1][0]) { a = STOPS[k]; b = STOPS[k + 1]; break; }
+      }
+      const span = b[0] - a[0], f = span ? (e - a[0]) / span : 0;
+      const m = (x, y) => x + (y - x) * f;
+      return ['rgba(' + Math.round(m(a[1], b[1])) + ',' + Math.round(m(a[2], b[2])) + ',' +
+              Math.round(m(a[3], b[3])) + ',', m(a[4], b[4]), m(a[5], b[5]), m(a[6], b[6]), m(a[7], b[7])];
+    };
+
     const draw = () => {
       g.clearRect(0, 0, W, cv.height);
       guide();
@@ -2730,12 +2757,9 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         const L = lens[i], total = L[L.length - 1];
         if (!total) continue;
         const want = total * k;
-        const sel = pick === i;
-        const on = sel || (pick < 0 && hot >= 0 && SEQ[i].indexOf(hot) !== -1);
-        g.strokeStyle = sel ? 'rgba(255,228,182,.98)'
-                      : on ? 'rgba(255,198,126,.6)'
-                      : ((pick >= 0 || hot >= 0) ? 'rgba(150,160,180,.045)' : 'rgba(255,190,124,.11)');
-        g.lineWidth = (sel ? 2.3 : on ? 1.4 : .9) * DPR;
+        const [rgb, alpha, lw] = lerp(em[i]);
+        g.strokeStyle = rgb + alpha.toFixed(3) + ')';
+        g.lineWidth = lw * DPR;
         g.beginPath();
         g.moveTo(P[0][0], P[0][1]);
         for (let j = 1; j < P.length; j++) {
@@ -2760,23 +2784,45 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
         const total = L[L.length - 1];
         if (!total) continue;
         const want = total * k;
-        const sel = pick === i;
-        const on = sel || (pick < 0 && hot >= 0 && SEQ[i].indexOf(hot) !== -1);
+        const e = em[i], [rgb, , , dotA, dotR] = lerp(e);
+        // the event under the pointer sits a little prouder, and fades up with
+        // its own thread rather than appearing all at once
+        const lit = Math.max(0, Math.min(1, (e - BASE) / (HOT - BASE)));
         for (let j = 0; j < P.length; j++) {
           if (L[j * SUB] > want) break;
-          const isHot = sel || (on && SEQ[i][j] === hot);
-          g.fillStyle = sel ? 'rgba(255,240,210,.99)'
-                       : isHot ? 'rgba(255,214,150,.95)'
-                       : ((pick >= 0 || hot >= 0) ? 'rgba(150,160,180,.09)' : 'rgba(255,206,150,.30)');
+          const marked = pick < 0 && hot >= 0 && SEQ[i][j] === hot ? lit : 0;
+          g.fillStyle = rgb + Math.min(.99, dotA + marked * .25).toFixed(3) + ')';
           g.beginPath();
-          g.arc(P[j][0], P[j][1], (sel ? 3.4 : isHot ? 2.6 : 1.5) * DPR, 0, 6.2832);
+          g.arc(P[j][0], P[j][1], (dotR + marked * .9) * DPR, 0, 6.2832);
           g.fill();
         }
       }
     };
 
-    const tick = () => {
-      if (t < 1) { t = Math.min(1, t + .012); draw(); requestAnimationFrame(tick); }
+    let raf = 0;
+    const loop = () => {
+      raf = 0;
+      let moving = false;
+      if (t < 1) { t = Math.min(1, t + .012); moving = true; }
+      for (let i = 0; i < em.length; i++) {
+        const d = emT[i] - em[i];
+        if (d > .0015 || d < -.0015) { em[i] += d * .14; moving = true; }
+        else em[i] = emT[i];
+      }
+      draw();
+      if (moving) raf = requestAnimationFrame(loop);
+    };
+    const run = () => { if (!raf) raf = requestAnimationFrame(loop); };
+
+    const retarget = () => {
+      for (let i = 0; i < SEQ.length; i++) {
+        emT[i] = pick === i ? SEL
+               : pick >= 0 ? DIM
+               : hot >= 0 ? (SEQ[i].indexOf(hot) !== -1 ? HOT : DIM)
+               : BASE;
+      }
+      // reduced motion gets the end state directly, with no crossfade
+      if (RM) { em.set(emT); draw(); } else run();
     };
 
     const refresh = () => {
@@ -2794,7 +2840,7 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
           'in full, from its own beginning to its own end; the bright dot on each marks where ' +
           'this event fell in that telling. Hover a dot to follow that one account.';
       } else readEl.textContent = '';
-      draw();
+      retarget();
     };
 
     cv.addEventListener('mousemove', e => {
@@ -2842,11 +2888,11 @@ a:focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2
     size(); measure();
     addEventListener('resize', () => { size(); measure(); draw(); });
 
-    if (RM) { t = 1; requestAnimationFrame(draw); }
+    if (RM) { t = 1; em.set(emT); requestAnimationFrame(draw); }
     else {
       new IntersectionObserver((es, ob) => es.forEach(e => {
         if (!e.isIntersecting || started) return;
-        started = true; ob.disconnect(); requestAnimationFrame(tick);
+        started = true; ob.disconnect(); run();
       }), { threshold: .25 }).observe(host);
     }
   })();
