@@ -77,8 +77,8 @@ nderf.org, adcrf.org, oberf.org.
 
     gunzip -c corpus/nderf.md.gz > nderf.md
 
-Public analysis code, methodology and findings:
-https://github.com/kennymuli/nde-archive
+Public methodology and findings:
+https://souls.earth
 """
 
 
@@ -174,7 +174,7 @@ def main(argv=None):
         if not status:
             log("[archive] nothing changed since the last snapshot")
             return 0
-        run("git", "-c", "user.name=Kenny Li", "-c", "user.email=kenny@kennyl.com",
+        run("git", "-c", "user.name=archive", "-c", "user.email=archive@souls.earth",
             "commit", "-q", "-m",
             "Snapshot %s — %d accounts" % (snapshot["date"], snapshot["accounts_total"]))
         pushed = run("git", "push", "-q", "origin", "HEAD")
