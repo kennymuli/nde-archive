@@ -39459,6 +39459,10 @@
   "https://www.oberf.org/zina_p_other.htm": {
    "site": "oberf",
    "seen": "2026-08-01"
+  },
+  "https://www.adcrf.org/n_m_adcs_33010.htm": {
+   "site": "adcrf",
+   "seen": "2026-08-06"
   }
  },
  "history": [
@@ -39486,6 +39490,11 @@
    "date": "2026-08-05",
    "total": 9865,
    "new": 0
+  },
+  {
+   "date": "2026-08-06",
+   "total": 9866,
+   "new": 1
   }
  ]
 }
