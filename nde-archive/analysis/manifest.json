@@ -39463,6 +39463,14 @@
   "https://www.adcrf.org/n_m_adcs_33010.htm": {
    "site": "adcrf",
    "seen": "2026-08-06"
+  },
+  "https://www.oberf.org/edwin_q_ndelike_21025.htm": {
+   "site": "oberf",
+   "seen": "2026-08-08"
+  },
+  "https://www.oberf.org/edwin_w_ndelike_21025.htm": {
+   "site": "oberf",
+   "seen": "2026-08-08"
   }
  },
  "history": [
@@ -39500,6 +39508,11 @@
    "date": "2026-08-07",
    "total": 9866,
    "new": 0
+  },
+  {
+   "date": "2026-08-08",
+   "total": 9868,
+   "new": 2
   }
  ]
 }
