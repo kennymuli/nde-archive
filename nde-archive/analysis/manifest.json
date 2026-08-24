@@ -39471,6 +39471,10 @@
   "https://www.oberf.org/edwin_w_ndelike_21025.htm": {
    "site": "oberf",
    "seen": "2026-08-08"
+  },
+  "https://www.oberf.org/alina_v_ste_21026.htm": {
+   "site": "oberf",
+   "seen": "2026-08-24"
   }
  },
  "history": [
@@ -39588,6 +39592,11 @@
    "date": "2026-08-23",
    "total": 9866,
    "new": 0
+  },
+  {
+   "date": "2026-08-24",
+   "total": 9867,
+   "new": 1
   }
  ]
 }
