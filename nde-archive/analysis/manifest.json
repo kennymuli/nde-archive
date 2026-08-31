@@ -39475,6 +39475,10 @@
   "https://www.oberf.org/alina_v_ste_21026.htm": {
    "site": "oberf",
    "seen": "2026-08-24"
+  },
+  "https://www.nderf.org/Experiences/1elsa_c_probable_nde.html": {
+   "site": "nderf",
+   "seen": "2026-08-31"
   }
  },
  "history": [
@@ -39627,6 +39631,11 @@
    "date": "2026-08-30",
    "total": 9867,
    "new": 0
+  },
+  {
+   "date": "2026-08-31",
+   "total": 9868,
+   "new": 1
   }
  ]
 }
