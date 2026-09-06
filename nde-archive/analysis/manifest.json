@@ -39479,6 +39479,10 @@
   "https://www.nderf.org/Experiences/1elsa_c_probable_nde.html": {
    "site": "nderf",
    "seen": "2026-08-31"
+  },
+  "https://www.oberf.org/janie_k_other.htm": {
+   "site": "oberf",
+   "seen": "2026-09-06"
   }
  },
  "history": [
@@ -39661,6 +39665,11 @@
    "date": "2026-09-05",
    "total": 9868,
    "new": 0
+  },
+  {
+   "date": "2026-09-06",
+   "total": 9869,
+   "new": 1
   }
  ]
 }
