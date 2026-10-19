@@ -39495,6 +39495,10 @@
   "https://www.oberf.org/joshua_m_ste_21037.htm": {
    "site": "oberf",
    "seen": "2026-10-12"
+  },
+  "https://www.oberf.org/mary_dream_21038.htm": {
+   "site": "oberf",
+   "seen": "2026-10-19"
   }
  },
  "history": [
@@ -39892,6 +39896,11 @@
    "date": "2026-10-18",
    "total": 9872,
    "new": 0
+  },
+  {
+   "date": "2026-10-19",
+   "total": 9873,
+   "new": 1
   }
  ]
 }
