@@ -39499,6 +39499,14 @@
   "https://www.oberf.org/mary_dream_21038.htm": {
    "site": "oberf",
    "seen": "2026-10-19"
+  },
+  "https://www.adcrf.org/megina_e_adc_33012.htm": {
+   "site": "adcrf",
+   "seen": "2026-10-26"
+  },
+  "https://www.adcrf.org/michael_w_adc_21039.htm": {
+   "site": "adcrf",
+   "seen": "2026-10-26"
   }
  },
  "history": [
@@ -39931,6 +39939,11 @@
    "date": "2026-10-25",
    "total": 9873,
    "new": 0
+  },
+  {
+   "date": "2026-10-26",
+   "total": 9875,
+   "new": 2
   }
  ]
 }
