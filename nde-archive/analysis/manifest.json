@@ -39515,6 +39515,14 @@
   "https://www.adcrf.org/camilla_b_adc_33013.htm": {
    "site": "adcrf",
    "seen": "2026-10-28"
+  },
+  "https://www.oberf.org/janie_k_other_21027.htm": {
+   "site": "oberf",
+   "seen": "2026-11-08"
+  },
+  "https://www.oberf.org/rodrick_prebirth_21041.htm": {
+   "site": "oberf",
+   "seen": "2026-11-08"
   }
  },
  "history": [
@@ -40012,6 +40020,11 @@
    "date": "2026-11-07",
    "total": 9876,
    "new": 0
+  },
+  {
+   "date": "2026-11-08",
+   "total": 9877,
+   "new": 2
   }
  ]
 }
