@@ -39523,6 +39523,10 @@
   "https://www.oberf.org/rodrick_prebirth_21041.htm": {
    "site": "oberf",
    "seen": "2026-11-08"
+  },
+  "https://www.oberf.org/henrique_b_prebirth_21042.htm": {
+   "site": "oberf",
+   "seen": "2026-11-16"
   }
  },
  "history": [
@@ -40060,6 +40064,11 @@
    "date": "2026-11-15",
    "total": 9877,
    "new": 0
+  },
+  {
+   "date": "2026-11-16",
+   "total": 9878,
+   "new": 1
   }
  ]
 }
